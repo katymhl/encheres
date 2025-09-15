@@ -25,6 +25,11 @@ header {
     border-bottom: 1px solid #ddd;
 }
 
+.logo img{
+    height: 50px;
+    width: 50px;
+}
+
 header nav a {
     margin-left: 1rem;
     text-decoration: none;

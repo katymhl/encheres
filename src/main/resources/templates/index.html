@@ -8,7 +8,10 @@
 <body>
 
 <header>
-    <div class="logo">(Logo) Eni-Encheres</div>
+    <div class="logo">
+            <img src="/images/logo_ENI.png" alt="logo">
+            Eni-Encheres
+    </div>
     <nav>
         <a th:href="@{/static}">Accueil</a>
         <a th:href="@{/register}">S'inscrire</a>
@@ -17,33 +20,9 @@
 </header>
 
 <main>
-    <!-- Partie gauche : filtres + liste enchères -->
+    <!-- Partie gauche du contenu -->
     <div>
-        <!-- Filtres -->
-        <form class="filters" th:action="@{/encheres}" method="get">
-            <input type="text" name="search" placeholder="Le nom de l'article contient"
-                   th:value="${param.search}">
-            <select name="categorie">
-                <option value="">Toutes</option>
-                <option value="Ameublement">Ameublement</option>
-                <option value="Informatique">Informatique</option>
-                <option value="SportLoisirs">Sport & Loisirs</option>
-                <option value="Vetements">Vêtements</option>
-            </select>
-            <button type="submit" class="search">Rechercher</button>
-            <a th:href="@{/encheres}" class="reset">Annuler</a>
-        </form>
 
-        <!-- Liste des enchères -->
-        <div class="auctions">
-            <div class="card" th:each="enchere : ${encheres}">
-                <img th:src="@{/images/placeholder.jpg}" alt="Article">
-                <h3 th:text="${enchere.nom}">Nom article</h3>
-                <p>Prix : <span th:text="${enchere.prix}"></span> point(s)</p>
-                <p>Fin : <span th:text="${#dates.format(enchere.dateFin, 'dd/MM/yyyy')}"></span></p>
-                <p>Vendeur : <span th:text="${enchere.vendeur}"></span></p>
-            </div>
-        </div>
     </div>
 
     <!-- Colonne droite : date du jour -->
@@ -55,3 +34,27 @@
 </body>
 </html>
 
+<!-- Filtres -->
+<!--        <form class="filters" th:action="@{/encheres}" method="get">-->
+<!--            <input type="text" name="search" placeholder="Le nom de l'article contient"-->
+<!--                   th:value="${param.search}">-->
+<!--            <select name="categorie">-->
+<!--                <option value="">Toutes</option>-->
+<!--                <option value="Ameublement">Ameublement</option>-->
+<!--                <option value="Informatique">Informatique</option>-->
+<!--                <option value="SportLoisirs">Sport & Loisirs</option>-->
+<!--                <option value="Vetements">Vêtements</option>-->
+<!--            </select>-->
+<!--            <button type="submit" class="search">Rechercher</button>-->
+<!--            <a th:href="@{/encheres}" class="reset">Annuler</a>-->
+<!--        </form>-->
+<!-- Liste des enchères -->
+<!--<div class="auctions">-->
+<!--    <div class="card" th:each="enchere : ${encheres}">-->
+<!--        <img th:src="@{/images/placeholder.jpg}" alt="Article">-->
+<!--        <h3 th:text="${enchere.nom}">Nom article</h3>-->
+<!--        <p>Prix : <span th:text="${enchere.prix}"></span> point(s)</p>-->
+<!--        <p>Fin : <span th:text="${#dates.format(enchere.dateFin, 'dd/MM/yyyy')}"></span></p>-->
+<!--        <p>Vendeur : <span th:text="${enchere.vendeur}"></span></p>-->
+<!--    </div>-->
+<!--</div>-->
