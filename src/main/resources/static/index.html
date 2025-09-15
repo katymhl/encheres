@@ -1,10 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Eni-Enchères</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
+
+<header>
+    <div class="logo">(Logo) Eni-Encheres</div>
+    <nav>
+        <a th:href="@{/}">Accueil</a>
+        <a th:href="@{/register}">S'inscrire</a>
+        <a th:href="@{/login}">Se connecter</a>
+    </nav>
+</header>
+
+<main>
+    <!-- Partie gauche : filtres + liste enchères -->
+    <div>
+        <!-- Filtres -->
+        <form class="filters" th:action="@{/encheres}" method="get">
+            <input type="text" name="search" placeholder="Le nom de l'article contient"
+                   th:value="${param.search}">
+            <select name="categorie">
+                <option value="">Toutes</option>
+                <option value="Ameublement">Ameublement</option>
+                <option value="Informatique">Informatique</option>
+                <option value="SportLoisirs">Sport & Loisirs</option>
+                <option value="Vetements">Vêtements</option>
+            </select>
+            <button type="submit" class="search">Rechercher</button>
+            <a th:href="@{/encheres}" class="reset">Annuler</a>
+        </form>
+
+        <!-- Liste des enchères -->
+        <div class="auctions">
+            <div class="card" th:each="enchere : ${encheres}">
+                <img th:src="@{/images/placeholder.jpg}" alt="Article">
+                <h3 th:text="${enchere.nom}">Nom article</h3>
+                <p>Prix : <span th:text="${enchere.prix}"></span> point(s)</p>
+                <p>Fin : <span th:text="${#dates.format(enchere.dateFin, 'dd/MM/yyyy')}"></span></p>
+                <p>Vendeur : <span th:text="${enchere.vendeur}"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Colonne droite : date du jour -->
+    <aside class="sidebar">
+        Date du jour : <span th:text="${#dates.format(#dates.createNow(), 'dd/MM/yyyy')}"></span>
+    </aside>
+</main>
 
 </body>
 </html>
