@@ -1,10 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<!-- Déclaration du fragment principal – le layout layout-encheres -->
+<html xmlns:th="http://www.thymeleaf.org"
+      data-th-fragment="layout-encheres(titrePage, contenuPage, ressourcesSupp)">
 <head>
+    <!-- Paramétrer le layout pour des valeurs dynamiques -->
     <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+    <title data-th-replace="${titrePage}" data-th-text="#{nom-application}"></title>
 
-</body>
+    <!-- Déclaration des CSS par défaut : -->
+    <link rel="stylesheet" data-th-href="@{/css/style.css}">
+
+    <!-- Permettre d’ajouter ou non des ressources CSS -->
+    <th:block data-th-replace="${ressourcesSupp} ?: ~{}"></th:block>
+
+    <link rel="icon" data-th-href="@{/images/logo_ENI.png}" sizes="32x32">
+</head>
+    <body>
+        <!-- Intégration du fragment d'entête -->
+        <div data-th-replace="~{fragments/fragment-entete :: frag-entete}"></div>
+
+        <!-- Rendre variable le contenu de la page -->
+        <main data-th-replace="${contenuPage} ?: ~{}">Contenu de la page
+        </main>
+
+        <!-- Intégration du fragment de pied de page -->
+        <div data-th-replace="~{fragments/fragment-piedpage :: frag-piedpage}"></div>
+    </body>
 </html>

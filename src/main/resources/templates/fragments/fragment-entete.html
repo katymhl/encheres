@@ -1,0 +1,17 @@
+<header xmlns:th="http://www.thymeleaf.org"
+        data-th-fragment="frag-entete">
+    <div class="logo">
+        <img src="/images/logo_ENI.png" alt="logo">
+        Eni-Encheres
+    </div>
+    <nav>
+        <a th:href="@{/static}">Accueil</a>
+        <a th:href="@{/register}">S'inscrire</a>
+        <a th:href="@{/login}">Se connecter</a>
+    </nav>
+
+    <!-- Colonne droite : date du jour -->
+    <aside class="sidebar">
+        Date du jour : <span th:text="${#dates.format(#dates.createNow(), 'dd/MM/yyyy')}"></span>
+    </aside>
+</header>

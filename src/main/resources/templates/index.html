@@ -1,36 +1,23 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<!-- Accueil comme titre de page -->
+<!-- la balise main définit par la classe de CSS 'center-main' comme paramètre contenuPage -->
+<html xmlns:th="http://www.thymeleaf.org"
+      data-th-replace="~{layouts/layout :: layout-encheres(
+					titrePage=~{:: title},
+					contenuPage=~{:: main},
+					ressourcesSupp=~{})}">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Eni-Enchères</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <!-- Accueil comme titre de page -->
+    <title data-th-text="#{index.title}"></title>
 </head>
 <body>
-
-<header>
-    <div class="logo">
-            <img src="/images/logo_ENI.png" alt="logo">
-            Eni-Encheres
-    </div>
-    <nav>
-        <a th:href="@{/static}">Accueil</a>
-        <a th:href="@{/register}">S'inscrire</a>
-        <a th:href="@{/login}">Se connecter</a>
-    </nav>
-</header>
-
-<main>
+<main class="center-main">
     <!-- Partie gauche du contenu -->
-    <div>
-
-    </div>
-
-    <!-- Colonne droite : date du jour -->
-    <aside class="sidebar">
-        Date du jour : <span th:text="${#dates.format(#dates.createNow(), 'dd/MM/yyyy')}"></span>
-    </aside>
+        <section class="center-section">
+            <h1 style="text-align: center;" data-th-text="#{index.h1}"></h1>
+        </section>
 </main>
-
 </body>
 </html>
 
