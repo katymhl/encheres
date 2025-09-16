@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<!-- Accueil comme titre de page -->
+<!-- la balise main définit par la classe de CSS 'center-main' comme paramètre contenuPage -->
+<html xmlns:th="http://www.thymeleaf.org"
+      data-th-replace="~{layouts/layout :: layout-encheres(
+					titrePage=~{:: title},
+					contenuPage=~{:: main},
+					ressourcesSupp=~{})}">
+
+<head>
+    <!-- Contextes comme titre de page -->
+    <title data-th-text="#{login.title}"></title>
+    <!-- Ajout de CSS tp-contexte.css -->
+    <th:block id="ressources-css">
+        <link rel="stylesheet" data-th-href="@{/css/form.css}">
+    </th:block>
+</head>
+<body>
+<main class="center-main">
+    <section class="center-section">
+        <h1 data-th-text="#{login.h1}"></h1>
+        <!--    <th:block data-th-if="${membreEnSession == null || membreEnSession.id == 0}">-->
+        <!--        <a href="/contexte/session?email=jtrillard@campus-eni.fr">Julien</a>-->
+        <!--        <a href="/contexte/session?email=abaille@campus-eni.fr">Anne-Lise</a>-->
+        <!--        <a href="/contexte/session?email=sgobin@campus-eni.fr">Stéphane[Admin]</a>-->
+        <!--    </th:block>-->
+        <!--    <a href="/contexte/cloture" data-th-text="#{view-contexte.cloture}"></a>-->
+    </section>
+</main>
+</body>
+</html>
