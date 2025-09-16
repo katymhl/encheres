@@ -8,26 +8,26 @@ public class Utilisateur implements Serializable {
     private String nom;
     private String prenom;
     private String email;
-    private Adresse adresse;
+    private int no_adresse;
     private String telephone;
-    private String motDePasse;
+    private String mot_de_passe ;
     private int credit;
-    private boolean admin;
+    private boolean administrateur;
     private static final long serialVersionUID = 1L;
 
     public Utilisateur() {
     }
 
-    public Utilisateur(String pseudo,String nom,String prenom,String email,Adresse adresse,String telephone,String motDePasse,int credit,boolean admin) {
+    public Utilisateur(String pseudo,String nom,String prenom,String email,int no_adresse,String telephone,String mot_de_passe,int credit,boolean administrateur) {
         this.pseudo = pseudo;
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
-        this.adresse = adresse;
+        this.no_adresse = no_adresse;
         this.telephone = telephone;
-        this.motDePasse = motDePasse;
+        this.mot_de_passe = mot_de_passe;
         this.credit = credit;
-        this.admin = admin;
+        this.administrateur = administrateur;
 
     }
 
@@ -61,12 +61,14 @@ public class Utilisateur implements Serializable {
     public void setEmail(String email) {
         this.email = email;
     }
-    public Adresse getAdresse() {
-        return adresse;
-    }
-    public void setAdresse(Adresse adresse) {
 
-        this.adresse = adresse;
+    public int getAdresse() {
+        return no_adresse;
+    }
+
+    public void setAdresse(int no_adresse) {
+
+        this.no_adresse = no_adresse;
     }
     public String getTelephone() {
         return telephone;
@@ -74,23 +76,26 @@ public class Utilisateur implements Serializable {
     public void setTelephone(String telephone) {
         this.telephone = telephone;
     }
+
     public String getMotDePasse() {
-        return motDePasse;
+        return mot_de_passe;
     }
-    public void setMotDePasse(String motDePasse) {
-        this.motDePasse = motDePasse;
+    public void setMotDePasse(String mot_de_passe) {
+        this.mot_de_passe = mot_de_passe;
     }
+
     public int getCredit() {
         return credit;
     }
     public void setCredit(int credit) {
         this.credit = credit;
     }
+
     public boolean isAdmin() {
-        return admin;
+        return administrateur;
     }
-    public void setAdmin(boolean admin) {
-        this.admin = admin;
+    public void setAdmin(boolean administrateur) {
+        this.administrateur = administrateur;
     }
 
     @Override
@@ -100,11 +105,11 @@ public class Utilisateur implements Serializable {
                 ", nom='" + nom + '\'' +
                 ", prenom='" + prenom + '\'' +
                 ", email='" + email + '\'' +
-                ", adresse=" + adresse +
+                ", no_adresse=" + no_adresse +
                 ", telephone='" + telephone + '\'' +
-                ", motDePasse='" + motDePasse + '\'' +
+                ", mot_de_passe='" + mot_de_passe + '\'' +
                 ", credit=" + credit +
-                ", admin=" + admin +
+                ", administrateur=" + administrateur +
                 '}';
     }
 
@@ -117,6 +122,6 @@ public class Utilisateur implements Serializable {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Utilisateur that = (Utilisateur) o;
-        return credit == that.credit && admin == that.admin && Objects.equals(pseudo, that.pseudo) && Objects.equals(nom, that.nom) && Objects.equals(prenom, that.prenom) && Objects.equals(email, that.email) && Objects.equals(adresse, that.adresse) && Objects.equals(telephone, that.telephone) && Objects.equals(motDePasse, that.motDePasse);
+        return credit == that.credit && administrateur == that.administrateur && Objects.equals(pseudo, that.pseudo) && Objects.equals(nom, that.nom) && Objects.equals(prenom, that.prenom) && Objects.equals(email, that.email) && Objects.equals(no_adresse, that.no_adresse) && Objects.equals(telephone, that.telephone) && Objects.equals(mot_de_passe, that.mot_de_passe);
     }
 }

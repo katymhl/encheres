@@ -5,38 +5,28 @@ import java.util.Objects;
 
 public class Adresse implements Serializable {
 
-private long   id;
+private int   no_adresse;
 private String rue;
-private String CodePostal;
+private String code_postal;
 private String ville ;
+private Byte adresse_eni;
 
     private static final long serialVersionUID = 1L;
 
     public Adresse() {
 
     }
-    public Adresse(long id,String rue ,String codePostal,String ville) {
-        this.id = id;
+    public Adresse(int no_adresse,String rue ,String code_postal,String ville,byte adresse_eni) {
+        this.no_adresse = no_adresse;
         this.rue =rue ;
-        this.CodePostal = codePostal;
+        this.code_postal = code_postal;
         this.ville = ville;
+        this.adresse_eni = adresse_eni;
     }
 
-    public long getId() {
-        return id;
-    }
 
-    public void setId(long id) {
-        this.id = id;
-    }
 
-    public String getCodePostal() {
-        return CodePostal;
-    }
 
-    public void setCodePostal(String codePostal) {
-        CodePostal = codePostal;
-    }
 
     public String getRue() {
         return rue;
@@ -54,27 +44,51 @@ private String ville ;
         this.ville = ville;
     }
 
+
+    public int getNo_adresse() {
+        return no_adresse;
+    }
+
+    public void setNo_adresse(int no_adresse) {
+        this.no_adresse = no_adresse;
+    }
+
+    public String getCode_postal() {
+        return code_postal;
+    }
+
+    public void setCode_postal(String code_postal) {
+        this.code_postal = code_postal;
+    }
+
+    public Byte getAdresse_eni() {
+        return adresse_eni;
+    }
+
+    public void setAdresse_eni(Byte adresse_eni) {
+        this.adresse_eni = adresse_eni;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Adresse adresse = (Adresse) o;
-        return id == adresse.id && Objects.equals(rue, adresse.rue) && Objects.equals(CodePostal, adresse.CodePostal) && Objects.equals(ville, adresse.ville);
+        return no_adresse == adresse.no_adresse && Objects.equals(rue, adresse.rue) && Objects.equals(code_postal, adresse.code_postal) && Objects.equals(ville, adresse.ville) && Objects.equals(adresse_eni, adresse.adresse_eni);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, rue, CodePostal, ville);
+        return Objects.hash(no_adresse, rue, code_postal, ville, adresse_eni);
     }
 
     @Override
     public String toString() {
         return "Adresse{" +
-                "CodePostal='" + CodePostal + '\'' +
-                ", id=" + id +
+                "no_adresse=" + no_adresse +
                 ", rue='" + rue + '\'' +
+                ", code_postal='" + code_postal + '\'' +
                 ", ville='" + ville + '\'' +
+                ", adresse_eni=" + adresse_eni +
                 '}';
     }
-
-
 }

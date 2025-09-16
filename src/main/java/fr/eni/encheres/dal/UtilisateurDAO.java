@@ -9,11 +9,13 @@ public interface UtilisateurDAO {
 
     Utilisateur read(String pseudo);
 
-    List<Utilisateur> findAll();
+    //List<Utilisateur> findAll();
 
-    List<Utilisateur> findByemail(String emailUtilisateur);
+    Utilisateur findByemail(String emailUtilisateur);
 
-    void insertUtilisateur(String pseudo, String nomUtilisateur, String prenomUtilisateur,String email, Adresse adresse,String telephone , String passwordUtilisateur,int credit,boolean admin );
 
-    boolean validateListOfUtilisateurds(List<Utilisateur> lstUlisateur);
+     void create(Utilisateur utilisateur) ;
+
+     void update(Utilisateur utilisateur);
+     void delete(String pseudo);
 }
