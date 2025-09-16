@@ -112,7 +112,7 @@ main {
     margin-bottom: 0.3rem;
 }
 
-/* Colonne droite (date du jour) */
+/* Colonne droite (date du jour + utilisateur) */
 .sidebar {
     background: #fff;
     border: 1px solid #ddd;
