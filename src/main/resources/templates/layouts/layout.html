@@ -20,7 +20,13 @@
         <div data-th-replace="~{fragments/fragment-entete :: frag-entete}"></div>
 
         <!-- Rendre variable le contenu de la page -->
-        <main data-th-replace="${contenuPage} ?: ~{}">Contenu de la page
+        <main>
+            <!-- Partie gauche : Contenu de la page -->
+            <div data-th-replace="${contenuPage} ?: ~{}">
+                Contenu de la page
+            </div>
+            <!-- Colonne droite : date du jour et utilisateur -->
+            <div data-th-replace="~{fragments/fragment-utilisateur :: frag-user}"></div>
         </main>
 
         <!-- Intégration du fragment de pied de page -->

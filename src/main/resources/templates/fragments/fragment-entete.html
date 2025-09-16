@@ -9,9 +9,5 @@
         <a th:href="@{/register}">S'inscrire</a>
         <a th:href="@{/login}">Se connecter</a>
     </nav>
-
-    <!-- Colonne droite : date du jour -->
-    <aside class="sidebar">
-        Date du jour : <span th:text="${#dates.format(#dates.createNow(), 'dd/MM/yyyy')}"></span>
-    </aside>
 </header>
+

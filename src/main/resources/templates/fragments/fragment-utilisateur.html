@@ -1,0 +1,8 @@
+<header xmlns:th="http://www.thymeleaf.org"
+        data-th-fragment="frag-user">
+        <aside class="sidebar">
+            Date du jour : <span th:text="${#dates.format(#dates.createNow(), 'dd/MM/yyyy')}"></span>
+            Participant : Eni école
+        </aside>
+</header>
+
