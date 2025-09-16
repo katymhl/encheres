@@ -19,17 +19,19 @@ repositories {
 }
 
 dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    runtimeOnly 'com.mysql:mysql-connector-j'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-
-
-//    runtimeOnly 'org.hsqldb:hsqldb'
     runtimeOnly 'com.microsoft.sqlserver:mssql-jdbc'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+
+
+
+
+
 
 }
 
