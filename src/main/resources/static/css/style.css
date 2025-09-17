@@ -207,3 +207,7 @@ main {
 .form-actions button[type="button"]:hover {
     background-color: #c6c6c6;
 }
+.text-danger {
+    color: red;
+    font-weight: bold;
+}

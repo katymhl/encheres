@@ -70,7 +70,17 @@ public EncheresController(UtilisateurService utilisateurService , AdresseService
         System.out.println(numeroadresse);
               utilisateur.setNo_adresse(numeroadresse);
         System.out.println(utilisateur);
-//        utilisateurService.creat(utilisateur);
+        Utilisateur existingUser = utilisateurService.findById(utilisateur.getPseudo());
+
+        if (existingUser != null) {
+            resultUtilisateur.rejectValue("pseudo", "error.utilisateur",
+                    "Le pseudo '" + utilisateur.getPseudo() + "' existe déjà !");
+
+            model.addAttribute("adresse", adresse);
+            model.addAttribute("utilisateur", utilisateur);
+            return "new-profil-form";
+        }
+        utilisateurService.creat(utilisateur);
         // Exemple de sauvegarde
         //adresseService.save(adresse);
        // utilisateurService.save(utilisateur);
