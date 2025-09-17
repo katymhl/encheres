@@ -15,8 +15,7 @@ public EncheresController(UtilisateurService utilisateurService){
 
     @GetMapping("/")
     public String getDetail() {
-
-        System.out.println(utilisateurService.findById("coach_admin"));
+//        System.out.println(utilisateurService.findById("coach_admin"));
         return "index.html";
     }
 }
