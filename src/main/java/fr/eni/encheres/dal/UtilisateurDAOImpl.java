@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,18 +16,31 @@ public  class UtilisateurDAOImpl implements UtilisateurDAO {
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 
     @Override
     public Utilisateur read(String pseudo) {
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
         namedParameters.addValue("pseudo", pseudo);
-        return namedParameterJdbcTemplate.queryForObject("SELECT * FROM UTILISATEURS  WHERE pseudo = :pseudo", namedParameters,
-                new BeanPropertyRowMapper<>(Utilisateur.class));
+
+        List<Utilisateur> result = namedParameterJdbcTemplate.query(
+                "SELECT * FROM UTILISATEURS WHERE pseudo = :pseudo",
+                namedParameters,
+                new BeanPropertyRowMapper<>(Utilisateur.class)
+        );
+
+        return result.isEmpty() ? null : result.get(0);
     }
+
 
     @Override
     public void create(Utilisateur utilisateur) {
+
+        String motDePasseEncode = passwordEncoder.encode(utilisateur.getMot_de_passe());
+        utilisateur.setMot_de_passe(motDePasseEncode);
+
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
 
         namedParameters.addValue("pseudo", utilisateur.getPseudo());
@@ -36,8 +50,13 @@ public  class UtilisateurDAOImpl implements UtilisateurDAO {
         namedParameters.addValue("mot_de_passe", utilisateur.getMot_de_passe());
         namedParameters.addValue("no_adresse", utilisateur.getNo_adresse());
 
-        namedParameterJdbcTemplate.update("INSERT INTO UTILISATEURS (pseudo, nom, prenom, email, mot_de_passe,no_adresse) ", namedParameters);
+        namedParameterJdbcTemplate.update(
+                "INSERT INTO UTILISATEURS (pseudo, nom, prenom, email, mot_de_passe, no_adresse) " +
+                        "VALUES (:pseudo, :nom, :prenom, :email, :mot_de_passe, :no_adresse)",
+                namedParameters
+        );
     }
+
 
 
 //    @Override
