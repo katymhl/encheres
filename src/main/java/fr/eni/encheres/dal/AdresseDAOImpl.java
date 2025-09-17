@@ -17,6 +17,9 @@ public class AdresseDAOImpl implements AdresseDAO {
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
 
+
+
+
     @Override
     public Adresse read(int no_adresse) {
 
@@ -34,14 +37,18 @@ public class AdresseDAOImpl implements AdresseDAO {
 
     @Override
     public void create(Adresse adresse) {
-MapSqlParameterSource namedParameters = new MapSqlParameterSource();
-namedParameters.addValue("no_adresse", adresse.getNo_adresse());
+        MapSqlParameterSource namedParameters = new MapSqlParameterSource();
         namedParameters.addValue("rue", adresse.getRue());
         namedParameters.addValue("code_postal", adresse.getCode_postal());
         namedParameters.addValue("ville", adresse.getVille());
         namedParameters.addValue("adresse_eni", adresse.getAdresse_eni());
-        namedParameterJdbcTemplate.update("INSERT INTO ADRESSES (rue,code_postal,ville, adresse_eni)", namedParameters);
+
+        String sql = "INSERT INTO ADRESSES (rue, code_postal, ville, adresse_eni) " +
+                "VALUES (:rue, :code_postal, :ville, :adresse_eni)";
+
+        namedParameterJdbcTemplate.update(sql, namedParameters);
     }
+
 
     @Override
     public void update(Adresse adresse) {

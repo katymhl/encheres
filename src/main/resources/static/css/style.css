@@ -121,3 +121,89 @@ main {
     text-align: center;
     font-weight: bold;
 }
+/* Conteneur principal */
+.profil-form {
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Titres */
+.profil-form h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Champs du formulaire */
+.profil-form label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #555;
+}
+
+.profil-form input[type="text"],
+.profil-form input[type="email"],
+.profil-form input[type="password"],
+.profil-form input[type="tel"] {
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+.profil-form input:focus {
+    border-color: #0078d4;
+    outline: none;
+}
+
+/* Messages d'erreur */
+
+.profil-form .error-message {
+    color: darkred;
+    font-size: 13px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
+/* Boutons */
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.form-actions button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.form-actions button[type="submit"] {
+    background-color: #0078d4;
+    color: white;
+}
+
+.form-actions button[type="submit"]:hover {
+    background-color: #005fa3;
+}
+
+.form-actions button[type="button"] {
+    background-color: #e0e0e0;
+    color: #333;
+}
+
+.form-actions button[type="button"]:hover {
+    background-color: #c6c6c6;
+}

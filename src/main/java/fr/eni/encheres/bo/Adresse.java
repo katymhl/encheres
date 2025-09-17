@@ -1,20 +1,29 @@
 package fr.eni.encheres.bo;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+
 import java.io.Serializable;
 import java.util.Objects;
 
 public class Adresse implements Serializable {
 
 private int   no_adresse;
-private String rue;
-private String code_postal;
-private String ville ;
+    @NotBlank(message = "La rue est obligatoire")
+    private String rue;
+
+    @NotBlank(message = "Le code postal est obligatoire")
+    @Pattern(regexp = "^\\d{5}$", message = "Le code postal doit contenir exactement 5 chiffres")
+    private String code_postal;
+
+    @NotBlank(message = "La ville est obligatoire")
+    private String ville;
 private Byte adresse_eni;
 
     private static final long serialVersionUID = 1L;
 
     public Adresse() {
-
+        this.adresse_eni =0;
     }
     public Adresse(int no_adresse,String rue ,String code_postal,String ville,byte adresse_eni) {
         this.no_adresse = no_adresse;
