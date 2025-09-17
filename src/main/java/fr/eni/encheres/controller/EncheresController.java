@@ -30,7 +30,7 @@ public EncheresController(UtilisateurService utilisateurService , AdresseService
     this.adresseService = adresseService;
 }
 
-    @GetMapping
+    @GetMapping("/")
     public String getDetail() {
 
         System.out.println(utilisateurService.findById("coach_admin"));
