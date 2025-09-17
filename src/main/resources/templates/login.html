@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<!-- Accueil comme titre de page -->
+<!-- la balise main définit par la classe de CSS 'center-main' comme paramètre contenuPage -->
+<html xmlns:th="http://www.thymeleaf.org"
+      data-th-replace="~{layouts/layout :: layout-encheres(
+					titrePage=~{:: title},
+					contenuPage=~{:: main},
+					ressourcesSupp=~{})}">
+
+<head>
+    <!-- Accueil comme titre de page -->
+    <title data-th-text="#{login.title}"></title>
+</head>
+<body>
+<main class="center-main">
+    <form th:action="@{/login}" method="post">
+        <h1 data-th-text="#{login.h1}"></h1>
+        <div class="cards" th:if="${param.error}">Erreur de pseudo ou mot de passe</div>
+        <div th:if="${param.logout}">Se déconnecter</div>
+        <ul class="flex-outer">
+            <li>
+                <label for="inputUsername">Pseudo : </label>
+                <input id="inputUsername" type="text" name="username" />
+            </li>
+            <li>
+                <label for="inputPwd">Mot de passe : </label>
+                <input id="inputPwd" type="password" name="password" />
+            </li>
+            <li>
+                <button type="submit">Se connecter</button>
+
+                <button type="button" onclick="window.location.href='/creer';">S'inscrire</button>
+
+            </li>
+        </ul>
+    </form>
+</main>
+</body>
+</html>

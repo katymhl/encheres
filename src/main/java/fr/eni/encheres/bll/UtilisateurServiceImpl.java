@@ -23,7 +23,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
     @Override
     public Utilisateur findById(String pseudo) {
-        System.out.println(utilisateurDAO.read("coach_admin"));
+//        System.out.println(utilisateurDAO.read("coach_admin"));
         return utilisateurDAO.read(pseudo);
     }
 
