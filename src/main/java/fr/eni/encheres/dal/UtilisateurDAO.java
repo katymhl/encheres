@@ -4,6 +4,7 @@ import fr.eni.encheres.bo.Adresse;
 import fr.eni.encheres.bo.Utilisateur;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UtilisateurDAO {
 
@@ -11,7 +12,7 @@ public interface UtilisateurDAO {
 
     //List<Utilisateur> findAll();
 
-//    Utilisateur findByemail(String emailUtilisateur);
+    Optional<Utilisateur> findByemail(String emailUtilisateur);
 
      Utilisateur findByEmail(String emailUtilisateur);
      void create(Utilisateur utilisateur) ;
