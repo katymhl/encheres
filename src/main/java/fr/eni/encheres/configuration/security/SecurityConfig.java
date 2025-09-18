@@ -33,10 +33,10 @@ public class SecurityConfig {
                     // permettre à tout le monde d'accéder à l'URL racine
                     .requestMatchers(HttpMethod.GET, "/profil/creer").permitAll()
                     .requestMatchers(HttpMethod.POST, "/profil/creer").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/encheres").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/encheres").permitAll()
                     .requestMatchers(HttpMethod.GET, "/vendre").authenticated()
                     .requestMatchers(HttpMethod.POST, "/vendre").authenticated()
-                    .requestMatchers(HttpMethod.GET, "/encheres").authenticated()
-                    .requestMatchers(HttpMethod.POST, "/encheres").authenticated()
                     .requestMatchers(HttpMethod.GET, "/monProfil").authenticated()
                     .requestMatchers(HttpMethod.POST, "/monProfil").authenticated()
                     .requestMatchers(HttpMethod.GET, "/logout-form").authenticated()
