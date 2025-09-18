@@ -9,6 +9,7 @@ import java.util.Optional;
 public interface UtilisateurDAO {
 
     Utilisateur read(String pseudo);
+    Optional<Utilisateur> readPseudo(String pseudoUtilisateur);
 
     //List<Utilisateur> findAll();
 

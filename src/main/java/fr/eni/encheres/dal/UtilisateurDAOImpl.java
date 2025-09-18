@@ -37,6 +37,21 @@ public  class UtilisateurDAOImpl implements UtilisateurDAO {
         return result.isEmpty() ? null : result.get(0);
     }
 
+    @Override
+    public Optional<Utilisateur> readPseudo(String pseudoUtilisateur) {
+        MapSqlParameterSource namedParameters = new MapSqlParameterSource();
+        namedParameters.addValue("pseudo", pseudoUtilisateur);
+        Utilisateur utilisateur = null;
+        try{
+            utilisateur = namedParameterJdbcTemplate.queryForObject("SELECT * FROM UTILISATEURS WHERE pseudo = :pseudo", namedParameters,
+                    new BeanPropertyRowMapper<>(Utilisateur.class));
+            System.out.println("utilisateur = " + utilisateur);
+        } catch (EmptyResultDataAccessException e){
+            System.out.println("Empty user");
+        }
+        return Optional.ofNullable(utilisateur);
+    }
+
 
     @Override
     public void create(Utilisateur utilisateur) {
