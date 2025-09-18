@@ -31,14 +31,18 @@ public class SecurityConfig {
             auth
 
                     // permettre à tout le monde d'accéder à l'URL racine
-                    .requestMatchers(HttpMethod.GET, "/profil/creer").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/profil/creer").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/inscription").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/inscription").permitAll()
                     .requestMatchers(HttpMethod.GET, "/encheres").permitAll()
                     .requestMatchers(HttpMethod.POST, "/encheres").permitAll()
                     .requestMatchers(HttpMethod.GET, "/vendre").authenticated()
                     .requestMatchers(HttpMethod.POST, "/vendre").authenticated()
                     .requestMatchers(HttpMethod.GET, "/monProfil").authenticated()
                     .requestMatchers(HttpMethod.POST, "/monProfil").authenticated()
+                    .requestMatchers(HttpMethod.GET, "/monProfil/update").authenticated()
+                    .requestMatchers(HttpMethod.POST, "/monProfil/update").authenticated()
+                    .requestMatchers(HttpMethod.GET, "/profil").authenticated()
+                    .requestMatchers(HttpMethod.POST, "/profil").authenticated()
                     .requestMatchers(HttpMethod.GET, "/logout-form").authenticated()
                     .requestMatchers(HttpMethod.POST, "/logout-form").authenticated()
                     .requestMatchers(HttpMethod.GET, "/accueil/connecter").authenticated()
