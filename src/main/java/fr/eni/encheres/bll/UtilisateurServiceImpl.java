@@ -2,10 +2,14 @@ package fr.eni.encheres.bll;
 
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dal.UtilisateurDAO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UtilisateurServiceImpl implements UtilisateurService {
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     private UtilisateurDAO utilisateurDAO;
 
@@ -22,6 +26,15 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
     @Override
     public void creat(Utilisateur utilisateur) {
+        String motDePasseEncode = passwordEncoder.encode(utilisateur.getMot_de_passe());
+        utilisateur.setMot_de_passe(motDePasseEncode);
+
         utilisateurDAO.create(utilisateur);
+    }
+
+    @Override
+    public Utilisateur findByUserEmail(String email) {
+
+        return utilisateurDAO.findByEmail(email);
     }
 }
