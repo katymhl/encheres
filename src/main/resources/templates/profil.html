@@ -53,9 +53,15 @@
         </div>
 
 
-        <button data-th-if="${#authorization.expression('isAuthenticated()')}">
-                <a th:href="@{/profil/creer}">Modifier</a>
-        </button>
+        <div th:if="${isOwnProfile}">
+            <button>
+                <a th:href="@{/profil/creer}">Modifier profil</a>
+            </button>
+            <button>
+                <a th:href="@{/profil/creer}">Modifier mot de passe</a>
+            </button>
+        </div>
+
         <button>
             <a th:href="@{/accueil/connecter}">Retour</a>
         </button>
