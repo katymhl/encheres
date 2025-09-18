@@ -4,16 +4,18 @@ import fr.eni.encheres.bo.Adresse;
 import fr.eni.encheres.bo.Utilisateur;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UtilisateurDAO {
 
     Utilisateur read(String pseudo);
+    Optional<Utilisateur> readPseudo(String pseudoUtilisateur);
 
     //List<Utilisateur> findAll();
 
-//    Utilisateur findByemail(String emailUtilisateur);
+    Optional<Utilisateur> findByEmail(String emailUtilisateur);
+    Utilisateur findByemail(String emailUtilisateur);
 
-     Utilisateur findByEmail(String emailUtilisateur);
      void create(Utilisateur utilisateur) ;
 
      void update(Utilisateur utilisateur);
