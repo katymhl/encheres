@@ -49,7 +49,7 @@ public class SecurityConfig {
                     .requestMatchers("/css/*").permitAll()
                     .requestMatchers("/images/*").permitAll()
 
-                    .requestMatchers("/").permitAll()
+                    .requestMatchers("/*").permitAll()
 
                     // Toutes autres url et méthodes HTTP ne sont pas permises
                     .anyRequest().denyAll();
