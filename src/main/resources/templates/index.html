@@ -51,7 +51,12 @@
                 <h3 th:text="${enchere.nom_article}">Nom article</h3>
                 <p>Prix : <span th:text="${enchere.prix_initial}">1</span> point(s)</p>
                 <p>Fin de l'enchère: <span th:text="${#dates.format(enchere.date_fin_encheres, 'dd/MM/yyyy')}">01/06/202X</span></p>
-                <p>Vendeur : <span th:text="${enchere.id_utilisateur}">coach_toto</span></p>
+                <p>Vendeur :
+                    <a th:href="@{/profil(id_utilisateur=${enchere.id_utilisateur})}">
+                        <span th:text="${enchere.id_utilisateur}">coach_toto</span>
+                    </a>
+                </p>
+
             </div>
         </div>
 

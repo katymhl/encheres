@@ -15,8 +15,52 @@
 <main class="center-main">
     <!-- Partie gauche du contenu -->
     <section class="center-section">
-        <h1 style="text-align: center;" data-th-text="#{profil.h1}"></h1>
-        <p>information profil utilisateur connecté, ou d'un autre utilisateur</p>
+        <div th:if="${user != null}">
+            <h1 style="text-align: center;" data-th-text="#{profil.h1} + ' @' + ${user.pseudo}"></h1>
+
+            <br><br><br><br>
+
+            <table>
+                <!-- build html table based on users -->
+                <tbody>
+                <tr>
+                    <td>Prenom :</td>
+                    <td data-th-text="${user.prenom}"></td>
+                </tr>
+
+                <tr>
+                    <td>Nom :</td>
+                    <td data-th-text="${user.nom}"></td>
+                </tr>
+
+                <tr>
+                    <td>Email :</td>
+                    <td data-th-text="${user.email}"></td>
+                </tr>
+
+                <tr>
+                    <td>Telephone :</td>
+                    <td data-th-text="${user.telephone}"></td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <div th:if="${user == null}">
+            <h2>Utilisateur non trouvé</h2>
+        </div>
+
+
+        <button data-th-if="${#authorization.expression('isAuthenticated()')}">
+                <a th:href="@{/profil/creer}">Modifier</a>
+        </button>
+        <button>
+            <a th:href="@{/}">Retour</a>
+        </button>
+
+
+
     </section>
 </main>
 </body>
