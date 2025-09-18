@@ -83,4 +83,40 @@ public class ArticleAVendreDAOImpl implements ArticleAVendreDAO {
 
 
     }
+
+
+    @Override
+    public List<ArticleAVendre> findActiveEnchere() {
+        String sql = "SELECT * FROM ARTICLES_A_VENDRE WHERE statut_enchere = :statut";
+
+        MapSqlParameterSource namedParameters = new MapSqlParameterSource();
+        namedParameters.addValue("statut", 1);
+
+        return namedParameterJdbcTemplate.query(
+                sql,
+                namedParameters,
+                new BeanPropertyRowMapper<>(ArticleAVendre.class)
+        );
+    }
+    @Override
+    public List<ArticleAVendre> filtrerArticles(String search, Integer categorie) {
+        StringBuilder sql = new StringBuilder("SELECT * FROM ARTICLES_A_VENDRE WHERE statut_enchere = 1");
+        MapSqlParameterSource params = new MapSqlParameterSource();
+
+        if (categorie != null) {
+            sql.append(" AND no_categorie = :categorie");
+            params.addValue("categorie", categorie);
+        }
+
+        if (search != null && !search.trim().isEmpty()) {
+            sql.append(" AND nom_article LIKE :search");
+            params.addValue("search", "%" + search.trim() + "%");
+        }
+
+        return namedParameterJdbcTemplate.query(
+                sql.toString(),
+                params,
+                new BeanPropertyRowMapper<>(ArticleAVendre.class)
+        );
+    }
 }

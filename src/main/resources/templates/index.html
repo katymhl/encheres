@@ -5,19 +5,60 @@
       data-th-replace="~{layouts/layout :: layout-encheres(
 					titrePage=~{:: title},
 					contenuPage=~{:: main},
-					ressourcesSupp=~{})}">
+					ressourcesSupp=~{:: link})}">
 
 <head>
     <!-- Accueil comme titre de page -->
     <title data-th-text="#{index.title}"></title>
+    <link rel="stylesheet" href="/css/index.css" th:fragment="link">
+
+
 </head>
 <body>
-<main class="center-main">
-    <!-- Partie gauche du contenu -->
-        <section class="center-section">
-            <h1 style="text-align: center;" data-th-text="#{index.h1}"></h1>
-        </section>
+<main class="index-container">
+
+    <section class="index-filters">
+        <form class="index-filters" th:action="@{/encheres}" method="get">
+            <h3>Filtres :</h3>
+
+            <input type="text" name="search" placeholder="Le nom de l'article contient" th:value="${param.search}">
+
+            <label for="categorie">Catégorie :</label>
+            <select id="categorie" name="categorie" th:value="${param.categorie}">
+                <option value="">Toutes</option>
+                <option value="1">Ameublement</option>
+                <option value="2">Informatique</option>
+                <option value="3">Sport & Loisir</option>
+                <option value="4">Vêtement</option>
+            </select>
+
+            <div class="index-filter-buttons">
+                <button type="submit" class="index-btn primary">Rechercher</button>
+                <a th:href="@{/encheres}" class="index-btn secondary">Annuler</a>
+            </div>
+        </form>
+
+    </section>
+
+    <section class="index-auctions">
+        <h2>Liste des enchères</h2>
+
+        <div class="index-cards">
+            <div class="index-card" th:each="enchere : ${encheres}">
+                <div class="index-img-placeholder">
+                    <img th:src="@{/images/placeholder.jpg}" alt="Image article" />
+                </div>
+                <h3 th:text="${enchere.nom_article}">Nom article</h3>
+                <p>Prix : <span th:text="${enchere.prix_initial}">1</span> point(s)</p>
+                <p>Fin de l'enchère: <span th:text="${#dates.format(enchere.date_fin_encheres, 'dd/MM/yyyy')}">01/06/202X</span></p>
+                <p>Vendeur : <span th:text="${enchere.id_utilisateur}">coach_toto</span></p>
+            </div>
+        </div>
+
+    </section>
+
 </main>
+
 </body>
 </html>
 

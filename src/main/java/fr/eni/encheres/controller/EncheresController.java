@@ -2,37 +2,42 @@ package fr.eni.encheres.controller;
 
 import fr.eni.encheres.bll.AdresseService;
 import fr.eni.encheres.bll.AdresseServiceImpl;
+import fr.eni.encheres.bll.ArticleAVendreService;
 import fr.eni.encheres.bll.UtilisateurService;
 import fr.eni.encheres.bo.Adresse;
+import fr.eni.encheres.bo.ArticleAVendre;
 import fr.eni.encheres.bo.Utilisateur;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Controller
 public class EncheresController {
-UtilisateurService utilisateurService;
-    AdresseService adresseService;
+private UtilisateurService utilisateurService;
+private AdresseService adresseService;
+private ArticleAVendreService articleAVendreService;
 
 
-
-public EncheresController(UtilisateurService utilisateurService , AdresseService adresseService ) {
+public EncheresController(UtilisateurService utilisateurService , AdresseService adresseService,ArticleAVendreService articleAVendreService ) {
     this.utilisateurService = utilisateurService;
     this.adresseService = adresseService;
+    this.articleAVendreService = articleAVendreService;
 }
 
     @GetMapping
-    public String getDetail() {
+    public String getDetail(Model model) {
+        List<ArticleAVendre> listActiveEnchere = articleAVendreService.findActiveEnchere();
+        System.out.println("listActiveEnchere"+listActiveEnchere.size());
+        model.addAttribute("encheres", listActiveEnchere);
 
+        // Juste pour test console
         System.out.println(utilisateurService.findById("coach_admin"));
-        return "index.html";
+
+        return "index";
     }
 
     @GetMapping("/{page}")
@@ -90,6 +95,18 @@ public EncheresController(UtilisateurService utilisateurService , AdresseService
        // utilisateurService.save(utilisateur);
 
         return "redirect:/";
+    }
+
+
+    @GetMapping("/encheres")
+    public String filtrerEncheres(
+            @RequestParam(required = false) String search,
+            @RequestParam(required = false) Integer categorie,
+            Model model
+    ) {
+        List<ArticleAVendre> resultats = articleAVendreService.filtrerArticles(search, categorie);
+        model.addAttribute("encheres", resultats);
+        return "index";
     }
 
 }

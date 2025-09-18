@@ -14,4 +14,6 @@ public interface ArticleAVendreDAO {
 
     void update(ArticleAVendre articleAVendre);
     void delete(int no_article);
+    List<ArticleAVendre> findActiveEnchere();
+     List<ArticleAVendre> filtrerArticles(String search, Integer categorie);
 }
