@@ -12,32 +12,34 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class EncheresController {
-UtilisateurService utilisateurService;
+
+    UtilisateurService utilisateurService;
     AdresseService adresseService;
-
-
 
 public EncheresController(UtilisateurService utilisateurService , AdresseService adresseService ) {
     this.utilisateurService = utilisateurService;
     this.adresseService = adresseService;
 }
 
-    @GetMapping
+    @GetMapping("/")
     public String getDetail() {
-
         System.out.println(utilisateurService.findById("coach_admin"));
         return "index.html";
     }
 
-    @GetMapping("/{page}")
-    public String viewPage(@PathVariable String page) {
-        return page;
+    @GetMapping("/admin")
+    public String getAdmin() {
+        System.out.println(utilisateurService.findById("coach_admin"));
+        return "admin.html";
     }
 
 
@@ -63,12 +65,12 @@ public EncheresController(UtilisateurService utilisateurService , AdresseService
             return "new-profil-form";
         }
 
-  List<Adresse> tout =adresseService.findByall();
+        List<Adresse> tout =adresseService.findByall();
 
 
-            int numeroadresse=adresseService.getOrCreateAdresse(adresse.getRue() , adresse.getCode_postal(),adresse.getVille());
+        int numeroadresse=adresseService.getOrCreateAdresse(adresse.getRue() , adresse.getCode_postal(),adresse.getVille());
 
-              utilisateur.setNo_adresse(numeroadresse);
+        utilisateur.setNo_adresse(numeroadresse);
         System.out.println(utilisateur);
         Utilisateur existingUser = utilisateurService.findById(utilisateur.getPseudo());
         Utilisateur existingUseremail = utilisateurService.findByUserEmail(utilisateur.getEmail());
@@ -89,7 +91,7 @@ public EncheresController(UtilisateurService utilisateurService , AdresseService
         //adresseService.save(adresse);
        // utilisateurService.save(utilisateur);
 
-        return "redirect:/";
+        return "redirect:/login";
     }
 
 }

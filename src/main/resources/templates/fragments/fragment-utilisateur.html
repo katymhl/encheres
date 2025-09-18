@@ -1,8 +1,11 @@
-<header xmlns:th="http://www.thymeleaf.org"
+<header xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
         data-th-fragment="frag-user">
         <aside class="sidebar">
             Date du jour : <span th:text="${#dates.format(#dates.createNow(), 'dd/MM/yyyy')}"></span>
-            Participant : Eni école
+            Participant : <span data-th-if="${#authorization.expression('isAuthenticated()')}" data-th-text="${#authentication.name}"></span>
+            <li data-th-if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                <a th:href="@{/admin}">Dashboard Admin</a>
+            </li>
         </aside>
 </header>
 
