@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class EncheresController {
@@ -39,11 +40,6 @@ public EncheresController(UtilisateurService utilisateurService , AdresseService
     public String getAdmin() {
         System.out.println(utilisateurService.findById("coach_admin"));
         return "admin.html";
-    }
-
-    @GetMapping("/{page}")
-    public String viewPage(@PathVariable String page) {
-        return page;
     }
 
 
