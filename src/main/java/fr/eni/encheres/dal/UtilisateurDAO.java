@@ -11,9 +11,9 @@ public interface UtilisateurDAO {
 
     //List<Utilisateur> findAll();
 
-    Utilisateur findByemail(String emailUtilisateur);
+//    Utilisateur findByemail(String emailUtilisateur);
 
-
+     Utilisateur findByEmail(String emailUtilisateur);
      void create(Utilisateur utilisateur) ;
 
      void update(Utilisateur utilisateur);

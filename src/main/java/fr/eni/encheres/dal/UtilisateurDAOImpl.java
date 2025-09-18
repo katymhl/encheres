@@ -16,8 +16,8 @@ public  class UtilisateurDAOImpl implements UtilisateurDAO {
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+//    @Autowired
+//    private PasswordEncoder passwordEncoder;
 
 
     @Override
@@ -38,8 +38,8 @@ public  class UtilisateurDAOImpl implements UtilisateurDAO {
     @Override
     public void create(Utilisateur utilisateur) {
 
-        String motDePasseEncode = passwordEncoder.encode(utilisateur.getMot_de_passe());
-        utilisateur.setMot_de_passe(motDePasseEncode);
+//        String motDePasseEncode = passwordEncoder.encode(utilisateur.getMot_de_passe());
+//        utilisateur.setMot_de_passe(motDePasseEncode);
 
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
 
@@ -47,12 +47,13 @@ public  class UtilisateurDAOImpl implements UtilisateurDAO {
         namedParameters.addValue("nom", utilisateur.getNom());
         namedParameters.addValue("prenom", utilisateur.getPrenom());
         namedParameters.addValue("email", utilisateur.getEmail());
+        namedParameters.addValue("telephone", utilisateur.getTelephone());
         namedParameters.addValue("mot_de_passe", utilisateur.getMot_de_passe());
         namedParameters.addValue("no_adresse", utilisateur.getNo_adresse());
 
         namedParameterJdbcTemplate.update(
-                "INSERT INTO UTILISATEURS (pseudo, nom, prenom, email, mot_de_passe, no_adresse) " +
-                        "VALUES (:pseudo, :nom, :prenom, :email, :mot_de_passe, :no_adresse)",
+                "INSERT INTO UTILISATEURS (pseudo, nom, prenom, email,telephone, mot_de_passe, no_adresse) " +
+                        "VALUES (:pseudo, :nom, :prenom, :email, :telephone, :mot_de_passe, :no_adresse)",
                 namedParameters
         );
     }
@@ -66,12 +67,18 @@ public  class UtilisateurDAOImpl implements UtilisateurDAO {
 //    }
 
     @Override
-    public Utilisateur findByemail(String emailUtilisateur) {
-
+    public Utilisateur findByEmail(String emailUtilisateur) {
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
         namedParameters.addValue("email", emailUtilisateur);
-        return namedParameterJdbcTemplate.queryForObject("SELECT * FROM UTILISATEURS  WHERE email = :emailUtilisateur", namedParameters,
-                new BeanPropertyRowMapper<>(Utilisateur.class));
+
+        List<Utilisateur> utilisateurs = namedParameterJdbcTemplate.query(
+                "SELECT * FROM UTILISATEURS WHERE email = :email",
+                namedParameters,
+                new BeanPropertyRowMapper<>(Utilisateur.class)
+        );
+
+        // S’il n’y a pas de résultat → retourne null
+        return utilisateurs.isEmpty() ? null : utilisateurs.get(0);
     }
 
     @Override

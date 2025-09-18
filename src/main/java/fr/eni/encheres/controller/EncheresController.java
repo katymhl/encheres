@@ -64,17 +64,21 @@ public EncheresController(UtilisateurService utilisateurService , AdresseService
         }
 
   List<Adresse> tout =adresseService.findByall();
-        System.out.println(tout.size());
+
 
             int numeroadresse=adresseService.getOrCreateAdresse(adresse.getRue() , adresse.getCode_postal(),adresse.getVille());
-        System.out.println(numeroadresse);
+
               utilisateur.setNo_adresse(numeroadresse);
         System.out.println(utilisateur);
         Utilisateur existingUser = utilisateurService.findById(utilisateur.getPseudo());
+        Utilisateur existingUseremail = utilisateurService.findByUserEmail(utilisateur.getEmail());
 
         if (existingUser != null) {
             resultUtilisateur.rejectValue("pseudo", "error.utilisateur",
                     "Le pseudo '" + utilisateur.getPseudo() + "' existe déjà !");
+            if (existingUseremail != null) {
+                resultUtilisateur.rejectValue("email", "error.utilisateur",
+                        "L'email '" + utilisateur.getEmail() + "' existe déjà !");}
 
             model.addAttribute("adresse", adresse);
             model.addAttribute("utilisateur", utilisateur);
