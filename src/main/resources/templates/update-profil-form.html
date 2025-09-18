@@ -15,7 +15,7 @@
 <main class="center-main">
     <!-- Partie gauche du contenu -->
     <section class="center-section">
-        <h1 style="text-align: center;" data-th-text="#{new-profil.h1}"></h1>
+        <h1 style="text-align: center;" data-th-text="#{update-profil.h1}"></h1>
 
 
         <form class="profil-form" th:action="@{/profil/creer}" method="post" novalidate>
@@ -101,8 +101,8 @@
 
 
             <div class="form-actions">
-                <button type="submit">Créer</button>
-                <button type="button" onclick="window.location.href='/'">Annuler</button>
+                <button type="submit">Enregistrer modification</button>
+                <button type="button" onclick="window.location.href='/monProfil'">Annuler</button>
             </div>
         </form>
 
