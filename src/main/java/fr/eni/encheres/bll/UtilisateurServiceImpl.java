@@ -12,6 +12,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UtilisateurServiceImpl implements UtilisateurService {
     @Autowired
@@ -41,7 +43,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     @Override
     public Utilisateur findByUserEmail(String email) {
 
-        return utilisateurDAO.findByEmail(email);
+        return utilisateurDAO.findByemail(email);
     }
 
 }

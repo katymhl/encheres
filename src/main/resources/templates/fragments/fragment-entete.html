@@ -25,7 +25,7 @@
             </span>
 
             <span data-th-if="${#authorization.expression('isAuthenticated()')}">
-                <a href="/logout" >Déconnexion</a>
+                <a th:href="@{/logout-form}" >Déconnexion</a>
             </span>
 
     </nav>

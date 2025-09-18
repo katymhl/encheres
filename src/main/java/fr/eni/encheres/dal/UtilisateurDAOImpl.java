@@ -70,7 +70,7 @@ public  class UtilisateurDAOImpl implements UtilisateurDAO {
 //    }
 
     @Override
-    public Optional<Utilisateur> findByemail(String emailUtilisateur) {
+    public Optional<Utilisateur> findByEmail(String emailUtilisateur) {
 
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
         namedParameters.addValue("email", emailUtilisateur);
@@ -83,6 +83,21 @@ public  class UtilisateurDAOImpl implements UtilisateurDAO {
             System.out.println("Empty user");
         }
         return Optional.ofNullable(utilisateur);
+    }
+
+    @Override
+    public Utilisateur findByemail(String emailUtilisateur) {
+        MapSqlParameterSource namedParameters = new MapSqlParameterSource();
+        namedParameters.addValue("email", emailUtilisateur);
+
+        List<Utilisateur> utilisateurs = namedParameterJdbcTemplate.query(
+                "SELECT * FROM UTILISATEURS WHERE email = :email",
+                namedParameters,
+                new BeanPropertyRowMapper<>(Utilisateur.class)
+        );
+
+        // S’il n’y a pas de résultat → retourne null
+        return utilisateurs.isEmpty() ? null : utilisateurs.get(0);
     }
 
     @Override

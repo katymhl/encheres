@@ -32,7 +32,7 @@ public class EnchereUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // On cherche l'utilisateur en BDD
-        Optional<Utilisateur> utilisateurOpt = utilisateurDAOImpl.findByemail(username);
+        Optional<Utilisateur> utilisateurOpt = utilisateurDAOImpl.findByEmail(username);
         System.out.println("Email = " + username);
 
         if (utilisateurOpt.isEmpty()) {
@@ -40,17 +40,17 @@ public class EnchereUserDetailsService implements UserDetailsService {
         }
         Utilisateur utilisateur = utilisateurOpt.get();
         System.out.println("Email = " + utilisateurOpt.get().getEmail());
-        System.out.println("utilisateurOpt MDP = " + utilisateurOpt.get().getMotDePasse());
+        System.out.println("utilisateurOpt MDP = " + utilisateurOpt.get().getMot_de_passe());
         System.out.println("Password encoder : " + passwordEncoder.encode("Pa$$w0rd"));
 
         Set<String> roles = new HashSet<>();
-        if (utilisateur.isAdmin()){
+        if (utilisateur.isAdministrateur()){
             roles.add("ADMIN");
         }
         roles.add("USER");
 
         UserDetails user = User.withUsername(username)
-                .password(utilisateurOpt.get().getMotDePasse())
+                .password(utilisateurOpt.get().getMot_de_passe())
                 .roles(roles.toArray(new String[0]))
                 .build();
 

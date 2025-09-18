@@ -65,12 +65,12 @@ public EncheresController(UtilisateurService utilisateurService , AdresseService
             return "new-profil-form";
         }
 
-  List<Adresse> tout =adresseService.findByall();
+        List<Adresse> tout =adresseService.findByall();
 
 
-            int numeroadresse=adresseService.getOrCreateAdresse(adresse.getRue() , adresse.getCode_postal(),adresse.getVille());
+        int numeroadresse=adresseService.getOrCreateAdresse(adresse.getRue() , adresse.getCode_postal(),adresse.getVille());
 
-              utilisateur.setNo_adresse(numeroadresse);
+        utilisateur.setNo_adresse(numeroadresse);
         System.out.println(utilisateur);
         Utilisateur existingUser = utilisateurService.findById(utilisateur.getPseudo());
         Utilisateur existingUseremail = utilisateurService.findByUserEmail(utilisateur.getEmail());
@@ -91,7 +91,7 @@ public EncheresController(UtilisateurService utilisateurService , AdresseService
         //adresseService.save(adresse);
        // utilisateurService.save(utilisateur);
 
-        return "redirect:/";
+        return "redirect:/login";
     }
 
 }
