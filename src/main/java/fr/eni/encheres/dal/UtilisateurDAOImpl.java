@@ -3,12 +3,15 @@ package fr.eni.encheres.dal;
 import fr.eni.encheres.bo.Adresse;
 import fr.eni.encheres.bo.Utilisateur;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
+
 @Repository
 public  class UtilisateurDAOImpl implements UtilisateurDAO {
 
@@ -47,12 +50,19 @@ public  class UtilisateurDAOImpl implements UtilisateurDAO {
 //    }
 
     @Override
-    public Utilisateur findByemail(String emailUtilisateur) {
+    public Optional<Utilisateur> findByemail(String emailUtilisateur) {
 
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
         namedParameters.addValue("email", emailUtilisateur);
-        return namedParameterJdbcTemplate.queryForObject("SELECT * FROM UTILISATEURS  WHERE email = :emailUtilisateur", namedParameters,
-                new BeanPropertyRowMapper<>(Utilisateur.class));
+        Utilisateur utilisateur = null;
+        try{
+            utilisateur = namedParameterJdbcTemplate.queryForObject("SELECT * FROM UTILISATEURS WHERE email = :email", namedParameters,
+                    new BeanPropertyRowMapper<>(Utilisateur.class));
+            System.out.println("utilisateur = " + utilisateur);
+        } catch (EmptyResultDataAccessException e){
+            System.out.println("Empty user");
+        }
+        return Optional.ofNullable(utilisateur);
     }
 
     @Override
