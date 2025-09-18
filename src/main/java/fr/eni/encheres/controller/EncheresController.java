@@ -20,10 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class EncheresController {
-UtilisateurService utilisateurService;
+
+    UtilisateurService utilisateurService;
     AdresseService adresseService;
-
-
 
 public EncheresController(UtilisateurService utilisateurService , AdresseService adresseService ) {
     this.utilisateurService = utilisateurService;
@@ -32,8 +31,14 @@ public EncheresController(UtilisateurService utilisateurService , AdresseService
 
     @GetMapping("/")
     public String getDetail() {
-//        System.out.println(utilisateurService.findById("coach_admin"));
+        System.out.println(utilisateurService.findById("coach_admin"));
         return "index.html";
+    }
+
+    @GetMapping("/admin")
+    public String getAdmin() {
+        System.out.println(utilisateurService.findById("coach_admin"));
+        return "admin.html";
     }
 
     @GetMapping("/{page}")

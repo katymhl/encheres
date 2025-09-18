@@ -18,7 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-//import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -31,8 +31,14 @@ public class SecurityConfig {
             auth
 
                     // permettre à tout le monde d'accéder à l'URL racine
-                    .requestMatchers(HttpMethod.GET, "/article/creer").authenticated()
-                    .requestMatchers(HttpMethod.POST, "/article/creer").authenticated()
+                    .requestMatchers(HttpMethod.GET, "/creer").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/creer").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/vendre").authenticated()
+                    .requestMatchers(HttpMethod.POST, "/vendre").authenticated()
+                    .requestMatchers(HttpMethod.GET, "/monProfil").authenticated()
+                    .requestMatchers(HttpMethod.POST, "/monProfil").authenticated()
+
+                    .requestMatchers("/admin/**").hasRole("ADMIN")
 
                     // Permettre à tous les utilisateurs d'afficher correctement les images, la css et le js
                     .requestMatchers("/js/*").permitAll()
@@ -57,7 +63,7 @@ public class SecurityConfig {
                         .invalidateHttpSession(true)
                         .clearAuthentication(true)
                         .deleteCookies("JSESSIONID")
-                        //.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                         .logoutSuccessUrl("/")
                         .permitAll()
         );
