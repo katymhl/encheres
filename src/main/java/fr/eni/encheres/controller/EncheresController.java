@@ -98,6 +98,8 @@ public class EncheresController {
         return "redirect:/login";
     }
 
+
+
     @GetMapping("/encheres")
     public String filtrerEncheres(
             @RequestParam(required = false) String search,

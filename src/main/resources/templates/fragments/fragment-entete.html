@@ -17,7 +17,7 @@
             </span>
 
             <span data-th-if="${#authorization.expression('isAuthenticated()')}">
-                <a href="/monProfil" >Profil</a>
+                <a th:href="@{'/monProfil?pseudo=' + ${#authentication.name}}" >Profil</a>
             </span>
 
             <span data-th-if="${#authorization.expression('!isAuthenticated()')}">
