@@ -35,6 +35,7 @@ public class SecurityConfig {
                     .requestMatchers(HttpMethod.POST, "/profil/creer").permitAll()
                     .requestMatchers(HttpMethod.GET, "/vendre").authenticated()
                     .requestMatchers(HttpMethod.POST, "/vendre").authenticated()
+                    .requestMatchers(HttpMethod.GET, "/encheres").authenticated()
                     .requestMatchers(HttpMethod.POST, "/encheres").authenticated()
                     .requestMatchers(HttpMethod.GET, "/monProfil").authenticated()
                     .requestMatchers(HttpMethod.POST, "/monProfil").authenticated()
