@@ -12,12 +12,12 @@ public class ArticleAVendre implements Serializable {
 private int no_article;
 private String nom_article;
 private String description;
-private int photo;
+private Integer photo;
 private Date date_debut_encheres;
 private Date date_fin_encheres;
 private int statut_enchere;
 private int prix_initial;
-private int prix_vente;
+private Integer prix_vente;
 private String id_utilisateur;
 private int  no_categorie;
 private int no_adresse_retrait;
@@ -25,8 +25,8 @@ private int no_adresse_retrait;
 public ArticleAVendre() {
 
 }
-public ArticleAVendre(int no_article,String nom_article,String description,int photo,Date date_debut_encheres, Date date_fin_encheres,int statut_enchere,
-                      int prix_initial, int prix_vente,String id_utilisateur,int no_categorie,int no_adresse_retrait) {
+public ArticleAVendre(int no_article,String nom_article,String description,Integer photo,Date date_debut_encheres, Date date_fin_encheres,int statut_enchere,
+                      int prix_initial, Integer prix_vente,String id_utilisateur,int no_categorie,int no_adresse_retrait) {
     this.no_article=no_article;
     this.nom_article=nom_article;
     this.description=description;
@@ -66,11 +66,11 @@ public ArticleAVendre(int no_article,String nom_article,String description,int p
         this.description = description;
     }
 
-    public int getPhoto() {
+    public Integer getPhoto() {
         return photo;
     }
 
-    public void setPhoto(int photo) {
+    public void setPhoto(Integer photo) {
         this.photo = photo;
     }
 
@@ -106,11 +106,11 @@ public ArticleAVendre(int no_article,String nom_article,String description,int p
         this.prix_initial = prix_initial;
     }
 
-    public int getPrix_vente() {
+    public Integer getPrix_vente() {
         return prix_vente;
     }
 
-    public void setPrix_vente(int prix_vente) {
+        public void setPrix_vente(Integer prix_vente) {
         this.prix_vente = prix_vente;
     }
 
