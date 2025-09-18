@@ -4,7 +4,15 @@ import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dal.UtilisateurDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class UtilisateurServiceImpl implements UtilisateurService {
@@ -20,7 +28,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
     @Override
     public Utilisateur findById(String pseudo) {
-        System.out.println(utilisateurDAO.read("coach_admin"));
+//        System.out.println(utilisateurDAO.read("coach_admin"));
         return utilisateurDAO.read(pseudo);
     }
 
@@ -35,6 +43,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     @Override
     public Utilisateur findByUserEmail(String email) {
 
-        return utilisateurDAO.findByEmail(email);
+        return utilisateurDAO.findByemail(email);
     }
+
 }
