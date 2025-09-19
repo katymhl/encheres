@@ -92,3 +92,15 @@
     justify-content: center;
     margin-bottom: 10px;
 }
+.index-radio-filters-horizontal {
+    display: flex;
+    gap: 2rem;
+    margin-top: 1rem;
+    align-items: center;
+}
+
+.radio-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}

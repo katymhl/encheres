@@ -2,9 +2,11 @@ package fr.eni.encheres.controller;
 
 import fr.eni.encheres.bll.AdresseService;
 import fr.eni.encheres.bll.ArticleAVendreService;
+import fr.eni.encheres.bll.CategorieService;
 import fr.eni.encheres.bll.UtilisateurService;
 import fr.eni.encheres.bo.Adresse;
 import fr.eni.encheres.bo.ArticleAVendre;
+import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.bo.Utilisateur;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -20,13 +22,15 @@ public class EncheresController {
     private final UtilisateurService utilisateurService;
     private final AdresseService adresseService;
     private final ArticleAVendreService articleAVendreService;
+    private final CategorieService categorieService;
 
     public EncheresController(UtilisateurService utilisateurService,
                               AdresseService adresseService,
-                              ArticleAVendreService articleAVendreService) {
+                              ArticleAVendreService articleAVendreService,CategorieService categorieService) {
         this.utilisateurService = utilisateurService;
         this.adresseService = adresseService;
         this.articleAVendreService = articleAVendreService;
+        this.categorieService = categorieService;
     }
 
     @GetMapping("/")
@@ -109,5 +113,41 @@ public class EncheresController {
         List<ArticleAVendre> resultats = articleAVendreService.filtrerArticles(search, categorie);
         model.addAttribute("encheres", resultats);
         return "index";
+    }
+
+    @GetMapping("/details/{id}")
+    public String afficherDetailsArticle(@PathVariable("id") int id, Model model) {
+        ArticleAVendre article = articleAVendreService.findById(id);
+        Categorie categorie = categorieService.read(article.getNo_categorie());
+        Adresse adresse = adresseService.findById(article.getNo_adresse_retrait());
+
+        model.addAttribute("enchere", article);
+        model.addAttribute("categorie", categorie);
+        model.addAttribute("adresse", adresse);
+
+        return "sale-details";
+    }
+
+
+
+    @GetMapping("/profil/{pseudo}")
+    public String afficherProfil(@PathVariable String pseudo, Model model) {
+        Utilisateur user = utilisateurService.findById(pseudo);
+        model.addAttribute("utilisateur", user);
+        return "profil";
+    }
+
+
+
+
+
+    @GetMapping("/accueil/connecter")
+    public String getDetailConnecter(Model model) {
+        List<ArticleAVendre> listActiveEnchere = articleAVendreService.findActiveEnchere();
+        System.out.println("listActiveEnchere: " + listActiveEnchere.size());
+        model.addAttribute("encheres", listActiveEnchere);
+
+        System.out.println(utilisateurService.findById("coach_admin"));
+        return "indexConnecter";
     }
 }

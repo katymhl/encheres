@@ -14,8 +14,8 @@
 <body>
 <main class="center-main">
     <!-- Partie gauche du contenu -->
-    <section class="center-section">
-        <div th:if="${user != null}">
+    <section class="center-section" >
+        <div  th:if="${user != null}">
             <h1 style="text-align: center;" data-th-text="#{profil.h1} + ' @' + ${user.pseudo}"></h1>
 
             <br><br><br><br>
@@ -23,6 +23,7 @@
             <table>
                 <!-- build html table based on users -->
                 <tbody>
+
                 <tr>
                     <td>Prenom :</td>
                     <td data-th-text="${user.prenom}"></td>
@@ -56,7 +57,7 @@
                 <a th:href="@{/profil/creer}">Modifier</a>
         </button>
         <button>
-            <a th:href="@{/}">Retour</a>
+            <a th:href="@{/accueil/connecter}">Retour</a>
         </button>
 
 

@@ -29,4 +29,9 @@ public class ArticleAVendreServiceImpl implements ArticleAVendreService {
         return articleAVendreDAO.filtrerArticles(search, categorie);
 
     }
+
+    @Override
+    public ArticleAVendre findById(int no_article) {
+        return articleAVendreDAO.read(no_article);
+    }
 }

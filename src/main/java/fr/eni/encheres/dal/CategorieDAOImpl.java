@@ -24,7 +24,7 @@ public class CategorieDAOImpl implements CategorieDAO {
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
         namedParameters.addValue("no_categorie", no_categorie);
 
-        return namedParameterJdbcTemplate.queryForObject("SELECT * FROM CETAGORIES  WHERE no_categorie = :no_categorie", namedParameters,
+        return namedParameterJdbcTemplate.queryForObject("SELECT * FROM CATEGORIES  WHERE no_categorie = :no_categorie", namedParameters,
                 new BeanPropertyRowMapper<>(Categorie.class));
     }
 
