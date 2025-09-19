@@ -49,14 +49,14 @@ public class EncheresController {
         return "admin.html";
     }
 
-    @GetMapping("/profil/creer")
+    @GetMapping("/inscription")
     public String afficherFormulaire(Model model) {
         model.addAttribute("utilisateur", new Utilisateur());
         model.addAttribute("adresse", new Adresse());
         return "new-profil-form";
     }
 
-    @PostMapping("/profil/creer")
+    @PostMapping("/inscription")
     public String creerUtilisateur(
             @Valid @ModelAttribute("utilisateur") Utilisateur utilisateur,
             BindingResult resultUtilisateur,

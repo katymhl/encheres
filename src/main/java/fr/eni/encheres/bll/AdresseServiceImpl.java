@@ -16,6 +16,7 @@ public class AdresseServiceImpl implements AdresseService {
 
 
     private AdresseDAO adresseDAO;
+    private UtilisateurDAO utilisateurDAO;
 
     public AdresseServiceImpl(AdresseDAO adresseDAO) {
         this.adresseDAO = adresseDAO;
@@ -31,6 +32,12 @@ public class AdresseServiceImpl implements AdresseService {
     @Override
     public Adresse findById(int id_adresse) {
         return adresseDAO.read(id_adresse);
+    }
+
+
+    @Override
+    public Adresse getAdresseByPseudo(String pseudo) {
+        return adresseDAO.findByUtilisateurPseudo(pseudo);
     }
 
     @Override

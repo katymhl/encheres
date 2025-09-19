@@ -19,5 +19,6 @@ public interface UtilisateurDAO {
      void create(Utilisateur utilisateur) ;
 
      void update(Utilisateur utilisateur);
+    void updatePWD(String mot_de_passe, String pseudo);
      void delete(String pseudo);
 }
