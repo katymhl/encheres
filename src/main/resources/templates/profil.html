@@ -58,7 +58,7 @@
                 <a th:href="@{'/monProfil/update?pseudo=' + ${#authentication.name}}">Modifier profil</a>
             </button>
             <button>
-                <a th:href="@{/monProfil/update-pwd}">Modifier mot de passe</a>
+                <a th:href="@{'/monProfil/update-pwd?pseudo=' + ${#authentication.name}}">Modifier mot de passe</a>
             </button>
         </div>
 

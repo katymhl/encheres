@@ -129,6 +129,16 @@ public  class UtilisateurDAOImpl implements UtilisateurDAO {
         namedParameterJdbcTemplate.update("UPDATE UTILISATEURS SET nom = :nom, prenom = :prenom, email= :email, no_adresse= :no_adresse WHERE pseudo = :pseudo", namedParameters);
     }
 
+    @Override
+    public void updatePWD(String mot_de_passe, String pseudo) {
+        String sql = "UPDATE UTILISATEURS SET mot_de_passe = :mot_de_passe WHERE pseudo = :pseudo";
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("pwd", mot_de_passe); // déjà hashé avant
+        params.addValue("pseudo", pseudo);
+
+        namedParameterJdbcTemplate.update(sql, params);
+    }
+
 
     @Override
     public void delete(String pseudo) {
