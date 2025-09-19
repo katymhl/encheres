@@ -77,8 +77,8 @@ public class UtilisateurController {
 
     @PostMapping("/monProfil/update")
     public String modifierMonProfil(
-            @Valid @ModelAttribute("utilisateur") Utilisateur utilisateur,
-            @Valid @ModelAttribute("adresse") Adresse adresse,
+            @ModelAttribute("utilisateur") Utilisateur utilisateur,
+            @ModelAttribute("adresse") Adresse adresse,
             Model model) {
 
         model.addAttribute("adresse", adresse);
@@ -126,7 +126,7 @@ public class UtilisateurController {
             return "update-password-form";
         }
 
-        // Mise à jour du mot de passe
+        // Mise à jour du mot de passe ()
         utilisateurService.updatePWD(pseudo, nouveauPwd);
 
         return "redirect:/monProfil?pseudo=" + pseudo;
