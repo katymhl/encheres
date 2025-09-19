@@ -78,7 +78,7 @@ public class UtilisateurController {
     @PostMapping("/monProfil/update")
     public String modifierMonProfil(
             @ModelAttribute("utilisateur") Utilisateur utilisateur,
-            git fetch@ModelAttribute("adresse") Adresse adresse,
+            @ModelAttribute("adresse") Adresse adresse,
             Model model) {
 
         model.addAttribute("adresse", adresse);
