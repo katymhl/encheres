@@ -46,7 +46,7 @@ public class ArticleAVendreDAOImpl implements ArticleAVendreDAO {
         namedParameters.addValue("id_utilisateur", articleAVendre.getId_utilisateur());
         namedParameters.addValue("no_categorie", articleAVendre.getNo_categorie());
         namedParameters.addValue("no_adresse_retrait", articleAVendre.getNo_adresse_retrait());
-        namedParameterJdbcTemplate.update("INSERT INTO ARTICLES_A_VENDRE (nom_article, description, date_debut_encheres, date_fin_encheres, statut_enchere, prix_initial, prix_vente,  id_utilisateur , no_categorie , no_adresse_retrait)", namedParameters);
+        namedParameterJdbcTemplate.update("INSERT INTO ARTICLES_A_VENDRE (nom_article, description, date_debut_encheres, date_fin_encheres, statut_enchere, prix_initial, prix_vente,  id_utilisateur , no_categorie , no_adresse_retrait) VALUES (:nom_article, :description, :date_debut_encheres, :date_fin_encheres, :statut_enchere, :prix_initial, :prix_vente, :id_utilisateur, :no_categorie, :no_adresse_retrait)", namedParameters);
 
     }
 

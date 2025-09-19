@@ -17,76 +17,36 @@
     <section class="center-section">
         <h1 style="text-align: center;" data-th-text="#{sale-form.h1}"></h1>
 
+        <form th:action="@{/vendre}" method="post" novalidate>
+            <table>
+<!--                <tr th:object="${utilisateur}">-->
+<!--                    <td><input type="text" id="pseudo" name="pseudo" th:field="*{pseudo}" readonly hidden></td>-->
+<!--                </tr>-->
 
-        <form class="profil-form" th:action="@{/vendre}" method="post" novalidate>
+                <tr th:object="${articleAVendre}">
+                    <td><label for="article">Article (*) :</label></td>
+                    <td><input type="text" id="article" name="article" th:field="*{nom_article}" required></td>
+                    <td><label for="prix">Mise à prix (*) :</label></td>
+                    <td><input type="number" id="prix" name="prix" th:field="*{prix_initial}" required></td>
+                </tr>
 
-            <!-- Champs Utilisateur -->
-            <div >
-                <div>
-                    <label>Pseudo (*) :</label>
-                    <input type="text" name="pseudo"  required minlength="3" maxlength="30"
-                           pattern="^[A-Za-z0-9_]+$" title="Lettres, chiffres et underscore uniquement">
-                </div>
-
-                <div>
-                    <label>Nom (*) :</label>
-                    <input type="text" name="nom"  required>
-                </div>
-
-                <div>
-                    <label>Prénom (*) :</label>
-                    <input type="text" name="prenom"  required>
-                </div>
-
-                <div>
-                    <label>Email (*) :</label>
-                    <input type="email" name="email"  required>
-                </div>
-
-                <div>
-                    <label>Mot de passe (*) :</label>
-                    <input type="password" id="motdepasse" name="mot_de_passe"
-                           required minlength="8" maxlength="20"
-                           pattern="^(?=.*[A-Z])(?=.*\\d)(?=.*[^A-Za-z0-9]).{8,20}$"
-                           title="8-20 caractères, 1 majuscule, 1 chiffre et 1 caractère spécial">
-                </div>
-
-                <div>
-                    <label>Confirmation (*) :</label>
-                    <input type="password" id="confirmation" name="confirmPassword" required>
-                </div>
-
-                <div>
-                    <label>Téléphone :</label>
-                    <input type="tel" name="telephone"  pattern="^\\d{10}$"
-                           title="Le numéro doit contenir exactement 10 chiffres"
-                           maxlength="10">
-                </div>
-            </div>
-
-            <!-- Champs Adresse -->
-            <div >
-                <label>Adresse (*) :</label>
-                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                    <!-- Rue -->
-                    <div>
-                        <input type="text" name="rue"  placeholder="Rue" required>
-                    </div>
-
-                    <!-- Code postal -->
-                    <div>
-                        <input type="text" name="code_postal"  placeholder="Code postal" required pattern="^\\d{5}$"
-                               title="Code postal à 5 chiffres">
-                    </div>
-
-                    <!-- Ville -->
-                    <div>
-                        <input type="text" name="ville"  placeholder="Ville" required>
-
-                    </div>
-                </div>
-            </div>
-
+                <tr th:object="${articleAVendre}">
+                    <td><label for="categorie">Catégorie (*) :</label></td>
+                    <td><input type="text" id="categorie" name="categorie" th:field="*{prix_initial}"></td> <!--menu déroulant à option-->
+                    <td><label for="debut">Debut de l'enchère  :</label></td>
+                    <td><input type="date" id="debut" name="debut" th:field="*{date_debut_encheres}"></td><!--choix date dans calendrier + icon calendrier-->
+                </tr>
+                <tr th:object="${articleAVendre}">
+                    <td><label for="description">Catégorie (*) :</label></td>
+                    <td><input type="text" id="description" name="description" th:field="*{description}"></td> <!--textarea-->
+                    <td><label for="fin">Fin de l'enchère  :</label></td>
+                    <td><input type="date" id="fin" name="fin" th:field="*{date_fin_encheres}"></td><!--choix date dans calendrier + icon calendrier-->
+                </tr>
+                <tr th:object="${articleAVendre}">
+                    <td><label for="adresse">Retrait (*) :</label></td>
+                    <td><input type="text" id="adresse" name="adresse" th:field="*{description}"></td><!--liste d'option, menu déroulant avec les adresses de l'eni + adresse perso-->
+                </tr>
+            </table>
 
 
             <div class="form-actions">
