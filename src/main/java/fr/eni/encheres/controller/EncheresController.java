@@ -1,13 +1,11 @@
 package fr.eni.encheres.controller;
 
-import fr.eni.encheres.bll.AdresseService;
-import fr.eni.encheres.bll.ArticleAVendreService;
-import fr.eni.encheres.bll.CategorieService;
-import fr.eni.encheres.bll.UtilisateurService;
+import fr.eni.encheres.bll.*;
 import fr.eni.encheres.bo.Adresse;
 import fr.eni.encheres.bo.ArticleAVendre;
 import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.bo.Utilisateur;
+import jakarta.servlet.http.HttpSession;
 import fr.eni.encheres.bo.enumeration.StatutEnchere;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -15,6 +13,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+import java.util.ArrayList;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -28,14 +28,16 @@ public class EncheresController {
     private final AdresseService adresseService;
     private final ArticleAVendreService articleAVendreService;
     private final CategorieService categorieService;
+    private final EnchereService enchereService ;
 
     public EncheresController(UtilisateurService utilisateurService,
                               AdresseService adresseService,
-                              ArticleAVendreService articleAVendreService,CategorieService categorieService) {
+                              ArticleAVendreService articleAVendreService,CategorieService categorieService, EnchereService enchereService) {
         this.utilisateurService = utilisateurService;
         this.adresseService = adresseService;
         this.articleAVendreService = articleAVendreService;
         this.categorieService = categorieService;
+        this.enchereService = enchereService;
     }
 
     @GetMapping("/")
@@ -146,13 +148,58 @@ public class EncheresController {
 
 
 
-    @GetMapping("/accueil/connecter")
-    public String getDetailConnecter(Model model) {
-        List<ArticleAVendre> listActiveEnchere = articleAVendreService.findActiveEnchere();
-        System.out.println("listActiveEnchere: " + listActiveEnchere.size());
-        model.addAttribute("encheres", listActiveEnchere);
+//    @GetMapping("/accueil/connecter")
+//    public String getDetailConnecter(Model model) {
+//        List<ArticleAVendre> listActiveEnchere = articleAVendreService.findActiveEnchere();
+//        System.out.println("listActiveEnchere: " + listActiveEnchere.size());
+//        model.addAttribute("encheres", listActiveEnchere);
+//
+//        System.out.println(utilisateurService.findById("coach_admin"));
+//        return "indexConnecter";
+//    }
 
-        System.out.println(utilisateurService.findById("coach_admin"));
+
+    @GetMapping("/accueil/connecter")
+    public String filtrerEncheres(
+            @RequestParam(required = false) String search,
+            @RequestParam(required = false) Integer categorie,
+            @RequestParam(required = false) String mode,
+            @RequestParam(required = false) String filtreAchats,
+            @RequestParam(required = false) String filtreVentes,
+           Principal principal,
+            Model model) {
+
+        String pseudo = principal.getName();
+//        String pseudo = (String) session.getAttribute("pseudo");
+        List<ArticleAVendre> resultats = new ArrayList<>();
+
+        if ("achats".equals(mode)) {
+            if (filtreAchats != null) {
+                switch (filtreAchats) {
+                    case "ouvertes" -> resultats = enchereService.getEncheresOuvertesSansParticipation(pseudo, search, categorie);
+                    case "encours" -> resultats = enchereService.getEncheresEnCoursParUtilisateur(pseudo, search, categorie);
+                    case "remportees" -> resultats = enchereService.getEncheresTermineesParUtilisateur(pseudo, search, categorie);
+                    default -> System.out.println("Filtre achats inconnu : " + filtreAchats);
+                }
+            } else {
+                System.out.println("Aucun filtreAchats fourni.");
+            }
+        } else if ("ventes".equals(mode)) {
+            if (filtreVentes != null) {
+                switch (filtreVentes) {
+                    case "encours" -> resultats = articleAVendreService.getMesVentesEnCours(pseudo, search, categorie);
+                    case "nonDebutees" -> resultats = articleAVendreService.getMesVentesNonDebutees(pseudo, search, categorie);
+                    case "terminees" -> resultats = articleAVendreService.getMesVentesTerminees(pseudo, search, categorie);
+                    default -> System.out.println("Filtre ventes inconnu : " + filtreVentes);
+                }
+            } else {
+                System.out.println("Aucun filtreVentes fourni.");
+            }
+        } else {
+            System.out.println("Mode inconnu ou non fourni : " + mode);
+        }
+
+        model.addAttribute("encheres", resultats);
         return "indexConnecter";
     }
 
