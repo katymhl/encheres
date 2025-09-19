@@ -7,6 +7,7 @@ import fr.eni.encheres.bo.Utilisateur;
 import jakarta.validation.Valid;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,15 +16,19 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.security.Principal;
+
 @Controller
 public class UtilisateurController {
 
+    private final PasswordEncoder passwordEncoder;
     UtilisateurService utilisateurService;
     AdresseService adresseService;
 
-    public UtilisateurController(UtilisateurService utilisateurService, AdresseService adresseService) {
+    public UtilisateurController(UtilisateurService utilisateurService, AdresseService adresseService, PasswordEncoder passwordEncoder) {
         this.utilisateurService = utilisateurService;
         this.adresseService = adresseService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("/monProfil")
@@ -99,13 +104,31 @@ public class UtilisateurController {
     }
 
     @PostMapping("/monProfil/update-pwd")
-    public String modifierMonMotDePasse(@RequestParam("mot_de_passe") String mot_de_passe,
-                                        Utilisateur utilisateur,
-                                        Model model) {
-        model.addAttribute("utilisateur", utilisateur);
-        String pseudo = utilisateur.getPseudo();
-        utilisateurService.updatePWD(pseudo, mot_de_passe);
-        return "redirect:/monProfil?pseudo=" + pseudo;
+    public String modifierMotDePasse(
+            @RequestParam("ancien_mot_de_passe") String ancienPwd,
+            @RequestParam("mot_de_passe") String nouveauPwd,
+            @RequestParam("confirmPassword") String confirmPwd,
+            Principal principal,
+            Model model) {
 
+        String pseudo = principal.getName(); // utilisateur connecté
+        Utilisateur utilisateur = utilisateurService.findById(pseudo);
+
+        // Vérification de l'ancien mot de passe
+        if (!passwordEncoder.matches(ancienPwd, utilisateur.getMot_de_passe())) {
+            model.addAttribute("errorAncien", "Mot de passe actuel incorrect");
+            return "update-password-form";
+        }
+
+        // Vérification correspondance nouveau mot de passe
+        if (!nouveauPwd.equals(confirmPwd)) {
+            model.addAttribute("errorConfirmation", "Les mots de passe ne correspondent pas");
+            return "update-password-form";
+        }
+
+        // Mise à jour du mot de passe
+        utilisateurService.updatePWD(pseudo, nouveauPwd);
+
+        return "redirect:/monProfil?pseudo=" + pseudo;
     }
 }

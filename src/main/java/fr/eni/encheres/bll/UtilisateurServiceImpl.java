@@ -51,7 +51,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     }
 
     @Override
-    public void updatePWD(String mot_de_passe, String pseudo) {
+    public void updatePWD(String pseudo, String mot_de_passe) {
         String hashedPwd = passwordEncoder.encode(mot_de_passe);
         utilisateurDAO.updatePWD(pseudo, hashedPwd);
     }
