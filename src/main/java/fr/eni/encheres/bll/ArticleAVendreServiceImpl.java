@@ -34,4 +34,20 @@ public class ArticleAVendreServiceImpl implements ArticleAVendreService {
     public ArticleAVendre findById(int no_article) {
         return articleAVendreDAO.read(no_article);
     }
+@Override
+    public List<ArticleAVendre> getMesVentesEnCours(String pseudo, String search, Integer categorie) {
+        return articleAVendreDAO.findMesVentesEnCours(pseudo, search, categorie);
+    }
+
+@Override
+    public List<ArticleAVendre> getMesVentesNonDebutees(String pseudo, String search, Integer categorie) {
+        return articleAVendreDAO.findMesVentesNonDebutees(pseudo, search, categorie);
+    }
+
+    public List<ArticleAVendre> getMesVentesTerminees(String pseudo, String search, Integer categorie) {
+        return articleAVendreDAO.findMesVentesTerminees(pseudo, search, categorie);
+    }
+
+
+
 }

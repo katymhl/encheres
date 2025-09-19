@@ -22,7 +22,7 @@
     <!-- Filtres -->
     <section class="index-filters">
         <h3>Filtres :</h3>
-        <form th:action="@{/encheres}" method="get">
+        <form th:action="@{/accueil/connecter}" method="get">
 
             <input type="text" name="search" placeholder="Le nom de l'article contient" th:value="${param.search}">
 
@@ -34,7 +34,6 @@
                 <option value="3">Sport & Loisir</option>
                 <option value="4">Vêtement</option>
             </select>
-
             <div class="index-radio-filters-horizontal">
                 <div class="radio-group">
                     <label>
@@ -51,7 +50,7 @@
                     <label>
                         <input type="radio" name="mode" value="ventes"> Mes ventes
                     </label>
-                    <select name="filtreVentes" disabled>
+                    <select name="filtreVentes" >
                         <option value="encours">Mes ventes en cours</option>
                         <option value="nonDebutees">Mes ventes non débutées</option>
                         <option value="terminees">Mes ventes terminées</option>
@@ -79,11 +78,10 @@
 
                 <!-- Nom de l'article = lien détail -->
 
-                    <h3>
-                        <a th:href="@{/details/{id}(id=${enchere.no_article})}"
-                           th:text="${enchere.nom_article}">Nom article</a>
-                    </h3>
-
+                <h3>
+                    <a th:href="@{/details/{id}(id=${enchere.no_article})}"
+                       th:text="${enchere.nom_article}">Nom article</a>
+                </h3>
 
 
                 <p>Prix : <span th:text="${enchere.prix_initial}">1</span> point(s)</p>
@@ -109,53 +107,29 @@
         const selectVentes = document.querySelector('select[name="filtreVentes"]');
 
         function toggleFilters() {
-            const selectedRadio = Array.from(radios).find(r => r.checked);
-            if (!selectedRadio) return;
+            const selectedMode = document.querySelector('input[name="mode"]:checked')?.value;
 
-            if (selectedRadio.value === "achats") {
-                selectAchats.removeAttribute("disabled");
-                selectVentes.setAttribute("disabled", "disabled");
-            } else {
-                selectVentes.removeAttribute("disabled");
-                selectAchats.setAttribute("disabled", "disabled");
+            if (selectedMode === "achats") {
+                selectAchats.disabled = false;
+                selectVentes.disabled = true;
+            } else if (selectedMode === "ventes") {
+                selectAchats.disabled = true;
+                selectVentes.disabled = false;
             }
         }
 
-        // Initialisation
+        // Initialisation au chargement
         toggleFilters();
 
-        // Écoute sur tous les radios (change + input pour fiabilité)
+        // Mise à jour à chaque changement de radio
         radios.forEach(radio => {
             radio.addEventListener("change", toggleFilters);
-            radio.addEventListener("input", toggleFilters);
         });
     });
 </script>
 
+
+
 </body>
 </html>
 
-<!-- Filtres -->
-<!--        <form class="filters" th:action="@{/encheres}" method="get">-->
-<!--            <input type="text" name="search" placeholder="Le nom de l'article contient"-->
-<!--                   th:value="${param.search}">-->
-<!--            <select name="categorie">-->
-<!--                <option value="">Toutes</option>-->
-<!--                <option value="Ameublement">Ameublement</option>-->
-<!--                <option value="Informatique">Informatique</option>-->
-<!--                <option value="SportLoisirs">Sport & Loisirs</option>-->
-<!--                <option value="Vetements">Vêtements</option>-->
-<!--            </select>-->
-<!--            <button type="submit" class="search">Rechercher</button>-->
-<!--            <a th:href="@{/encheres}" class="reset">Annuler</a>-->
-<!--        </form>-->
-<!-- Liste des enchères -->
-<!--<div class="auctions">-->
-<!--    <div class="card" th:each="enchere : ${encheres}">-->
-<!--        <img th:src="@{/images/placeholder.jpg}" alt="Article">-->
-<!--        <h3 th:text="${enchere.nom}">Nom article</h3>-->
-<!--        <p>Prix : <span th:text="${enchere.prix}"></span> point(s)</p>-->
-<!--        <p>Fin : <span th:text="${#dates.format(enchere.dateFin, 'dd/MM/yyyy')}"></span></p>-->
-<!--        <p>Vendeur : <span th:text="${enchere.vendeur}"></span></p>-->
-<!--    </div>-->
-<!--</div>-->

@@ -119,4 +119,95 @@ public class ArticleAVendreDAOImpl implements ArticleAVendreDAO {
                 new BeanPropertyRowMapper<>(ArticleAVendre.class)
         );
     }
+
+
+    @Override
+    public List<ArticleAVendre> findMesVentesEnCours(String pseudo, String search, Integer categorie) {
+        StringBuilder sql = new StringBuilder("""
+        SELECT *
+        FROM ARTICLES_A_VENDRE
+        WHERE statut_enchere = 1
+          AND id_utilisateur = :pseudo
+    """);
+
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("pseudo", pseudo);
+
+        if (categorie != null) {
+            sql.append(" AND no_categorie = :categorie");
+            params.addValue("categorie", categorie);
+        }
+
+        if (search != null && !search.trim().isEmpty()) {
+            sql.append(" AND nom_article LIKE :search");
+            params.addValue("search", "%" + search.trim() + "%");
+        }
+
+        return namedParameterJdbcTemplate.query(
+                sql.toString(),
+                params,
+                new BeanPropertyRowMapper<>(ArticleAVendre.class)
+        );
+    }
+
+
+    @Override
+    public List<ArticleAVendre> findMesVentesNonDebutees(String pseudo, String search, Integer categorie) {
+        StringBuilder sql = new StringBuilder("""
+        SELECT *
+        FROM ARTICLES_A_VENDRE
+        WHERE statut_enchere = 0
+          AND id_utilisateur = :pseudo
+    """);
+
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("pseudo", pseudo);
+
+        if (categorie != null) {
+            sql.append(" AND no_categorie = :categorie");
+            params.addValue("categorie", categorie);
+        }
+
+        if (search != null && !search.trim().isEmpty()) {
+            sql.append(" AND nom_article LIKE :search");
+            params.addValue("search", "%" + search.trim() + "%");
+        }
+
+        return namedParameterJdbcTemplate.query(
+                sql.toString(),
+                params,
+                new BeanPropertyRowMapper<>(ArticleAVendre.class)
+        );
+    }
+
+    @Override
+    public List<ArticleAVendre> findMesVentesTerminees(String pseudo, String search, Integer categorie) {
+        StringBuilder sql = new StringBuilder("""
+        SELECT *
+        FROM ARTICLES_A_VENDRE
+        WHERE statut_enchere IN (2, 3, 100)
+          AND id_utilisateur = :pseudo
+    """);
+
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("pseudo", pseudo);
+
+        if (categorie != null) {
+            sql.append(" AND no_categorie = :categorie");
+            params.addValue("categorie", categorie);
+        }
+
+        if (search != null && !search.trim().isEmpty()) {
+            sql.append(" AND nom_article LIKE :search");
+            params.addValue("search", "%" + search.trim() + "%");
+        }
+
+        return namedParameterJdbcTemplate.query(
+                sql.toString(),
+                params,
+                new BeanPropertyRowMapper<>(ArticleAVendre.class)
+        );
+    }
+
+
 }

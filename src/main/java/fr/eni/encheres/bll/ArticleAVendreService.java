@@ -10,4 +10,8 @@ public interface ArticleAVendreService {
     List<ArticleAVendre> findActiveEnchere();
     List<ArticleAVendre> filtrerArticles(String search, Integer categorie);
     ArticleAVendre findById(int no_article);
+
+    List<ArticleAVendre> getMesVentesEnCours(String pseudo, String search, Integer categorie);
+     List<ArticleAVendre> getMesVentesNonDebutees(String pseudo, String search, Integer categorie);
+     List<ArticleAVendre> getMesVentesTerminees(String pseudo, String search, Integer categorie);
 }
