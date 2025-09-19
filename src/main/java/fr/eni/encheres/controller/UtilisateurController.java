@@ -62,9 +62,11 @@ public class UtilisateurController {
 
 
     @GetMapping("/monProfil/update")
-    public String afficherFormulaire(Model model) {
-        model.addAttribute("utilisateur", new Utilisateur());
-        model.addAttribute("adresse", new Adresse());
+    public String afficherFormulaire(@RequestParam(name= "pseudo", required = true)String pseudo, Model model) {
+        Utilisateur utilisateur = utilisateurService.findById(pseudo);
+        Adresse adresse = adresseService.getAdresseByPseudo(pseudo);
+        model.addAttribute("utilisateur", utilisateur);
+        model.addAttribute("adresse", adresse);
         return "update-profil-form";
     }
 
@@ -76,11 +78,8 @@ public class UtilisateurController {
             BindingResult resultAdresse,
             Model model) {
 
-        if (resultUtilisateur.hasErrors() || resultAdresse.hasErrors()) {
-            model.addAttribute("adresse", adresse);
-            model.addAttribute("utilisateur", utilisateur);
-            return "update-profil-form";
-        }
+        model.addAttribute("adresse", adresse);
+        model.addAttribute("utilisateur", utilisateur);
 
         int numeroadresse = adresseService.getOrCreateAdresse(
                 adresse.getRue(),
@@ -89,28 +88,8 @@ public class UtilisateurController {
         );
 
         utilisateur.setNo_adresse(numeroadresse);
-        System.out.println(utilisateur);
-
-        Utilisateur existingUser = utilisateurService.findById(utilisateur.getPseudo());
-        Utilisateur existingUseremail = utilisateurService.findByUserEmail(utilisateur.getEmail());
-
-        if (existingUser != null) {
-            resultUtilisateur.rejectValue("pseudo", "error.utilisateur",
-                    "Le pseudo '" + utilisateur.getPseudo() + "' existe déjà !");
-        }
-
-        if (existingUseremail != null) {
-            resultUtilisateur.rejectValue("email", "error.utilisateur",
-                    "L'email '" + utilisateur.getEmail() + "' existe déjà !");
-        }
-
-        if (resultUtilisateur.hasErrors()) {
-            model.addAttribute("adresse", adresse);
-            model.addAttribute("utilisateur", utilisateur);
-            return "update-profil-form";
-        }
-
-        utilisateurService.creat(utilisateur);
-        return "redirect:/monProfil";
+        System.out.println("Utilisateur : " + utilisateur);
+        utilisateurService.update(utilisateur);
+        return "redirect:/monProfil?pseudo=" + utilisateur.getPseudo();
     }
 }
