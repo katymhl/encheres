@@ -54,7 +54,7 @@
 
         <div th:if="${isOwnProfile}">
             <button>
-                <a th:href="@{/monProfil/update}">Modifier profil</a>
+                <a th:href="@{'/monProfil/update?pseudo=' + ${#authentication.name}}">Modifier profil</a>
             </button>
             <button>
                 <a th:href="@{/monProfil/update-pwd}">Modifier mot de passe</a>

@@ -36,6 +36,50 @@ public class AdresseDAOImpl implements AdresseDAO {
     }
 
     @Override
+    public Adresse findByUtilisateurPseudo(String pseudo) {
+        MapSqlParameterSource namedParameters = new MapSqlParameterSource();
+        namedParameters.addValue("pseudo", pseudo);
+
+        return namedParameterJdbcTemplate.queryForObject(
+                "SELECT a.* FROM ADRESSES a JOIN UTILISATEURS u ON u.no_adresse = a.no_adresse WHERE u.pseudo = :pseudo;",
+                namedParameters,
+                new BeanPropertyRowMapper<>(Adresse.class));
+
+    }
+
+    public int getOrCreateAdresse(String rue, String code_postal, String ville) {
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("rue", rue);
+        params.addValue("cpo", code_postal);
+        params.addValue("ville", ville);
+
+        // Vérifie si l'adresse existe déjà
+        List<Integer> ids = namedParameterJdbcTemplate.queryForList(
+                "SELECT no_adresse FROM ADRESSES WHERE rue = :rue AND code_postal = :code_postal AND ville = :ville",
+                params,
+                Integer.class
+        );
+
+        if (!ids.isEmpty()) {
+            return ids.get(0);
+        }
+
+        // Sinon, on l'insère
+        namedParameterJdbcTemplate.update(
+                "INSERT INTO ADRESSES (rue, code_postal, ville) VALUES (:rue, :code_postal, :ville)",
+                params
+        );
+
+        // Récupère l'id de la dernière insertion
+        return namedParameterJdbcTemplate.queryForObject(
+                "SELECT LAST_INSERT_ID()",
+                new MapSqlParameterSource(),
+                Integer.class
+        );
+    }
+
+
+    @Override
     public void create(Adresse adresse) {
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
         namedParameters.addValue("rue", adresse.getRue());

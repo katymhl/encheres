@@ -16,6 +16,7 @@ public class AdresseServiceImpl implements AdresseService {
 
 
     private AdresseDAO adresseDAO;
+    private UtilisateurDAO utilisateurDAO;
 
     public AdresseServiceImpl(AdresseDAO adresseDAO) {
         this.adresseDAO = adresseDAO;
@@ -28,7 +29,12 @@ public class AdresseServiceImpl implements AdresseService {
         return adresseDAO.findAll();
     }
 
-@Override
+    @Override
+    public Adresse getAdresseByPseudo(String pseudo) {
+        return adresseDAO.findByUtilisateurPseudo(pseudo);
+    }
+
+    @Override
     public int getOrCreateAdresse(String rue, String codePostal, String ville) {
         int no_adress=0;
         String rueNorm = rue.trim().toLowerCase();

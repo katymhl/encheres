@@ -9,8 +9,10 @@ public interface AdresseDAO {
 
     Adresse read(int no_adresse);
     List<Adresse> findAll();
+    Adresse findByUtilisateurPseudo(String pseudo);
+    void create(Adresse adresse);
 
-    void create(Adresse adresse) ;
+    int getOrCreateAdresse(String rue, String codePostal, String ville);
 
     void update(Adresse adresse);
     void delete(int no_adresse);

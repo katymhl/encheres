@@ -100,6 +100,8 @@ public  class UtilisateurDAOImpl implements UtilisateurDAO {
         return Optional.ofNullable(utilisateur);
     }
 
+
+
     @Override
     public Utilisateur findByemail(String emailUtilisateur) {
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
@@ -122,10 +124,9 @@ public  class UtilisateurDAOImpl implements UtilisateurDAO {
         namedParameters.addValue("nom", utilisateur.getNom());
         namedParameters.addValue("prenom", utilisateur.getPrenom());
         namedParameters.addValue("email", utilisateur.getEmail());
-        namedParameters.addValue("mot_de_passe", utilisateur.getMot_de_passe());
         namedParameters.addValue("no_adresse", utilisateur.getNo_adresse());
 
-        namedParameterJdbcTemplate.update("UPDATE UTILISATEURS SET nom = :nom, prenom = :prenom, email= :email, mot_de_passe= :mot_de_passe,no_adresse= :no_adresse WHERE pseudo = :pseudo", namedParameters);
+        namedParameterJdbcTemplate.update("UPDATE UTILISATEURS SET nom = :nom, prenom = :prenom, email= :email, no_adresse= :no_adresse WHERE pseudo = :pseudo", namedParameters);
     }
 
 
