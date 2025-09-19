@@ -73,9 +73,7 @@ public class UtilisateurController {
     @PostMapping("/monProfil/update")
     public String modifierMonProfil(
             @Valid @ModelAttribute("utilisateur") Utilisateur utilisateur,
-            BindingResult resultUtilisateur,
             @Valid @ModelAttribute("adresse") Adresse adresse,
-            BindingResult resultAdresse,
             Model model) {
 
         model.addAttribute("adresse", adresse);
@@ -91,5 +89,23 @@ public class UtilisateurController {
         System.out.println("Utilisateur : " + utilisateur);
         utilisateurService.update(utilisateur);
         return "redirect:/monProfil?pseudo=" + utilisateur.getPseudo();
+    }
+
+    @GetMapping("/monProfil/update-pwd")
+    public String afficherFormulaireMotDePasse(@RequestParam(name= "pseudo", required = true)String pseudo, Model model) {
+        Utilisateur utilisateur = utilisateurService.findById(pseudo);
+        model.addAttribute("utilisateur", utilisateur);
+        return "update-password-form";
+    }
+
+    @PostMapping("/monProfil/update-pwd")
+    public String modifierMonMotDePasse(@RequestParam("mot_de_passe") String mot_de_passe,
+                                        Utilisateur utilisateur,
+                                        Model model) {
+        model.addAttribute("utilisateur", utilisateur);
+        String pseudo = utilisateur.getPseudo();
+        utilisateurService.updatePWD(pseudo, mot_de_passe);
+        return "redirect:/monProfil?pseudo=" + pseudo;
+
     }
 }
