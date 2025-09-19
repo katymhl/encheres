@@ -126,7 +126,7 @@ public class UtilisateurController {
             return "update-password-form";
         }
 
-        // Mise à jour du mot de passe
+        // Mise à jour du mot de passe ()
         utilisateurService.updatePWD(pseudo, nouveauPwd);
 
         return "redirect:/monProfil?pseudo=" + pseudo;
