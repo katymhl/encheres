@@ -105,29 +105,31 @@ public class UtilisateurController {
 
     @PostMapping("/monProfil/update-pwd")
     public String modifierMotDePasse(
-            @RequestParam("ancien_mot_de_passe") String ancienPwd,
-            @RequestParam("mot_de_passe") String nouveauPwd,
-            @RequestParam("confirmPassword") String confirmPwd,
+            @RequestParam("ancien_mot_de_passe") String ancien,
+            @RequestParam("mot_de_passe") String nouveau,
+            @RequestParam("confirmPassword") String confirm,
             Principal principal,
             Model model) {
 
         String pseudo = principal.getName(); // utilisateur connecté
         Utilisateur utilisateur = utilisateurService.findById(pseudo);
+        model.addAttribute("utilisateur", utilisateur);
 
-        // Vérification de l'ancien mot de passe
-        if (!passwordEncoder.matches(ancienPwd, utilisateur.getMot_de_passe())) {
-            model.addAttribute("errorAncien", "Mot de passe actuel incorrect");
+
+        if (!passwordEncoder.matches(ancien, utilisateur.getMot_de_passe())) {
+            model.addAttribute("erreurAncienPwd", "Le mot de passe actuel est incorrect.");
             return "update-password-form";
         }
 
-        // Vérification correspondance nouveau mot de passe
-        if (!nouveauPwd.equals(confirmPwd)) {
-            model.addAttribute("errorConfirmation", "Les mots de passe ne correspondent pas");
+        //monProfil/update-pwd?pseudo=" + pseudo
+        // Vérification confirmation
+        if (!nouveau.equals(confirm)) {
+            model.addAttribute("erreurConfirm", "Les mots de passe ne correspondent pas.");
             return "update-password-form";
         }
 
         // Mise à jour du mot de passe ()
-        utilisateurService.updatePWD(pseudo, nouveauPwd);
+        utilisateurService.updatePWD(pseudo, nouveau);
 
         return "redirect:/monProfil?pseudo=" + pseudo;
     }
