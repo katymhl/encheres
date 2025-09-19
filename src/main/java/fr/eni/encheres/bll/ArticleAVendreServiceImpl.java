@@ -1,6 +1,7 @@
 package fr.eni.encheres.bll;
 
 import fr.eni.encheres.bo.ArticleAVendre;
+import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dal.ArticleAVendreDAO;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Service;
@@ -33,5 +34,10 @@ public class ArticleAVendreServiceImpl implements ArticleAVendreService {
     @Override
     public ArticleAVendre findById(int no_article) {
         return articleAVendreDAO.read(no_article);
+    }
+
+    @Override
+    public void save(ArticleAVendre article) {
+        articleAVendreDAO.create(article);
     }
 }

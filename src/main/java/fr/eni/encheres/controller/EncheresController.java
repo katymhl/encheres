@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -149,5 +150,34 @@ public class EncheresController {
 
         System.out.println(utilisateurService.findById("coach_admin"));
         return "indexConnecter";
+    }
+
+
+    @GetMapping("/vendre")
+    public String afficherCreerUneEnchere(Model model) {
+        model.addAttribute("articleAVendre", new ArticleAVendre());
+        return "sale-form";
+    }
+
+    @PostMapping("/vendre")
+    public String creerUneEnchere(@Valid @ModelAttribute("articleAVendre") ArticleAVendre articleAVendre,
+                                  BindingResult result,
+                                  Principal principal,
+                                  Model model) {
+
+        if (result.hasErrors()) {
+            return "sale-form";
+        }
+
+        // Récupération de l'utilisateur connecté
+        String pseudo = principal.getName();
+        Utilisateur utilisateur = utilisateurService.findById(pseudo);
+        articleAVendre.setId_utilisateur(utilisateur.getPseudo()); // ou id selon ton modèle
+
+        // Sauvegarde de l'article
+        articleAVendreService.save(articleAVendre);
+
+        // Redirection vers la page de liste des articles
+        return "redirect:/";
     }
 }
