@@ -1,22 +1,53 @@
 <!DOCTYPE html>
-<!-- Accueil comme titre de page -->
-<!-- la balise main définit par la classe de CSS 'center-main' comme paramètre contenuPage -->
 <html xmlns:th="http://www.thymeleaf.org"
       data-th-replace="~{layouts/layout :: layout-encheres(
 					titrePage=~{:: title},
 					contenuPage=~{:: main},
-					ressourcesSupp=~{})}">
+					ressourcesSupp=~{:: link})}">
 
 <head>
-    <!-- Accueil comme titre de page -->
-    <title data-th-text="#{sale-details.title}"></title>
+    <title>Détail d'une vente</title>
+    <link rel="stylesheet" href="/css/detailArticle.css" th:fragment="link">
 </head>
+
 <body>
-<main class="center-main">
-    <!-- Partie gauche du contenu -->
-    <section class="center-section">
-        <h1 style="text-align: center;" data-th-text="#{sale-details.h1}"></h1>
+<main class="detail-container">
+
+
+
+
+
+    <!-- Section détail -->
+    <section class="detail-content">
+        <h2>Détail d'une vente</h2>
+
+        <div class="detail-grid">
+            <div class="detail-left">
+                <p><strong>Article :</strong> <span th:text="${enchere.nom_article}">Disque Dur</span></p>
+                <p><strong>Catégorie :</strong> <span th:text="${categorie.getLibelle()}">Informatique</span></p>
+                <p><strong>Description :</strong> <span th:text="${enchere.description}">...</span></p>
+                <p><strong>Retrait :</strong>  <span th:text="${adresse.rue}"></span>,
+                    <span th:text="${adresse.getVille()}"></span>
+                    <span th:text="${adresse.getCode_postal()}"></span></p>
+
+
+                <p><strong>Vendeur :</strong> <span th:text="${enchere.id_utilisateur}">coach_toto</span></p>
+            </div>
+
+            <div class="detail-right">
+                <p><strong>Mise à prix :</strong> <span th:text="${enchere.prix_initial}">1</span> point(s)</p>
+                <p><strong>Meilleure offre :</strong> <span th:text="${enchere.prix_vente}">1</span> point(s)</p>
+                <p><strong>Fin de l'enchère :</strong>
+                    <span th:text="${#dates.format(enchere.date_fin_encheres, 'dd/MM/yyyy')}">01/06/202X</span></p>
+            </div>
+        </div>
     </section>
+
+    <!-- Bouton retour -->
+    <div class="detail-footer">
+        <a th:href="@{/accueil/connecter}" class="btn-return">Retour</a>
+    </div>
+
 </main>
 </body>
 </html>

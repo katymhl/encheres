@@ -9,4 +9,5 @@ public interface ArticleAVendreService {
     List<ArticleAVendre> findAll();
     List<ArticleAVendre> findActiveEnchere();
     List<ArticleAVendre> filtrerArticles(String search, Integer categorie);
+    ArticleAVendre findById(int no_article);
 }

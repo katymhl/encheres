@@ -41,6 +41,8 @@ public class SecurityConfig {
                     .requestMatchers(HttpMethod.POST, "/monProfil").authenticated()
                     .requestMatchers(HttpMethod.GET, "/logout-form").authenticated()
                     .requestMatchers(HttpMethod.POST, "/logout-form").authenticated()
+                    .requestMatchers(HttpMethod.GET, "/accueil/connecter").authenticated()
+                    .requestMatchers(HttpMethod.POST, "/accueil/connecter").authenticated()
 
                     .requestMatchers("/admin/**").hasRole("ADMIN")
 

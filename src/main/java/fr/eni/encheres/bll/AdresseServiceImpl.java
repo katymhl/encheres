@@ -28,7 +28,12 @@ public class AdresseServiceImpl implements AdresseService {
         return adresseDAO.findAll();
     }
 
-@Override
+    @Override
+    public Adresse findById(int id_adresse) {
+        return adresseDAO.read(id_adresse);
+    }
+
+    @Override
     public int getOrCreateAdresse(String rue, String codePostal, String ville) {
         int no_adress=0;
         String rueNorm = rue.trim().toLowerCase();
