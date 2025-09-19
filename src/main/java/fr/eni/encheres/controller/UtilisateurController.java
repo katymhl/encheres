@@ -121,6 +121,14 @@ public class UtilisateurController {
             return "update-password-form";
         }
 
+        String regex = "^(?=.*[A-Z])(?=.*\\d)(?=.*[^A-Za-z0-9]).{8,20}$";
+        if (!nouveau.matches(regex)) {
+            model.addAttribute("erreurFormat",
+                    "Le mot de passe doit contenir 8-20 caractères, " +
+                            "au moins 1 majuscule, 1 chiffre et 1 caractère spécial.");
+            return "update-password-form";
+        }
+
         //monProfil/update-pwd?pseudo=" + pseudo
         // Vérification confirmation
         if (!nouveau.equals(confirm)) {
