@@ -154,24 +154,30 @@ public class EncheresController {
 
 
     @GetMapping("/vendre")
-    public String afficherCreerUneEnchere(Model model) {
+    public String afficherCreerUneEnchere(Model model, Principal principal) {
         model.addAttribute("articleAVendre", new ArticleAVendre());
+        if(principal != null) {
+            String pseudo = principal.getName();
+            Utilisateur utilisateur = utilisateurService.findById(pseudo);
+            model.addAttribute("utilisateur", utilisateur);
+        }
         return "sale-form";
     }
 
     @PostMapping("/vendre")
-    public String creerUneEnchere(@Valid @ModelAttribute("articleAVendre") ArticleAVendre articleAVendre,
+    public String creerUneEnchere(@ModelAttribute("articleAVendre") ArticleAVendre articleAVendre,
                                   BindingResult result,
                                   Principal principal,
                                   Model model) {
-
-        if (result.hasErrors()) {
-            return "sale-form";
-        }
+//
+//        if (result.hasErrors()) {
+//            return "sale-form";
+//        }
 
         // Récupération de l'utilisateur connecté
         String pseudo = principal.getName();
         Utilisateur utilisateur = utilisateurService.findById(pseudo);
+        model.addAttribute("utilisateur", utilisateur);
         articleAVendre.setId_utilisateur(utilisateur.getPseudo()); // ou id selon ton modèle
 
         // Sauvegarde de l'article
