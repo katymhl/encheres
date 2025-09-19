@@ -130,10 +130,10 @@ public  class UtilisateurDAOImpl implements UtilisateurDAO {
     }
 
     @Override
-    public void updatePWD(String mot_de_passe, String pseudo) {
+    public void updatePWD(String pseudo, String mot_de_passe) {
         String sql = "UPDATE UTILISATEURS SET mot_de_passe = :mot_de_passe WHERE pseudo = :pseudo";
         MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("pwd", mot_de_passe); // déjà hashé avant
+        params.addValue("mot_de_passe", mot_de_passe);
         params.addValue("pseudo", pseudo);
 
         namedParameterJdbcTemplate.update(sql, params);
