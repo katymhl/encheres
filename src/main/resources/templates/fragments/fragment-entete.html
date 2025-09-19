@@ -13,7 +13,7 @@
             </span>
 
             <span data-th-if="${#authorization.expression('isAuthenticated()')}">
-                <a href="/vendre" >Vendre</a>
+                <a th:href="@{/vendre}" >Vendre</a>
             </span>
 
             <span data-th-if="${#authorization.expression('isAuthenticated()')}">
