@@ -1,69 +1,102 @@
 <!DOCTYPE html>
-<!-- Accueil comme titre de page -->
-<!-- la balise main définit par la classe de CSS 'center-main' comme paramètre contenuPage -->
 <html xmlns:th="http://www.thymeleaf.org"
       data-th-replace="~{layouts/layout :: layout-encheres(
-					titrePage=~{:: title},
-					contenuPage=~{:: main},
-					ressourcesSupp=~{:: link})}">
+                    titrePage=~{:: title},
+                    contenuPage=~{:: main},
+                    ressourcesSupp=~{:: link})}">
 
 <head>
-    <!-- Accueil comme titre de page -->
     <title data-th-text="#{index.title}"></title>
     <link rel="stylesheet" href="/css/index.css" th:fragment="link">
-
-
+    <style>
+        select:disabled {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+    </style>
 </head>
+
 <body>
 <main class="index-container">
-
-
 
     <!-- Filtres -->
     <section class="index-filters">
         <h3>Filtres :</h3>
         <form th:action="@{/accueil/connecter}" method="get">
 
-            <input type="text" name="search" placeholder="Le nom de l'article contient" th:value="${param.search}">
+            <!-- Champ texte -->
+            <input type="text" name="search" placeholder="Le nom de l'article contient"
+                   th:value="${search}">
 
+            <!-- Catégorie -->
             <label for="categorie">Catégorie :</label>
-            <select id="categorie" name="categorie" th:value="${param.categorie}">
-                <option value="">Toutes</option>
-                <option value="1">Ameublement</option>
-                <option value="2">Informatique</option>
-                <option value="3">Sport & Loisir</option>
-                <option value="4">Vêtement</option>
+            <select id="categorie" name="categorie">
+                <option value="" th:selected="${categorie} == null">Toutes</option>
+                <option value="1" th:selected="${categorie} == 1">Ameublement</option>
+                <option value="2" th:selected="${categorie} == 2">Informatique</option>
+                <option value="3" th:selected="${categorie} == 3">Sport & Loisir</option>
+                <option value="4" th:selected="${categorie} == 4">Vêtement</option>
             </select>
+
+            <!-- Radios + selects -->
             <div class="index-radio-filters-horizontal">
                 <div class="radio-group">
                     <label>
-                        <input type="radio" name="mode" value="achats" checked> Achats
+                        <input type="radio" name="mode" value="achats" id="radioAchats" data-target="filtreAchats"
+                               th:checked="${mode == null or mode == 'achats'}">
+                        Achats
                     </label>
-                    <select name="filtreAchats">
-                        <option value="ouvertes">Enchères ouvertes</option>
-                        <option value="encours">Mes enchères en cours</option>
-                        <option value="remportees">Mes enchères remportées</option>
+                    <select name="filtreAchats" id="filtreAchats">
+                        <option value="ouvertes" th:selected="${filtreAchats} == 'ouvertes'">Enchères ouvertes</option>
+                        <option value="encours" th:selected="${filtreAchats} == 'encours'">Mes enchères en cours</option>
+                        <option value="remportees" th:selected="${filtreAchats} == 'remportees'">Mes enchères remportées</option>
                     </select>
                 </div>
 
                 <div class="radio-group">
                     <label>
-                        <input type="radio" name="mode" value="ventes"> Mes ventes
+                        <input type="radio" name="mode" value="ventes" id="radioVentes" data-target="filtreVentes"
+                               th:checked="${mode == 'ventes'}">
+                        Mes ventes
                     </label>
-                    <select name="filtreVentes" >
-                        <option value="encours">Mes ventes en cours</option>
-                        <option value="nonDebutees">Mes ventes non débutées</option>
-                        <option value="terminees">Mes ventes terminées</option>
+                    <select name="filtreVentes" id="filtreVentes">
+                        <option value="encours" th:selected="${filtreVentes} == 'encours'">Mes ventes en cours</option>
+                        <option value="nonDebutees" th:selected="${filtreVentes} == 'nonDebutees'">Mes ventes non débutées</option>
+                        <option value="terminees" th:selected="${filtreVentes} == 'terminees'">Mes ventes terminées</option>
                     </select>
                 </div>
             </div>
-
 
             <div class="index-filter-buttons">
                 <button type="submit" class="index-btn primary">Rechercher</button>
                 <a th:href="@{/encheres}" class="index-btn secondary">Annuler</a>
             </div>
         </form>
+
+        <!-- Script juste après le formulaire -->
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const radioAchats = document.getElementById("radioAchats");
+                const radioVentes = document.getElementById("radioVentes");
+                const selectAchats = document.getElementById("filtreAchats");
+                const selectVentes = document.getElementById("filtreVentes");
+
+                function toggleSelects() {
+                    if (radioAchats.checked) {
+                        selectAchats.disabled = false;
+                        selectVentes.disabled = true;
+                    } else if (radioVentes.checked) {
+                        selectAchats.disabled = true;
+                        selectVentes.disabled = false;
+                    }
+                }
+
+                radioAchats.addEventListener("change", toggleSelects);
+                radioVentes.addEventListener("change", toggleSelects);
+
+                toggleSelects(); // Initialisation
+            });
+        </script>
     </section>
 
     <!-- Liste des enchères -->
@@ -76,20 +109,16 @@
                     <img th:src="@{/images/placeholder.jpg}" alt="Image article">
                 </div>
 
-                <!-- Nom de l'article = lien détail -->
-
                 <h3>
                     <a th:href="@{/details/{id}(id=${enchere.no_article})}"
                        th:text="${enchere.nom_article}">Nom article</a>
                 </h3>
-
 
                 <p>Prix : <span th:text="${enchere.prix_initial}">1</span> point(s)</p>
                 <p>Fin de l'enchère :
                     <span th:text="${#dates.format(enchere.date_fin_encheres, 'dd/MM/yyyy')}">01/06/202X</span>
                 </p>
 
-                <!-- Pseudo = lien vers profil -->
                 <p>Vendeur :
                     <a th:href="@{/profil(id_utilisateur=${enchere.id_utilisateur})}">
                         <span th:text="${enchere.id_utilisateur}">coach_toto</span>
@@ -100,36 +129,5 @@
     </section>
 
 </main>
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const radios = document.querySelectorAll('input[name="mode"]');
-        const selectAchats = document.querySelector('select[name="filtreAchats"]');
-        const selectVentes = document.querySelector('select[name="filtreVentes"]');
-
-        function toggleFilters() {
-            const selectedMode = document.querySelector('input[name="mode"]:checked')?.value;
-
-            if (selectedMode === "achats") {
-                selectAchats.disabled = false;
-                selectVentes.disabled = true;
-            } else if (selectedMode === "ventes") {
-                selectAchats.disabled = true;
-                selectVentes.disabled = false;
-            }
-        }
-
-        // Initialisation au chargement
-        toggleFilters();
-
-        // Mise à jour à chaque changement de radio
-        radios.forEach(radio => {
-            radio.addEventListener("change", toggleFilters);
-        });
-    });
-</script>
-
-
-
 </body>
 </html>
-

@@ -43,6 +43,7 @@ public class EncheresController {
 
         System.out.println(utilisateurService.findById("coach_admin"));
         return "index";
+
     }
 
     @GetMapping("/admin")
@@ -195,6 +196,12 @@ public class EncheresController {
         }
 
         model.addAttribute("encheres", resultats);
+        model.addAttribute("search", search);
+        model.addAttribute("categorie", categorie);
+        model.addAttribute("mode", mode);
+        model.addAttribute("filtreAchats", filtreAchats);
+        model.addAttribute("filtreVentes", filtreVentes);
+
         return "indexConnecter";
     }
 
