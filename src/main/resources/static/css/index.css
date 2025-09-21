@@ -104,3 +104,7 @@
     align-items: center;
     gap: 0.5rem;
 }
+select:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
