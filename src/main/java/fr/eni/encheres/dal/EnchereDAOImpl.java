@@ -1,7 +1,9 @@
 package fr.eni.encheres.dal;
 
 import fr.eni.encheres.bo.Adresse;
+import fr.eni.encheres.bo.ArticleAVendre;
 import fr.eni.encheres.bo.Enchere;
+import fr.eni.encheres.bo.Utilisateur;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -42,8 +44,27 @@ public class EnchereDAOImpl implements EnchereDAO {
         namedParameters.addValue("montant_enchere", enchere.getMontant_enchere());
         namedParameters.addValue("date_enchere", enchere.getDate_enchere());
 
-        namedParameterJdbcTemplate.update("INSERT INTO ENCHERES (id_utilisateur,no_article,montant_enchere, date_enchere)", namedParameters);
+        namedParameterJdbcTemplate.update(
+                "INSERT INTO ENCHERES (id_utilisateur, no_article, montant_enchere, date_enchere) " +
+                        "VALUES (:id_utilisateur, :no_article, :montant_enchere, :date_enchere)",
+                namedParameters
+        );
     }
+
+
+
+    @Override
+    public List<Enchere> findByNoArticle(int no_article) {
+        MapSqlParameterSource namedParameters = new MapSqlParameterSource();
+        namedParameters.addValue("no_article", no_article);
+
+        return namedParameterJdbcTemplate.query(
+                "SELECT * FROM ENCHERES WHERE no_article = :no_article",
+                namedParameters,
+                new BeanPropertyRowMapper<>(Enchere.class)
+        );
+    }
+
 
     @Override
     public void update(Enchere enchere) {
@@ -67,4 +88,101 @@ public class EnchereDAOImpl implements EnchereDAO {
         namedParameterJdbcTemplate.update(
                 "DELETE FROM ENCHERES WHERE id_utilisateur = :id_utilisateur AND no_article=:no_article AND montant_enchere=:montant_enchere", namedParameters);
     }
+
+
+
+    @Override
+    public List<ArticleAVendre> findEncheresOuvertesSansParticipation(String pseudo, String search, Integer categorie) {
+        StringBuilder sql = new StringBuilder("""
+        SELECT *
+        FROM ARTICLES_A_VENDRE a
+        WHERE a.statut_enchere = 1
+          AND a.id_utilisateur != :pseudo
+          AND a.no_article NOT IN (
+              SELECT e.no_article
+              FROM ENCHERES e
+              WHERE e.id_utilisateur = :pseudo
+          )
+    """);
+
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("pseudo", pseudo);
+
+        if (categorie != null) {
+            sql.append(" AND a.no_categorie = :categorie");
+            params.addValue("categorie", categorie);
+        }
+
+        if (search != null && !search.trim().isEmpty()) {
+            sql.append(" AND a.nom_article LIKE :search");
+            params.addValue("search", "%" + search.trim() + "%");
+        }
+
+        return namedParameterJdbcTemplate.query(
+                sql.toString(),
+                params,
+                new BeanPropertyRowMapper<>(ArticleAVendre.class)
+        );
+    }
+
+    @Override
+    public List<ArticleAVendre> findEncheresEnCoursByUtilisateur(String pseudo, String search, Integer categorie) {
+        StringBuilder sql = new StringBuilder("""
+        SELECT DISTINCT a.*
+        FROM ARTICLES_A_VENDRE a
+        JOIN ENCHERES e ON a.no_article = e.no_article
+        WHERE a.statut_enchere = 1
+          AND e.id_utilisateur = :pseudo
+    """);
+
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("pseudo", pseudo);
+
+        if (categorie != null) {
+            sql.append(" AND a.no_categorie = :categorie");
+            params.addValue("categorie", categorie);
+        }
+
+        if (search != null && !search.trim().isEmpty()) {
+            sql.append(" AND a.nom_article LIKE :search");
+            params.addValue("search", "%" + search.trim() + "%");
+        }
+
+        return namedParameterJdbcTemplate.query(
+                sql.toString(),
+                params,
+                new BeanPropertyRowMapper<>(ArticleAVendre.class)
+        );
+    }
+
+    @Override
+    public List<ArticleAVendre> findEncheresTermineesByUtilisateur(String pseudo, String search, Integer categorie) {
+        StringBuilder sql = new StringBuilder("""
+        SELECT DISTINCT a.*
+        FROM ARTICLES_A_VENDRE a
+        JOIN ENCHERES e ON a.no_article = e.no_article
+        WHERE a.statut_enchere IN (2, 3)
+          AND e.id_utilisateur = :pseudo
+    """);
+
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("pseudo", pseudo);
+
+        if (categorie != null) {
+            sql.append(" AND a.no_categorie = :categorie");
+            params.addValue("categorie", categorie);
+        }
+
+        if (search != null && !search.trim().isEmpty()) {
+            sql.append(" AND a.nom_article LIKE :search");
+            params.addValue("search", "%" + search.trim() + "%");
+        }
+
+        return namedParameterJdbcTemplate.query(
+                sql.toString(),
+                params,
+                new BeanPropertyRowMapper<>(ArticleAVendre.class)
+        );
+    }
+
 }

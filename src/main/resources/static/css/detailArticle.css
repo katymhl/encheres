@@ -82,3 +82,91 @@ body {
 .btn-return:hover {
     background: #f0f0f0;
 }
+.alert-danger {
+    color: #b30000;
+    background-color: #ffe6e6;
+    border: 1px solid #b30000;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+.alert-success {
+    color: #006600;
+    background-color: #e6ffe6;
+    border: 1px solid #006600;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+.detail-actions {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-top: 2px solid #ddd;
+    border-radius: 8px;
+}
+
+/* Bouton modifier */
+.btn-modifier {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #0077cc;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.btn-modifier:hover {
+    background-color: #005fa3;
+}
+
+/* Formulaire d'enchère */
+.form-enchere {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.form-enchere label {
+    font-weight: bold;
+    color: #333;
+}
+
+.form-enchere input[type="number"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 150px;
+}
+
+/* Bouton d'enchère */
+.btn-return {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-return:hover {
+    background-color: #218838;
+}
+
+/* Message enchère terminée */
+.info-terminee {
+    color: #b30000;
+    background-color: #ffe6e6;
+    border: 1px solid #b30000;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    margin-top: 15px;
+}
