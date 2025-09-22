@@ -18,6 +18,7 @@ import java.security.Principal;
 import java.util.List;
 
 @Controller
+@SessionAttributes({ "categoriesEnSession" })
 public class EncheresController {
 
     private final UtilisateurService utilisateurService;
@@ -155,14 +156,32 @@ public class EncheresController {
 
     @GetMapping("/vendre")
     public String afficherCreerUneEnchere(Model model, Principal principal) {
+
+        // 1️⃣ Crée un objet vide pour le formulaire
         model.addAttribute("articleAVendre", new ArticleAVendre());
-        if(principal != null) {
+
+        // 2️⃣ Charge toutes les catégories pour le menu déroulant
+        model.addAttribute("categories", categorieService.getAllCategories());
+
+        // 3️⃣ Charge toutes les adresses depuis la base
+        List<Adresse> adresses = adresseService.findByall(); // Assure-toi que findAll() renvoie List<Adresse>
+        model.addAttribute("adresses", adresses);
+
+        // 4️⃣ Si un utilisateur est connecté, récupère ses informations
+        if (principal != null) {
             String pseudo = principal.getName();
             Utilisateur utilisateur = utilisateurService.findById(pseudo);
             model.addAttribute("utilisateur", utilisateur);
+
+            // Récupère l'objet Adresse complet à partir de l'ID
+            Integer noAdresse = utilisateur.getNo_adresse(); // l'ID de l'adresse
+            Adresse adresseParDefaut = adresseService.findById(noAdresse);
+            model.addAttribute("adresse", adresseParDefaut);
         }
-        return "sale-form";
+
+        return "sale-form"; // nom de ton template Thymeleaf
     }
+
 
     @PostMapping("/vendre")
     public String creerUneEnchere(@ModelAttribute("articleAVendre") ArticleAVendre articleAVendre,
@@ -180,10 +199,22 @@ public class EncheresController {
         model.addAttribute("utilisateur", utilisateur);
         articleAVendre.setId_utilisateur(utilisateur.getPseudo()); // ou id selon ton modèle
 
+
+
         // Sauvegarde de l'article
         articleAVendreService.save(articleAVendre);
 
         // Redirection vers la page de liste des articles
         return "redirect:/";
     }
+
+//    private void injectUserAddresses(String pseudo, Model model) {
+//        Utilisateur user = utilisateurService.findById(pseudo);
+//        List<Adresse> adresses = adresseService.findByall();
+//        if (adresses != null && !adresses.isEmpty()) {
+//            model.addAttribute("adressesDisponibles", adresses);
+//        }
+//    }
+
+
 }

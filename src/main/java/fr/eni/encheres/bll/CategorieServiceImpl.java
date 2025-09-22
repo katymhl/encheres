@@ -5,6 +5,8 @@ import fr.eni.encheres.dal.CategorieDAO;
 import fr.eni.encheres.dal.CategorieDAOImpl;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CategorieServiceImpl implements CategorieService {
 
@@ -16,7 +18,17 @@ public class CategorieServiceImpl implements CategorieService {
 
 
     @Override
-    public Categorie read(int no_categorie) {
+    public Categorie read(Long no_categorie) {
         return categorieDAO.read(no_categorie);
+    }
+
+    @Override
+    public List<Categorie> getAllCategories() {
+        return categorieDAO.findAll();
+    }
+
+    @Override
+    public Categorie consulterCategorieParId(Long id) {
+        return categorieDAO.read(id);
     }
 }

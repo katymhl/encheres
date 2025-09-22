@@ -8,7 +8,7 @@ import java.util.Objects;
 
 public class Adresse implements Serializable {
 
-private int   no_adresse;
+private Integer no_adresse;
     @NotBlank(message = "La rue est obligatoire")
     private String rue;
 
@@ -25,7 +25,7 @@ private Byte adresse_eni;
     public Adresse() {
         this.adresse_eni =0;
     }
-    public Adresse(int no_adresse,String rue ,String code_postal,String ville,byte adresse_eni) {
+    public Adresse(Integer no_adresse,String rue ,String code_postal,String ville,byte adresse_eni) {
         this.no_adresse = no_adresse;
         this.rue =rue ;
         this.code_postal = code_postal;
@@ -54,11 +54,11 @@ private Byte adresse_eni;
     }
 
 
-    public int getNo_adresse() {
+    public Integer getNo_adresse() {
         return no_adresse;
     }
 
-    public void setNo_adresse(int no_adresse) {
+    public void setNo_adresse(Integer no_adresse) {
         this.no_adresse = no_adresse;
     }
 
