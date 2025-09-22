@@ -1,5 +1,8 @@
 package fr.eni.encheres.bo;
 
+import fr.eni.encheres.bo.enumeration.StatutEnchere;
+import org.springframework.security.core.Transient;
+
 import java.awt.*;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -137,6 +140,10 @@ public ArticleAVendre(int no_article,String nom_article,String description,Integ
 
     public void setNo_adresse_retrait(Integer no_adresse_retrait) {
         this.no_adresse_retrait = no_adresse_retrait;
+    }
+
+    public StatutEnchere getStatutEnum() {
+        return StatutEnchere.fromInt(this.statut_enchere);
     }
 
     @Override
