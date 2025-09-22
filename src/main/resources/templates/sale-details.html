@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       data-th-replace="~{layouts/layout :: layout-encheres(
-					titrePage=~{:: title},
-					contenuPage=~{:: main},
-					ressourcesSupp=~{:: link})}">
+                    titrePage=~{:: title},
+                    contenuPage=~{:: main},
+                    ressourcesSupp=~{:: link})}">
 
 <head>
     <title>Détail d'une vente</title>
@@ -24,13 +24,13 @@
         <div class="detail-grid">
             <div class="detail-left">
                 <p><strong>Article :</strong> <span th:text="${enchere.nom_article}">Disque Dur</span></p>
-                <p><strong>Catégorie :</strong> <span th:text="${categorie.getLibelle()}">Informatique</span></p>
+                <p><strong>Catégorie :</strong> <span th:text="${categorie.libelle}">Informatique</span></p>
                 <p><strong>Description :</strong> <span th:text="${enchere.description}">...</span></p>
-                <p><strong>Retrait :</strong>  <span th:text="${adresse.rue}"></span>,
-                    <span th:text="${adresse.getVille()}"></span>
-                    <span th:text="${adresse.getCode_postal()}"></span></p>
-
-
+                <p><strong>Retrait :</strong>
+                    <span th:text="${adresse.rue}"></span>,
+                    <span th:text="${adresse.ville}"></span>
+                    <span th:text="${adresse.code_postal}"></span>
+                </p>
                 <p><strong>Vendeur :</strong> <span th:text="${enchere.id_utilisateur}">coach_toto</span></p>
             </div>
 
@@ -38,14 +38,45 @@
                 <p><strong>Mise à prix :</strong> <span th:text="${enchere.prix_initial}">1</span> point(s)</p>
                 <p><strong>Meilleure offre :</strong> <span th:text="${enchere.prix_vente}">1</span> point(s)</p>
                 <p><strong>Fin de l'enchère :</strong>
+
                 <span th:text="${#temporals.format(enchere.date_fin_encheres, 'dd/MM/yyyy')}">01/06/202X</span></p>
             </div>
         </div>
+        <!-- Affichage des messages flash -->
+
+        <div th:if="${success}" class="alert-success" th:text="${success}"></div>
+        <div th:if="${erreur}" class="alert-danger" th:text="${erreur}"></div>
+    </section>
+
+    <!-- Section action -->
+    <section class="detail-actions">
+
+        <!-- Si vendeur et enchère pas commencée -->
+        <div th:if="${enchereModifiable}">
+            <a th:href="@{'/article/modifier/' + ${enchere.no_article}}" class="btn-modifier">Modifier la vente</a>
+        </div>
+
+
+        <!-- Si acquéreur et enchère active -->
+        <div th:if="!${estVendeur} and !${enchereTerminee}">
+            <form th:action="@{'/encherir/' + ${enchere.no_article}}" method="post" class="form-enchere">
+                <label for="montant" id="montant">Votre offre (points) :</label>
+                <input type="number" name="montant" min="${enchere.prix_vente + 1}" required>
+                <button type="submit" class="btn-return">Faire une offre</button>
+            </form>
+        </div>
+
+        <!-- Si enchère terminée -->
+        <div th:if="${enchereTerminee}">
+            <p class="info-terminee">Cette enchère est terminée.</p>
+        </div>
+
     </section>
 
     <!-- Bouton retour -->
     <div class="detail-footer">
-        <a th:href="@{/accueil/connecter}" class="btn-return">Retour</a>
+<!--        <a th:href="@{/accueil/connecter}" class="btn-return">Retour</a>-->
+        <a href="javascript:history.back()" class="btn-return">Retour</a>
     </div>
     <div class="detail-footer">
         <a th:href="@{'/vendre/update?no_article=' + ${enchere.no_article}}" class="btn-return">
@@ -54,5 +85,8 @@
     </div>
 
 </main>
+
+
+
 </body>
 </html>

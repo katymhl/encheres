@@ -1,6 +1,7 @@
 package fr.eni.encheres.bll;
 
 import fr.eni.encheres.bo.ArticleAVendre;
+import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.dal.EnchereDAO;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,16 @@ public class EnchereServiceImpl implements EnchereService {
         this.enchereDAO = enchereDAO;
     }
 
+
+    @Override
+    public void create(Enchere enchere) {
+        enchereDAO.create(enchere);
+    }
+
+    @Override
+    public List<Enchere> findListByNoArticle(int no_article) {
+        return enchereDAO.findByNoArticle(no_article);
+    }
 
     @Override
     public List<ArticleAVendre> getEncheresOuvertesSansParticipation(String pseudo, String search, Integer categorie) {

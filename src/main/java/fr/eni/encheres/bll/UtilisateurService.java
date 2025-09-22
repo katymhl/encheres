@@ -11,4 +11,6 @@ public interface UtilisateurService {
     void  update(Utilisateur utilisateur);
     void  updatePWD(String mot_de_passe, String pseudo);
     Utilisateur findByUserEmail(String email);
+    void update(Utilisateur utilisateur);
+
 }

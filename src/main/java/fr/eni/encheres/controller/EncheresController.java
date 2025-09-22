@@ -1,19 +1,21 @@
 package fr.eni.encheres.controller;
 
 import fr.eni.encheres.bll.*;
-import fr.eni.encheres.bo.Adresse;
-import fr.eni.encheres.bo.ArticleAVendre;
-import fr.eni.encheres.bo.Categorie;
-import fr.eni.encheres.bo.Utilisateur;
+import fr.eni.encheres.bo.*;
 import jakarta.servlet.http.HttpSession;
 import fr.eni.encheres.bo.enumeration.StatutEnchere;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.*;
 import java.util.ArrayList;
 import java.security.Principal;
 import java.time.LocalDate;
@@ -41,15 +43,21 @@ public class EncheresController {
     }
 
     @GetMapping("/")
-    public String getDetail(Model model) {
+    public String getDetail(Model model, Principal principal) {
         List<ArticleAVendre> listActiveEnchere = articleAVendreService.findActiveEnchere();
-        System.out.println("listActiveEnchere: " + listActiveEnchere.size());
         model.addAttribute("encheres", listActiveEnchere);
 
-        System.out.println(utilisateurService.findById("coach_admin"));
-        return "index";
+        // Vérifie si un utilisateur est connecté
+        if (principal != null) {
+            String pseudo = principal.getName();
+            Utilisateur utilisateur = utilisateurService.findById(pseudo);
+            model.addAttribute("utilisateur", utilisateur); // si tu veux afficher son nom ou ses crédits
+            return "indexconnecter";
+        }
 
+        return "index";
     }
+
 
     @GetMapping("/admin")
     public String getAdmin() {
@@ -124,17 +132,39 @@ public class EncheresController {
     }
 
     @GetMapping("/details/{id}")
-    public String afficherDetailsArticle(@PathVariable("id") int id, Model model) {
+    public String afficherDetailsArticle(@PathVariable("id") int id, Model model, Principal principal) {
         ArticleAVendre article = articleAVendreService.findById(id);
         Categorie categorie = categorieService.read(article.getNo_categorie());
         Adresse adresse = adresseService.findById(article.getNo_adresse_retrait());
+        String pseudo = principal.getName();
+
+        boolean estVendeur = article.getId_utilisateur().equals(pseudo);
+        boolean enchereCommencee = (article.getPrix_vente() != null) && (article.getPrix_vente() > article.getPrix_initial());
+      //  boolean enchereCommencee = article.getPrix_vente() > article.getPrix_initial();
+//        boolean enchereTerminee = article.getDate_fin_encheres().isBefore(LocalDateTime.now());
+
+        Date dateFin = article.getDate_fin_encheres();
+        LocalDateTime dateFinLocal = dateFin.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
+
+        boolean enchereTerminee = dateFinLocal.isBefore(LocalDateTime.now());
+        boolean enchereModifiable = estVendeur
+                && !enchereCommencee
+                && article.getStatut_enchere() == 0;
+
+        model.addAttribute("enchereModifiable", enchereModifiable);
 
         model.addAttribute("enchere", article);
         model.addAttribute("categorie", categorie);
         model.addAttribute("adresse", adresse);
+        model.addAttribute("estVendeur", estVendeur);
+        model.addAttribute("enchereCommencee", enchereCommencee);
+        model.addAttribute("enchereTerminee", enchereTerminee);
 
         return "sale-details";
     }
+
 
 
 
@@ -306,12 +336,90 @@ public class EncheresController {
         List<Adresse> adresses = adresseService.findByall(); // Assure-toi que findAll() renvoie List<Adresse>
         model.addAttribute("adresses", adresses);
 
+@Transactional
+    @PostMapping("/encherir/{id}")
+    public String faireUneOffre(@PathVariable("id") int id,
+                                @RequestParam("montant") int montant,
+                                Principal principal,
+                                RedirectAttributes redirectAttributes) {
+
+        ArticleAVendre article = articleAVendreService.findById(id);
+        String pseudo = principal.getName();
+
+        // Vérification : pas le vendeur
+        if (article.getId_utilisateur().equals(pseudo)) {
+            redirectAttributes.addFlashAttribute("erreur", "Vous ne pouvez pas enchérir sur votre propre article.");
+            return "redirect:/details/" + id;
+        }
+
+        // Vérification : enchère terminée (par date ou statut)
+        LocalDateTime dateFin = article.getDate_fin_encheres().toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
+        if (dateFin.isBefore(LocalDateTime.now()) || article.getStatut_enchere() == 100) {
+            redirectAttributes.addFlashAttribute("erreur", "L'enchère est terminée.");
+            return "redirect:/details/" + id;
+        }
+
+        // Vérification : montant supérieur à l'offre actuelle
+        Integer prixActuel = article.getPrix_vente() != null ? article.getPrix_vente() : article.getPrix_initial();
+        if (montant <= prixActuel) {
+            redirectAttributes.addFlashAttribute("erreur", "Votre offre doit être supérieure à la meilleure offre actuelle.");
+            return "redirect:/details/" + id;
+        }
+
+        Utilisateur enchérisseur = utilisateurService.findById(pseudo);
+
+        // Vérification : points suffisants
+        if (enchérisseur.getCredit() < montant) {
+            redirectAttributes.addFlashAttribute("erreur", "Vous n'avez pas assez de points pour cette offre.");
+            return "redirect:/details/" + id;
+        }
+
+        // Re-créditer l'ancien meilleur enchérisseur (si existant)
+
+        List<Enchere> listeEnchereNoArticle = enchereService.findListByNoArticle(article.getNo_article());
+    Optional<Enchere> meilleureEnchere = listeEnchereNoArticle.stream()
+            .filter(e -> e.getNo_article() == article.getNo_article())
+            .max(Comparator.comparingInt(Enchere::getMontant_enchere));
+
+
+
+    if (meilleureEnchere.isPresent()) {
+        String meilleurPseudo = meilleureEnchere.get().getId_utilisateur();
+        Utilisateur ancienUtilisateur = utilisateurService.findById(meilleurPseudo);
+        ancienUtilisateur.setCredit(ancienUtilisateur.getCredit() + meilleureEnchere.get().getMontant_enchere());
+        utilisateurService.update(ancienUtilisateur);
+    }
+
+
+
+        // Débiter le nouvel enchérisseur
+    int nouveaucredit=enchérisseur.getCredit() - montant;
+        enchérisseur.setCredit(nouveaucredit);
+        utilisateurService.update(enchérisseur);
+
+        // Mettre à jour l’article
+        article.setPrix_vente(montant);
+//        article.setMeilleurEncherisseur(pseudo);
+        articleAVendreService.update(article);
         // 4️⃣ Si un utilisateur est connecté, récupère ses informations
         if (principal != null) {
             String pseudo = principal.getName();
             Utilisateur utilisateur = utilisateurService.findById(pseudo);
             model.addAttribute("utilisateur", utilisateur);
 
+        // Enregistrer la nouvelle enchère
+        Enchere nouvelleEnchere = new Enchere();
+        nouvelleEnchere.setId_utilisateur(pseudo);
+        nouvelleEnchere.setNo_article(article.getNo_article());
+        nouvelleEnchere.setMontant_enchere(montant);
+        nouvelleEnchere.setDate_enchere(  Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
+        enchereService.create(nouvelleEnchere);
+
+        redirectAttributes.addFlashAttribute("success", "Votre offre a été enregistrée !");
+        return "redirect:/details/" + id;
+    }
             // Récupère l'objet Adresse complet à partir de l'ID
             Integer noAdresse = utilisateur.getNo_adresse(); // l'ID de l'adresse
             Adresse adresseParDefaut = adresseService.findById(noAdresse);

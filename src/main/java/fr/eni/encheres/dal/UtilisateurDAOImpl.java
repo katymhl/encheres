@@ -124,9 +124,11 @@ public  class UtilisateurDAOImpl implements UtilisateurDAO {
         namedParameters.addValue("nom", utilisateur.getNom());
         namedParameters.addValue("prenom", utilisateur.getPrenom());
         namedParameters.addValue("email", utilisateur.getEmail());
+        namedParameters.addValue("credit", utilisateur.getCredit());
+        namedParameters.addValue("mot_de_passe", utilisateur.getMot_de_passe());
         namedParameters.addValue("no_adresse", utilisateur.getNo_adresse());
 
-        namedParameterJdbcTemplate.update("UPDATE UTILISATEURS SET nom = :nom, prenom = :prenom, email= :email, no_adresse= :no_adresse WHERE pseudo = :pseudo", namedParameters);
+        namedParameterJdbcTemplate.update("UPDATE UTILISATEURS SET nom = :nom, prenom = :prenom, email= :email, mot_de_passe= :mot_de_passe,credit= :credit,no_adresse= :no_adresse WHERE pseudo = :pseudo", namedParameters);
     }
 
     @Override
@@ -137,6 +139,7 @@ public  class UtilisateurDAOImpl implements UtilisateurDAO {
         params.addValue("pseudo", pseudo);
 
         namedParameterJdbcTemplate.update(sql, params);
+
     }
 
 
