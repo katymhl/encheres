@@ -88,7 +88,7 @@
 
                 <p>Prix : <span th:text="${enchere.prix_initial}">1</span> point(s)</p>
                 <p>Fin de l'enchère :
-                    <span th:text="${#dates.format(enchere.date_fin_encheres, 'dd/MM/yyyy')}">01/06/202X</span>
+                    <span th:text="${#temporals.format(enchere.date_fin_encheres, 'dd/MM/yyyy')}">01/06/202X</span>
                 </p>
 
                 <!-- Pseudo = lien vers profil -->

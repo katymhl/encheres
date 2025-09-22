@@ -15,6 +15,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -199,7 +201,8 @@ public class EncheresController {
         model.addAttribute("utilisateur", utilisateur);
         articleAVendre.setId_utilisateur(utilisateur.getPseudo()); // ou id selon ton modèle
 
-
+        articleAVendre.setDate_debut_encheres(LocalDate.now());
+        articleAVendre.setDate_fin_encheres(LocalDate.now().plusDays(7));
 
         // Sauvegarde de l'article
         articleAVendreService.save(articleAVendre);

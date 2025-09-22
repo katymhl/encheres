@@ -3,6 +3,7 @@ package fr.eni.encheres.bo;
 import java.awt.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Objects;
 
@@ -13,8 +14,8 @@ private int no_article;
 private String nom_article;
 private String description;
 private Integer photo;
-private Date date_debut_encheres;
-private Date date_fin_encheres;
+private LocalDate date_debut_encheres;
+private LocalDate  date_fin_encheres;
 private int statut_enchere;
 private int prix_initial;
 private Integer prix_vente;
@@ -25,7 +26,7 @@ private Integer no_adresse_retrait;
 public ArticleAVendre() {
 
 }
-public ArticleAVendre(int no_article,String nom_article,String description,Integer photo,Date date_debut_encheres, Date date_fin_encheres,int statut_enchere,
+public ArticleAVendre(int no_article,String nom_article,String description,Integer photo,LocalDate date_debut_encheres, LocalDate date_fin_encheres,int statut_enchere,
                       int prix_initial, Integer prix_vente,String id_utilisateur,Long no_categorie,Integer no_adresse_retrait) {
     this.no_article=no_article;
     this.nom_article=nom_article;
@@ -74,19 +75,19 @@ public ArticleAVendre(int no_article,String nom_article,String description,Integ
         this.photo = photo;
     }
 
-    public Date getDate_debut_encheres() {
+    public LocalDate getDate_debut_encheres() {
         return date_debut_encheres;
     }
 
-    public void setDate_debut_encheres(Date date_debut_encheres) {
+    public void setDate_debut_encheres(LocalDate date_debut_encheres) {
         this.date_debut_encheres = date_debut_encheres;
     }
 
-    public Date getDate_fin_encheres() {
+    public LocalDate getDate_fin_encheres() {
         return date_fin_encheres;
     }
 
-    public void setDate_fin_encheres(Date date_fin_encheres) {
+    public void setDate_fin_encheres(LocalDate  date_fin_encheres) {
         this.date_fin_encheres = date_fin_encheres;
     }
 
