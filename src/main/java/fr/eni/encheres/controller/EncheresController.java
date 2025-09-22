@@ -197,9 +197,6 @@ public class EncheresController {
         model.addAttribute("utilisateur", utilisateur);
         articleAVendre.setId_utilisateur(utilisateur.getPseudo()); // ou id selon ton modèle
 
-        articleAVendre.setDate_debut_encheres(LocalDate.now());
-        articleAVendre.setDate_fin_encheres(LocalDate.now().plusDays(7));
-
         articleAVendre.setStatut_enchere(calculerStatut(articleAVendre.getDate_debut_encheres(),
                 articleAVendre.getDate_fin_encheres()));
 
