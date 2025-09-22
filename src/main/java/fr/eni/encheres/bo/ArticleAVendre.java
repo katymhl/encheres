@@ -19,14 +19,14 @@ private int statut_enchere;
 private int prix_initial;
 private Integer prix_vente;
 private String id_utilisateur;
-private int  no_categorie;
-private int no_adresse_retrait;
+private Long  no_categorie;
+private Integer no_adresse_retrait;
 
 public ArticleAVendre() {
 
 }
 public ArticleAVendre(int no_article,String nom_article,String description,Integer photo,Date date_debut_encheres, Date date_fin_encheres,int statut_enchere,
-                      int prix_initial, Integer prix_vente,String id_utilisateur,int no_categorie,int no_adresse_retrait) {
+                      int prix_initial, Integer prix_vente,String id_utilisateur,Long no_categorie,Integer no_adresse_retrait) {
     this.no_article=no_article;
     this.nom_article=nom_article;
     this.description=description;
@@ -122,19 +122,19 @@ public ArticleAVendre(int no_article,String nom_article,String description,Integ
         this.id_utilisateur = id_utilisateur;
     }
 
-    public int getNo_categorie() {
+    public Long getNo_categorie() {
         return no_categorie;
     }
 
-    public void setNo_categorie(int no_categorie) {
+    public void setNo_categorie(Long no_categorie) {
         this.no_categorie = no_categorie;
     }
 
-    public int getNo_adresse_retrait() {
+    public Integer getNo_adresse_retrait() {
         return no_adresse_retrait;
     }
 
-    public void setNo_adresse_retrait(int no_adresse_retrait) {
+    public void setNo_adresse_retrait(Integer no_adresse_retrait) {
         this.no_adresse_retrait = no_adresse_retrait;
     }
 

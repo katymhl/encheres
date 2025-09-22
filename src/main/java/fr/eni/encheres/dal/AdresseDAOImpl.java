@@ -32,7 +32,15 @@ public class AdresseDAOImpl implements AdresseDAO {
 
     @Override
     public List<Adresse> findAll() {
-        return namedParameterJdbcTemplate.query("SELECT *  FROM ADRESSES", new BeanPropertyRowMapper<>(Adresse.class));
+        String sql = "SELECT * FROM ADRESSES";
+        return namedParameterJdbcTemplate.query(sql, (rs, rowNum) -> {
+            Adresse adresse = new Adresse();
+            adresse.setNo_adresse(rs.getInt("no_adresse"));
+            adresse.setRue(rs.getString("rue"));
+            adresse.setCode_postal(rs.getString("code_postal"));
+            adresse.setVille(rs.getString("ville"));
+            return adresse;
+        });
     }
 
     @Override

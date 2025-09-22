@@ -19,7 +19,7 @@ public class CategorieDAOImpl implements CategorieDAO {
 
 
     @Override
-    public Categorie read(int no_categorie) {
+    public Categorie read(Long no_categorie) {
 
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
         namedParameters.addValue("no_categorie", no_categorie);
