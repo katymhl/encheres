@@ -53,7 +53,7 @@ public class ArticleAVendreDAOImpl implements ArticleAVendreDAO {
     @Override
     public void update(ArticleAVendre articleAVendre) {
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
-        //namedParameters.addValue("no_article", articleAVendre.getNo_article());
+        namedParameters.addValue("no_article", articleAVendre.getNo_article());
         namedParameters.addValue("nom_article", articleAVendre.getNom_article());
         namedParameters.addValue("description", articleAVendre.getDescription());
         namedParameters.addValue("photo", articleAVendre.getPhoto());

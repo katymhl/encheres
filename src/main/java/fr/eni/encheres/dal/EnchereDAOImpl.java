@@ -3,6 +3,7 @@ package fr.eni.encheres.dal;
 import fr.eni.encheres.bo.Adresse;
 import fr.eni.encheres.bo.ArticleAVendre;
 import fr.eni.encheres.bo.Enchere;
+import fr.eni.encheres.bo.Utilisateur;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -43,8 +44,27 @@ public class EnchereDAOImpl implements EnchereDAO {
         namedParameters.addValue("montant_enchere", enchere.getMontant_enchere());
         namedParameters.addValue("date_enchere", enchere.getDate_enchere());
 
-        namedParameterJdbcTemplate.update("INSERT INTO ENCHERES (id_utilisateur,no_article,montant_enchere, date_enchere)", namedParameters);
+        namedParameterJdbcTemplate.update(
+                "INSERT INTO ENCHERES (id_utilisateur, no_article, montant_enchere, date_enchere) " +
+                        "VALUES (:id_utilisateur, :no_article, :montant_enchere, :date_enchere)",
+                namedParameters
+        );
     }
+
+
+
+    @Override
+    public List<Enchere> findByNoArticle(int no_article) {
+        MapSqlParameterSource namedParameters = new MapSqlParameterSource();
+        namedParameters.addValue("no_article", no_article);
+
+        return namedParameterJdbcTemplate.query(
+                "SELECT * FROM ENCHERES WHERE no_article = :no_article",
+                namedParameters,
+                new BeanPropertyRowMapper<>(Enchere.class)
+        );
+    }
+
 
     @Override
     public void update(Enchere enchere) {

@@ -8,4 +8,6 @@ public interface UtilisateurService {
     Utilisateur findById(String pseudo);
    void  creat(Utilisateur utilisateur);
     Utilisateur findByUserEmail(String email);
+    void update(Utilisateur utilisateur);
+
 }

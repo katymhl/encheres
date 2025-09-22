@@ -16,6 +16,11 @@ public class ArticleAVendreServiceImpl implements ArticleAVendreService {
     }
 
     @Override
+    public void update(ArticleAVendre articleAVendre) {
+        articleAVendreDAO.update(articleAVendre);
+    }
+
+    @Override
     public List<ArticleAVendre> findAll() {
         return articleAVendreDAO.findAll();
     }
