@@ -8,6 +8,7 @@ import fr.eni.encheres.bo.Adresse;
 import fr.eni.encheres.bo.ArticleAVendre;
 import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.bo.Utilisateur;
+import fr.eni.encheres.bo.enumeration.StatutEnchere;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -187,13 +188,8 @@ public class EncheresController {
 
     @PostMapping("/vendre")
     public String creerUneEnchere(@ModelAttribute("articleAVendre") ArticleAVendre articleAVendre,
-                                  BindingResult result,
                                   Principal principal,
                                   Model model) {
-//
-//        if (result.hasErrors()) {
-//            return "sale-form";
-//        }
 
         // Récupération de l'utilisateur connecté
         String pseudo = principal.getName();
@@ -215,26 +211,97 @@ public class EncheresController {
         return "redirect:/";
     }
 
+    private int calculerStatut(LocalDate debut, LocalDate fin) {
+        LocalDate now = LocalDate.now();
 
-    private int calculerStatut(LocalDate dateDebut, LocalDate dateFin) {
-        LocalDate today = LocalDate.now();
+        if (debut == null || fin == null) {
+            return 0; // ou un statut "non défini"
+        }
 
-        if (today.isBefore(dateDebut)) {
-            return 0; // NON_COMMENCEE
-        } else if (!today.isAfter(dateFin)) {
-            return 1; // EN_COURS
+        if (now.isBefore(debut)) {
+            return StatutEnchere.NON_COMMENCEE.getValue();
+        } else if (!now.isAfter(fin)) {
+            return StatutEnchere.EN_COURS.getValue();
         } else {
-            return 2; // CLOTUREE
+            return StatutEnchere.CLOTUREE.getValue();
         }
     }
 
-//    private void injectUserAddresses(String pseudo, Model model) {
-//        Utilisateur user = utilisateurService.findById(pseudo);
-//        List<Adresse> adresses = adresseService.findByall();
-//        if (adresses != null && !adresses.isEmpty()) {
-//            model.addAttribute("adressesDisponibles", adresses);
+
+//    private int calculerStatut(LocalDate dateDebut, LocalDate dateFin) {
+//        LocalDate today = LocalDate.now();
+//
+//        if (today.isBefore(dateDebut)) {
+//            return 0; // NON_COMMENCEE
+//        } else if (!today.isAfter(dateFin)) {
+//            return 1; // EN_COURS
+//        } else {
+//            return 2; // CLOTUREE
 //        }
 //    }
+
+    @GetMapping("/vendre/update")
+    public String afficherModifierUneEnchere(@RequestParam("no_article") int no_article,
+                                             Model model,
+                                             Principal principal) {
+
+        ArticleAVendre articleAVendre = articleAVendreService.findById(no_article);
+        model.addAttribute("articleAVendre", articleAVendre);
+
+        // 2️⃣ Charge toutes les catégories pour le menu déroulant
+        model.addAttribute("categories", categorieService.getAllCategories());
+
+        // 3️⃣ Charge toutes les adresses depuis la base
+        List<Adresse> adresses = adresseService.findByall(); // Assure-toi que findAll() renvoie List<Adresse>
+        model.addAttribute("adresses", adresses);
+
+        // 4️⃣ Si un utilisateur est connecté, récupère ses informations
+        if (principal != null) {
+            String pseudo = principal.getName();
+            Utilisateur utilisateur = utilisateurService.findById(pseudo);
+            model.addAttribute("utilisateur", utilisateur);
+
+            // Récupère l'objet Adresse complet à partir de l'ID
+            Integer noAdresse = utilisateur.getNo_adresse(); // l'ID de l'adresse
+            Adresse adresseParDefaut = adresseService.findById(noAdresse);
+            model.addAttribute("adresse", adresseParDefaut);
+        }
+
+        return "update-sale"; // nom de ton template Thymeleaf
+    }
+
+
+    @PostMapping("/vendre/update")
+    public String modifierUneEnchere(@ModelAttribute("articleAVendre") ArticleAVendre articleAVendre,
+                                  Principal principal,
+                                  Model model) {
+
+        // Récupération de l'utilisateur connecté
+        String pseudo = principal.getName();
+        Utilisateur utilisateur = utilisateurService.findById(pseudo);
+        model.addAttribute("utilisateur", utilisateur);
+        articleAVendre.setId_utilisateur(utilisateur.getPseudo()); // ou id selon ton modèle
+
+        ArticleAVendre ancien = articleAVendreService.findById(articleAVendre.getNo_article());
+
+        // Si les dates sont null dans le formulaire → garder les anciennes
+        if (articleAVendre.getDate_debut_encheres() == null) {
+            articleAVendre.setDate_debut_encheres(ancien.getDate_debut_encheres());
+        }
+        if (articleAVendre.getDate_fin_encheres() == null) {
+            articleAVendre.setDate_fin_encheres(ancien.getDate_fin_encheres());
+        }
+
+        articleAVendre.setStatut_enchere(calculerStatut(articleAVendre.getDate_debut_encheres(),
+                articleAVendre.getDate_fin_encheres()));
+
+
+        // Sauvegarde de l'article
+        articleAVendreService.update(articleAVendre);
+
+        return "redirect:/details/" + articleAVendre.getNo_article();
+    }
+
 
 
 }

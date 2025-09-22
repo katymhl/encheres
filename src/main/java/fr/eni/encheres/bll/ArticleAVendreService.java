@@ -11,4 +11,5 @@ public interface ArticleAVendreService {
     List<ArticleAVendre> filtrerArticles(String search, Integer categorie);
     ArticleAVendre findById(int no_article);
     void save(ArticleAVendre article);
+    void update(ArticleAVendre article);
 }

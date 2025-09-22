@@ -53,7 +53,7 @@ public class ArticleAVendreDAOImpl implements ArticleAVendreDAO {
     @Override
     public void update(ArticleAVendre articleAVendre) {
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
-        //namedParameters.addValue("no_article", articleAVendre.getNo_article());
+        namedParameters.addValue("no_article", articleAVendre.getNo_article());
         namedParameters.addValue("nom_article", articleAVendre.getNom_article());
         namedParameters.addValue("description", articleAVendre.getDescription());
         namedParameters.addValue("photo", articleAVendre.getPhoto());
@@ -66,7 +66,7 @@ public class ArticleAVendreDAOImpl implements ArticleAVendreDAO {
         namedParameters.addValue("no_categorie", articleAVendre.getNo_categorie());
         namedParameters.addValue("no_adresse_retrait", articleAVendre.getNo_adresse_retrait());
 
-        namedParameterJdbcTemplate.update("UPDATE ARTICLES_A_VENDRE SET  nom_article = :nom_article, description = :description, " +
+        namedParameterJdbcTemplate.update("UPDATE ARTICLES_A_VENDRE SET nom_article = :nom_article, description = :description, " +
                 "photo = :photo, date_debut_encheres = :date_debut_encheres, date_fin_encheres = :date_fin_encheres, statut_enchere = :statut_enchere, " +
                 "prix_initial = :prix_initial,prix_vente = :prix_vente,id_utilisateur = :id_utilisateur,no_categorie = :no_categorie, no_adresse_retrait = :no_adresse_retrait " +
                 "WHERE no_article = :no_article", namedParameters);
