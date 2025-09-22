@@ -40,4 +40,9 @@ public class ArticleAVendreServiceImpl implements ArticleAVendreService {
     public void save(ArticleAVendre article) {
         articleAVendreDAO.create(article);
     }
+
+    @Override
+    public void update(ArticleAVendre article) {
+        articleAVendreDAO.update(article);
+    }
 }

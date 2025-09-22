@@ -47,6 +47,11 @@
     <div class="detail-footer">
         <a th:href="@{/accueil/connecter}" class="btn-return">Retour</a>
     </div>
+    <div class="detail-footer">
+        <a th:href="@{'/vendre/update?no_article=' + ${enchere.no_article}}" class="btn-return">
+            Modifier la vente
+        </a>
+    </div>
 
 </main>
 </body>

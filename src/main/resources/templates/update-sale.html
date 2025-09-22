@@ -17,60 +17,67 @@
     <section class="center-section">
         <h1 style="text-align: center;" data-th-text="#{sale-form.h1}"></h1>
 
-        <form th:action="@{/vendre}" method="post" novalidate>
+        <form th:action="@{/vendre/update}" th:object="${articleAVendre}" method="post" novalidate>
             <table>
-<!--                <tr th:object="${utilisateur}">-->
-<!--                    <td><input type="text" id="pseudo" name="pseudo" th:field="*{pseudo}" readonly hidden></td>-->
-<!--                </tr>-->
+                <!-- Champ caché pour l'ID de l'article -->
+                <tr >
+                    <td><input type="hidden" th:field="*{no_article}" readonly/></td>
+                </tr>
 
-                <tr th:object="${articleAVendre}">
+                <tr>
                     <td><label for="article">Article (*) :</label></td>
-                    <td><input type="text" id="article" name="article" th:field="*{nom_article}" required></td>
+                    <td><input type="text" id="article" th:field="*{nom_article}" required></td>
                     <td><label for="prix">Mise à prix (*) :</label></td>
-                    <td><input type="number" id="prix" name="prix" th:field="*{prix_initial}" required></td>
+                    <td><input type="number" id="prix" th:field="*{prix_initial}" required></td>
                 </tr>
 
-                <tr th:object="${articleAVendre}">
+                <tr>
                     <td><label for="categorie">Catégorie (*) :</label></td>
-                    <td><select id="categorie" name="categorie" th:field="*{no_categorie}">
-                        <option value="">-- Sélectionnez une catégorie --</option>
-                        <option th:each="cat : ${categories}"
-                                th:value="${cat.no_categorie}"
-                                th:text="${cat.libelle}">
-                        </option>
-                    </select></td> <!--menu déroulant à option-->
-                    <td><label for="debut">Debut de l'enchère  :</label></td>
-                    <td><input type="date" id="debut" name="debut" th:field="*{date_debut_encheres}"></td>
+                    <td>
+                        <select id="categorie" th:field="*{no_categorie}">
+                            <option value="">-- Sélectionnez une catégorie --</option>
+                            <option th:each="cat : ${categories}"
+                                    th:value="${cat.no_categorie}"
+                                    th:text="${cat.libelle}">
+                            </option>
+                        </select>
+                    </td>
+                    <td><label for="debut">Début de l'enchère :</label></td>
+                    <td><input type="date" id="debut" th:field="*{date_debut_encheres}" readonly ></td>
                 </tr>
-                <tr th:object="${articleAVendre}">
-                    <td><label for="description">Description (*) :</label></td>
-                    <td><textarea id="description" name="description" th:field="*{description}" rows="5" cols="40"></textarea></td>
-                    <td><label for="fin">Fin de l'enchère  :</label></td>
-                    <td><input type="date" id="fin" name="fin" th:field="*{date_fin_encheres}"></td><!--choix date dans calendrier + icon calendrier-->
-                </tr>
-                <tr th:object="${articleAVendre}">
-                    <td><label for="adresse">Retrait (*) :</label></td>
-                    <td><select id="adresse" th:field="*{no_adresse_retrait}">
-                        <!-- Adresse par défaut -->
-                        <option th:value="${adresse.no_adresse}"
-                                th:text="${adresse.rue + ' ' + adresse.code_postal + ' ' + adresse.ville}"
-                                selected="selected">
-                        </option>
 
-                        <!-- Autres adresses -->
-                        <option th:each="adr : ${adresses}"
-                                th:if="${adr.no_adresse != adresse.no_adresse}"
-                                th:value="${adr.no_adresse}"
-                                th:text="${adr.rue + ' ' + adr.code_postal + ' ' + adr.ville}">
-                        </option>
-                    </select></td><!--liste d'option, menu déroulant avec les adresses de l'eni + adresse perso-->
+                <tr>
+                    <td><label for="description">Description (*) :</label></td>
+                    <td><textarea id="description" th:field="*{description}" rows="5" cols="40"></textarea></td>
+                    <td><label for="fin">Fin de l'enchère :</label></td>
+                    <td><input type="date" id="fin" th:field="*{date_fin_encheres}" readonly ></td>
+                </tr>
+
+                <tr>
+                    <td><label for="adresse">Retrait (*) :</label></td>
+                    <td>
+                        <select id="adresse" th:field="*{no_adresse_retrait}">
+                            <!-- Adresse par défaut -->
+                            <option th:value="${adresse.no_adresse}"
+                                    th:text="${adresse.rue + ' ' + adresse.code_postal + ' ' + adresse.ville}"
+                                    selected="selected">
+                            </option>
+
+                            <!-- Autres adresses -->
+                            <option th:each="adr : ${adresses}"
+                                    th:if="${adr.no_adresse != adresse.no_adresse}"
+                                    th:value="${adr.no_adresse}"
+                                    th:text="${adr.rue + ' ' + adr.code_postal + ' ' + adr.ville}">
+                            </option>
+                        </select>
+                    </td>
                 </tr>
             </table>
 
 
             <div class="form-actions">
-                <button type="submit">Créer</button>
-                <button type="button" onclick="window.location.href='/'">Annuler</button>
+                <button type="submit">Modifier</button>
+                <button type="button" class="btn-return">Annuler</button>
             </div>
         </form>
 
