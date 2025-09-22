@@ -204,11 +204,28 @@ public class EncheresController {
         articleAVendre.setDate_debut_encheres(LocalDate.now());
         articleAVendre.setDate_fin_encheres(LocalDate.now().plusDays(7));
 
+        articleAVendre.setStatut_enchere(calculerStatut(articleAVendre.getDate_debut_encheres(),
+                articleAVendre.getDate_fin_encheres()));
+
+
         // Sauvegarde de l'article
         articleAVendreService.save(articleAVendre);
 
         // Redirection vers la page de liste des articles
         return "redirect:/";
+    }
+
+
+    private int calculerStatut(LocalDate dateDebut, LocalDate dateFin) {
+        LocalDate today = LocalDate.now();
+
+        if (today.isBefore(dateDebut)) {
+            return 0; // NON_COMMENCEE
+        } else if (!today.isAfter(dateFin)) {
+            return 1; // EN_COURS
+        } else {
+            return 2; // CLOTUREE
+        }
     }
 
 //    private void injectUserAddresses(String pseudo, Model model) {
