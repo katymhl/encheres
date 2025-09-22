@@ -62,9 +62,6 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         return utilisateurDAO.findByemail(email);
     }
 
-    @Override
-    public void update(Utilisateur utilisateur) {
-utilisateurDAO.update(utilisateur);
-    }
+
 
 }

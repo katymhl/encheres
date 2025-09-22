@@ -16,10 +16,7 @@ public class ArticleAVendreServiceImpl implements ArticleAVendreService {
         this.articleAVendreDAO = articleAVendreDAO;
     }
 
-    @Override
-    public void update(ArticleAVendre articleAVendre) {
-        articleAVendreDAO.update(articleAVendre);
-    }
+
 
     @Override
     public List<ArticleAVendre> findAll() {
