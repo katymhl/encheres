@@ -5,17 +5,18 @@
       data-th-replace="~{layouts/layout :: layout-encheres(
 					titrePage=~{:: title},
 					contenuPage=~{:: main},
-					ressourcesSupp=~{})}">
+					ressourcesSupp=~{:: link})}">
 
 <head>
     <!-- Accueil comme titre de page -->
     <title data-th-text="#{sale-form.title}"></title>
+    <link rel="stylesheet" th:href="@{/css/updateArticle.css}">
 </head>
 <body>
 <main class="center-main">
     <!-- Partie gauche du contenu -->
     <section class="center-section">
-        <h1 style="text-align: center;" data-th-text="#{sale-form.h1}"></h1>
+        <h1 style="text-align: center;">Modifier ma vente</h1>
 
         <form th:action="@{/vendre/update}" th:object="${articleAVendre}" method="post" novalidate>
             <table>
@@ -77,10 +78,10 @@
 
             <div class="form-actions">
                 <div class="detail-footer">
-                    <button type="submit">Modifier</button>
+                    <button class="creer" type="submit">Modifier</button>
                 </div>
                 <div class="detail-footer">
-                    <a href="javascript:history.back()" class="btn-return">Annulé</a>
+                    <a class="annuler" href="javascript:history.back()">Annuler</a>
                 </div>
             </div>
         </form>
