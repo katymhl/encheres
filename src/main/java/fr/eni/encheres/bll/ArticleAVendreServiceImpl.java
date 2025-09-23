@@ -77,14 +77,16 @@ public class ArticleAVendreServiceImpl implements ArticleAVendreService {
         return articleAVendreDAO.findMesVentesEnCours(pseudo, search, categorie);
     }
 
-@Override
+    @Override
     public List<ArticleAVendre> getMesVentesNonDebutees(String pseudo, String search, Integer categorie) {
         return articleAVendreDAO.findMesVentesNonDebutees(pseudo, search, categorie);
     }
 
+    @Override
     public List<ArticleAVendre> getMesVentesTerminees(String pseudo, String search, Integer categorie) {
         return articleAVendreDAO.findMesVentesTerminees(pseudo, search, categorie);
     }
+
 
 
 
