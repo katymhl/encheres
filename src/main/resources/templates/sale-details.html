@@ -6,90 +6,78 @@
                     ressourcesSupp=~{:: link})}">
 
 <head>
-    <title>Détail d'une vente</title>
+    <title th:text="#{detail.title}">Détail d'une vente</title>
     <link rel="stylesheet" href="/css/detailArticle.css" th:fragment="link">
 </head>
 
 <body>
 <main class="detail-container">
 
-
-
-
-
     <!-- Section détail -->
     <section class="detail-content">
-        <h2>Détail d'une vente</h2>
+        <h2 th:text="#{detail.heading}">Détail d'une vente</h2>
 
         <div class="detail-grid">
             <div class="detail-left">
-                <p><strong>Article :</strong> <span th:text="${enchere.nom_article}">Disque Dur</span></p>
-                <p><strong>Catégorie :</strong> <span th:text="${categorie.libelle}">Informatique</span></p>
-                <p><strong>Description :</strong> <span th:text="${enchere.description}">...</span></p>
-                <p><strong>Retrait :</strong>
+                <p><strong th:text="#{detail.label.article}">Article :</strong> <span th:text="${enchere.nom_article}">Disque Dur</span></p>
+                <p><strong th:text="#{detail.label.category}">Catégorie :</strong> <span th:text="${categorie.libelle}">Informatique</span></p>
+                <p><strong th:text="#{detail.label.description}">Description :</strong> <span th:text="${enchere.description}">...</span></p>
+                <p><strong th:text="#{detail.label.retrait}">Retrait :</strong>
                     <span th:text="${adresse.rue}"></span>,
                     <span th:text="${adresse.ville}"></span>
                     <span th:text="${adresse.code_postal}"></span>
                 </p>
-                <p><strong>Vendeur :</strong> <span th:text="${enchere.id_utilisateur}">coach_toto</span></p>
+                <p><strong th:text="#{detail.label.seller}">Vendeur :</strong> <span th:text="${enchere.id_utilisateur}">coach_toto</span></p>
             </div>
 
             <div class="detail-right">
-                <p><strong>Mise à prix :</strong> <span th:text="${enchere.prix_initial}">1</span> point(s)</p>
-                <p><strong>Meilleure offre :</strong> <span th:text="${enchere.prix_vente}">1</span> point(s)</p>
-                <p><strong>Fin de l'enchère :</strong>
-
-                <span th:text="${#temporals.format(enchere.date_fin_encheres, 'dd/MM/yyyy')}">01/06/202X</span></p>
+                <p><strong th:text="#{detail.label.startPrice}">Mise à prix :</strong> <span th:text="${enchere.prix_initial}">1</span> <span th:text="#{detail.unit}">point(s)</span></p>
+                <p><strong th:text="#{detail.label.bestOffer}">Meilleure offre :</strong> <span th:text="${enchere.prix_vente}">1</span> <span th:text="#{detail.unit}">point(s)</span></p>
+                <p><strong th:text="#{detail.label.endDate}">Fin de l'enchère :</strong>
+                    <span th:text="${#temporals.format(enchere.date_fin_encheres, 'dd/MM/yyyy')}">01/06/202X</span>
+                </p>
             </div>
         </div>
-        <!-- Affichage des messages flash -->
 
+        <!-- Messages flash -->
         <div th:if="${success}" class="alert-success" th:text="${success}"></div>
         <div th:if="${erreur}" class="alert-danger" th:text="${erreur}"></div>
     </section>
 
     <!-- Section action -->
     <section class="detail-actions">
-
-
-        <!-- Si acquéreur et enchère active -->
         <div th:if="!${estVendeur} and !${enchereTerminee}">
             <form th:action="@{'/encherir/' + ${enchere.no_article}}" method="post" class="form-enchere">
-                <label for="montant" id="montant">Votre offre (points) :</label>
+                <label for="montant" id ="montant" th:text="#{detail.label.offer}">Votre offre (points) :</label>
                 <input type="number" name="montant" min="${enchere.prix_vente + 1}" required>
-                <button type="submit" class="btn-return">Faire une offre</button>
+                <button type="submit" class="btn-return" th:text="#{detail.button.bid}">Faire une offre</button>
             </form>
         </div>
 
-        <!-- Si enchère terminée -->
         <div th:if="${enchereTerminee}">
-            <p class="info-terminee">Cette enchère est terminée.</p>
+            <p class="info-terminee" th:text="#{detail.message.ended}">Cette enchère est terminée.</p>
         </div>
-
     </section>
-
-
 
     <!-- Bouton retour -->
     <div class="detail-footer">
-        <a href="javascript:history.back()" class="btn-return">Retour</a>
+        <a href="javascript:history.back()" class="btn-return" th:text="#{detail.button.back}">Retour</a>
     </div>
 
+    <!-- Si vendeur et enchère modifiable -->
     <div class="detail-footer">
-        <!-- Si vendeur et enchère pas commencée -->
         <div th:if="${enchereModifiable}" class="action-buttons">
-            <a th:href="@{'/vendre/update?no_article=' + ${enchere.no_article}}" class="btn-modifier">Modifier la vente</a>
+            <a th:href="@{'/vendre/update?no_article=' + ${enchere.no_article}}" class="btn-modifier" th:text="#{detail.button.edit}">Modifier la vente</a>
 
             <form th:action="@{/vendre/annuler}" method="post" style="display:inline;">
                 <input type="hidden" name="no_article" th:value="${enchere.no_article}" />
-                <button type="submit" class="btn-annuler" onclick="return confirm('Confirmer l\'annulation de la vente ?')">Annuler la vente</button>
+                <button type="submit" class="btn-annuler"
+                        th:onclick="'return confirm(\'' + #{detail.confirm.cancel} + '\')'"
+                        th:text="#{detail.button.cancel}">Annuler la vente</button>
             </form>
         </div>
     </div>
 
 </main>
-
-
-
 </body>
 </html>

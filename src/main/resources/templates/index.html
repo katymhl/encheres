@@ -1,67 +1,79 @@
 <!DOCTYPE html>
-<!-- Accueil comme titre de page -->
-<!-- la balise main définit par la classe de CSS 'center-main' comme paramètre contenuPage -->
 <html xmlns:th="http://www.thymeleaf.org"
       data-th-replace="~{layouts/layout :: layout-encheres(
-					titrePage=~{:: title},
-					contenuPage=~{:: main},
-					ressourcesSupp=~{:: link})}">
+                    titrePage=~{:: title},
+                    contenuPage=~{:: main},
+                    ressourcesSupp=~{:: link})}">
 
 <head>
-    <!-- Accueil comme titre de page -->
-    <title data-th-text="#{index.title}"></title>
+    <title data-th-text="#{index.title}">Accueil</title>
     <link rel="stylesheet" href="/css/index.css" th:fragment="link">
-
-
 </head>
+
 <body>
 <main class="index-container">
 
     <section class="index-filters">
         <form class="index-filters" th:action="@{/encheres}" method="get">
-            <label>Filtres :</label>
-            <input type="text" name="search" placeholder="Le nom de l'article contient" th:value="${param.search}">
 
-            <label for="categorie">Catégorie :</label>
-            <select id="categorie" name="categorie" th:value="${param.categorie}">
-                <option value="">Toutes</option>
-                <option value="1">Ameublement</option>
-                <option value="2">Informatique</option>
-                <option value="3">Sport & Loisir</option>
-                <option value="4">Vêtement</option>
+            <label th:text="#{index.filters.title}"></label>
+
+            <input type="text" name="search"
+                   th:placeholder="#{index.search.placeholder}"
+                   th:value="${param.search}">
+
+           
+
+
+            <label for="categorie" th:text="#{index.category.label}"></label>
+            <select id="categorie" name="categorie">
+                <option value="" th:text="#{index.category.all}" th:selected="${param.categorie == null}">Toutes</option>
+                <option value="1" th:text="#{index.category.1}" th:selected="${param.categorie == 1}">Ameublement</option>
+                <option value="2" th:text="#{index.category.2}" th:selected="${param.categorie == 2}">Informatique</option>
+                <option value="3" th:text="#{index.category.3}" th:selected="${param.categorie == 3}">Sport & Loisir</option>
+                <option value="4" th:text="#{index.category.4}" th:selected="${param.categorie == 4}">Vêtement</option>
             </select>
 
             <div class="index-filter-buttons">
-                <button type="submit">Rechercher</button>
-                <a th:href="@{/}">Annuler</a>
+
+                <button type="submit"  th:text="#{index.button.search}">Rechercher</button>
+                <a th:href="@{/}"  th:text="#{index.button.cancel}">Annuler</a>
+
+              
+
             </div>
         </form>
-
     </section>
 
     <section class="index-auctions">
-        <h2>Liste des enchères</h2>
+        <h2 th:text="#{index.auctions.title}">Liste des enchères</h2>
 
         <div class="index-cards">
             <div class="index-card" th:each="enchere : ${encheres}">
                 <div class="index-img-placeholder">
-                    <img th:src="@{/images/placeholder.jpg}" alt="Image article" />
+                    <img th:src="@{/images/placeholder.jpg}" th:alt="#{index.auctions.image.alt}" />
                 </div>
                 <h3 th:text="${enchere.nom_article}">Nom article</h3>
-                <p>Prix : <span th:text="${enchere.prix_initial}">1</span> point(s)</p>
-                <p><span th:text="${#temporals.format(enchere.date_fin_encheres, 'dd/MM/yyyy')}">01/06/202X</span></p>
-                <p>Vendeur :
+                <p>
+                    <span th:text="#{index.auctions.price.label}">Prix :</span>
+                    <span th:text="${enchere.prix_initial}">1</span>
+                    <span th:text="#{index.auctions.price.unit}">point(s)</span>
+                </p>
+                <p>
+                    <span th:text="${#temporals.format(enchere.date_fin_encheres, 'dd/MM/yyyy')}">01/06/202X</span>
+                </p>
+                <p>
+                    <span th:text="#{index.auctions.seller.label}">Vendeur :</span>
                     <a th:href="@{/profil(id_utilisateur=${enchere.id_utilisateur})}">
                         <span th:text="${enchere.id_utilisateur}">coach_toto</span>
                     </a>
                 </p>
-
             </div>
         </div>
-
     </section>
 
 </main>
-
 </body>
+
 </html>
+

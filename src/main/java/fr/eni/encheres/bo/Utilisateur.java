@@ -7,41 +7,42 @@ import java.util.Objects;
 
 public class Utilisateur implements Serializable {
 
-    @NotBlank(message = "Le pseudo est obligatoire")
-    @Size(min = 3, max = 30, message = "Le pseudo doit contenir entre 3 et 30 caractères")
+    @NotBlank(message = "{NotBlank.utilisateur.pseudo}")
+    @Size(min = 3, max = 30, message = "{Size.utilisateur.pseudo}")
+    @Pattern(regexp = "^[A-Za-z0-9_]+$", message = "{Pattern.utilisateur.pseudo}")
     private String pseudo;
 
-    @NotBlank(message = "Le nom est obligatoire")
+    @NotBlank(message = "{NotBlank.utilisateur.nom}")
     private String nom;
 
-    @NotBlank(message = "Le prénom est obligatoire")
+    @NotBlank(message = "{NotBlank.utilisateur.prenom}")
     private String prenom;
 
-    @NotBlank(message = "L'email est obligatoire")
-    @Email(message = "Format d'email invalide")
+    @NotBlank(message = "{NotBlank.utilisateur.email}")
+    @Email(message = "{Email.utilisateur.email}")
     private String email;
 
-
-    //@Min(value = 1, message = "L'adresse doit être renseignée")
+    // Si tu veux valider no_adresse :
+    @Min(value = 1, message = "{Min.utilisateur.no_adresse}")
     private int no_adresse;
 
-    @Pattern(regexp = "^\\d{10}$", message = "Le numéro doit contenir exactement 10 chiffres")
+    @Pattern(regexp = "^\\d{10}$", message = "{Pattern.utilisateur.telephone}")
     private String telephone;
 
-    @NotBlank(message = "Le mot de passe est obligatoire")
-    @Size(min = 8, max = 20, message = "Le mot de passe doit contenir entre 8 et 20 caractères")
+    @NotBlank(message = "{NotBlank.utilisateur.mot_de_passe}")
+    @Size(min = 8, max = 20, message = "{Size.utilisateur.mot_de_passe}")
     @Pattern(regexp = "^(?=.*[A-Z])(?=.*\\d)(?=.*[^A-Za-z0-9]).{8,20}$",
-            message = "Doit contenir 1 majuscule, 1 chiffre et 1 caractère spécial")
+            message = "{Pattern.utilisateur.mot_de_passe}")
     private String mot_de_passe;
 
-    // Le crédit peut être initialisé à 0
-    @Min(value = 0, message = "Le crédit ne peut pas être négatif")
+    @Min(value = 0, message = "{Min.utilisateur.credit}")
     private int credit;
 
     private boolean administrateur;
 
-    @NotBlank(message = "La confirmation du mot de passe est obligatoire")
+    @NotBlank(message = "{NotBlank.utilisateur.confirmPassword}")
     private transient String confirmPassword;
+
     private static final long serialVersionUID = 1L;
 
     public Utilisateur() {

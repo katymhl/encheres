@@ -2,17 +2,27 @@ package fr.eni.encheres.controller;
 
 import fr.eni.encheres.bll.*;
 import fr.eni.encheres.bo.*;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import fr.eni.encheres.bo.enumeration.StatutEnchere;
 import fr.eni.encheres.bll.*;
 import fr.eni.encheres.bo.*;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
@@ -32,6 +42,11 @@ import java.util.List;
 @Controller
 @SessionAttributes({ "categoriesEnSession" })
 public class EncheresController {
+    @Autowired
+    private MessageSource messageSource;
+
+    @Autowired
+    private LocaleResolver localeResolver;
 
     private final UtilisateurService utilisateurService;
     private final AdresseService adresseService;
@@ -262,85 +277,85 @@ public class EncheresController {
 //    }
 
 
-        @Transactional
-        @PostMapping("/encherir/{id}")
-        public String faireUneOffre(@PathVariable("id") int id,
-        @RequestParam("montant") int montant,
-        Principal principal,
-        RedirectAttributes redirectAttributes) {
+    @Transactional
+    @PostMapping("/encherir/{id}")
+    public String faireUneOffre(@PathVariable("id") int id,
+                                @RequestParam("montant") int montant,
+                                Principal principal,
+                                RedirectAttributes redirectAttributes,
+                                HttpServletRequest request) {
 
-            ArticleAVendre article = articleAVendreService.findById(id);
-            String pseudo = principal.getName();
+        Locale locale = localeResolver.resolveLocale(request);
 
-            // Vérification : pas le vendeur
-            if (article.getId_utilisateur().equals(pseudo)) {
-                redirectAttributes.addFlashAttribute("erreur", "Vous ne pouvez pas enchérir sur votre propre article.");
-                return "redirect:/details/" + id;
-            }
+        ArticleAVendre article = articleAVendreService.findById(id);
+        String pseudo = principal.getName();
 
-            // Vérification : enchère terminée (par date ou statut)
-            LocalDate dateFin = article.getDate_fin_encheres();
-            LocalDateTime dateFinLocal = dateFin.atStartOfDay();
-
-            if (dateFinLocal.isBefore(LocalDateTime.now()) || article.getStatut_enchere() == 100) {
-                redirectAttributes.addFlashAttribute("erreur", "L'enchère est terminée.");
-                return "redirect:/details/" + id;
-            }
-
-            // Vérification : montant supérieur à l'offre actuelle
-            Integer prixActuel = article.getPrix_vente() != null ? article.getPrix_vente() : article.getPrix_initial();
-            if (montant <= prixActuel) {
-                redirectAttributes.addFlashAttribute("erreur", "Votre offre doit être supérieure à la meilleure offre actuelle.");
-                return "redirect:/details/" + id;
-            }
-
-            Utilisateur enchérisseur = utilisateurService.findById(pseudo);
-
-            // Vérification : points suffisants
-            if (enchérisseur.getCredit() < montant) {
-                redirectAttributes.addFlashAttribute("erreur", "Vous n'avez pas assez de points pour cette offre.");
-                return "redirect:/details/" + id;
-            }
-
-            // Re-créditer l'ancien meilleur enchérisseur (si existant)
-
-            List<Enchere> listeEnchereNoArticle = enchereService.findListByNoArticle(article.getNo_article());
-            Optional<Enchere> meilleureEnchere = listeEnchereNoArticle.stream()
-                    .filter(e -> e.getNo_article() == article.getNo_article())
-                    .max(Comparator.comparingInt(Enchere::getMontant_enchere));
-
-
-
-            if (meilleureEnchere.isPresent()) {
-                String meilleurPseudo = meilleureEnchere.get().getId_utilisateur();
-                Utilisateur ancienUtilisateur = utilisateurService.findById(meilleurPseudo);
-                ancienUtilisateur.setCredit(ancienUtilisateur.getCredit() + meilleureEnchere.get().getMontant_enchere());
-                utilisateurService.update(ancienUtilisateur);
-            }
-
-
-
-            // Débiter le nouvel enchérisseur
-            int nouveaucredit=enchérisseur.getCredit() - montant;
-            enchérisseur.setCredit(nouveaucredit);
-            utilisateurService.update(enchérisseur);
-
-            // Mettre à jour l’article
-            article.setPrix_vente(montant);
-//        article.setMeilleurEncherisseur(pseudo);
-            articleAVendreService.update(article);
-
-            // Enregistrer la nouvelle enchère
-            Enchere nouvelleEnchere = new Enchere();
-            nouvelleEnchere.setId_utilisateur(pseudo);
-            nouvelleEnchere.setNo_article(article.getNo_article());
-            nouvelleEnchere.setMontant_enchere(montant);
-            nouvelleEnchere.setDate_enchere(  Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
-            enchereService.create(nouvelleEnchere);
-
-            redirectAttributes.addFlashAttribute("success", "Votre offre a été enregistrée !");
+        // Vérification : pas le vendeur
+        if (article.getId_utilisateur().equals(pseudo)) {
+            String msg = messageSource.getMessage("enchere.error.self", null, locale);
+            redirectAttributes.addFlashAttribute("erreur", msg);
             return "redirect:/details/" + id;
         }
+
+        // Vérification : enchère terminée
+        LocalDateTime dateFin = article.getDate_fin_encheres().atStartOfDay();
+        if (dateFin.isBefore(LocalDateTime.now()) || article.getStatut_enchere() == 100) {
+            String msg = messageSource.getMessage("enchere.error.ended", null, locale);
+            redirectAttributes.addFlashAttribute("erreur", msg);
+            return "redirect:/details/" + id;
+        }
+
+        // Vérification : montant supérieur à l'offre actuelle
+        int prixActuel = article.getPrix_vente() != null ? article.getPrix_vente() : article.getPrix_initial();
+        if (montant <= prixActuel) {
+            String msg = messageSource.getMessage("enchere.error.low", null, locale);
+            redirectAttributes.addFlashAttribute("erreur", msg);
+            return "redirect:/details/" + id;
+        }
+
+        Utilisateur enchérisseur = utilisateurService.findById(pseudo);
+
+        // Vérification : points suffisants
+        if (enchérisseur.getCredit() < montant) {
+            String msg = messageSource.getMessage("enchere.error.credit", null, locale);
+            redirectAttributes.addFlashAttribute("erreur", msg);
+            return "redirect:/details/" + id;
+        }
+
+        // Re-créditer l'ancien meilleur enchérisseur
+        List<Enchere> listeEnchereNoArticle = enchereService.findListByNoArticle(article.getNo_article());
+        Optional<Enchere> meilleureEnchere = listeEnchereNoArticle.stream()
+                .filter(e -> e.getNo_article() == article.getNo_article())
+                .max(Comparator.comparingInt(Enchere::getMontant_enchere));
+
+        if (meilleureEnchere.isPresent()) {
+            String meilleurPseudo = meilleureEnchere.get().getId_utilisateur();
+            Utilisateur ancienUtilisateur = utilisateurService.findById(meilleurPseudo);
+            ancienUtilisateur.setCredit(ancienUtilisateur.getCredit() + meilleureEnchere.get().getMontant_enchere());
+            utilisateurService.update(ancienUtilisateur);
+        }
+
+        // Débiter le nouvel enchérisseur
+        enchérisseur.setCredit(enchérisseur.getCredit() - montant);
+        utilisateurService.update(enchérisseur);
+
+        // Mettre à jour l’article
+        article.setPrix_vente(montant);
+        articleAVendreService.update(article);
+
+        // Enregistrer la nouvelle enchère
+        Enchere nouvelleEnchere = new Enchere();
+        nouvelleEnchere.setId_utilisateur(pseudo);
+        nouvelleEnchere.setNo_article(article.getNo_article());
+        nouvelleEnchere.setMontant_enchere(montant);
+        nouvelleEnchere.setDate_enchere(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
+        enchereService.create(nouvelleEnchere);
+
+        String successMsg = messageSource.getMessage("enchere.success", null, locale);
+        redirectAttributes.addFlashAttribute("success", successMsg);
+        return "redirect:/details/" + id;
+    }
+
 
 
 
@@ -494,6 +509,23 @@ public class EncheresController {
         articleAVendreService.update(article);
         return "redirect:/";
     }
+
+
+
+        @GetMapping("/change-lang")
+        public String changerLangue(@RequestParam("lang") String lang, HttpServletRequest request, HttpServletResponse response) {
+            Locale locale = new Locale(lang);
+            LocaleContextHolder.setLocale(locale);
+
+            // Stocker la langue dans la session
+            request.getSession().setAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME, locale);
+
+            // Rediriger vers la page précédente
+            String referer = request.getHeader("Referer");
+            return "redirect:" + (referer != null ? referer : "/");
+
+    }
+
 
 
 

@@ -1,33 +1,66 @@
 <header xmlns:th="http://www.thymeleaf.org"
-        data-th-fragment="frag-entete">
+        th:fragment="frag-entete">
+
     <div class="logo">
         <a th:href="@{/}">
-            <img src="/images/logo_ENI.png" alt="logo">
-            <p>Eni-Encheres</p>
+            <img src="/images/logo_ENI.png" th:alt="#{header.logo.alt}" />
+            <p th:text="#{header.logo.text}">Eni-Encheres</p>
         </a>
+
+        <!-- Sélecteur de langue sous le logo -->
+        <div class="language-combobox">
+            <div class="selected-lang" th:switch="${#locale.language}">
+                <div th:case="'fr'">
+                    <img src="/images/france.png" alt="Français" width="32"> Français
+                </div>
+                <div th:case="'en'">
+
+                    <a th:href="@{'/change-lang'(lang='en')}">
+                        <img src="/images/royaume-uni.png" alt="English" width="32"> English
+                    </a>
+
+                </div>
+                <div th:case="*">
+                    <a th:href="@{'/change-lang'(lang='fr')}">
+                        <img src="/images/france.png" alt="Français" width="32"> Français
+                    </a>
+                </div>
+            </div>
+
+            <ul class="lang-options">
+                <li onclick="location.href='?language=fr'">
+                    <a th:href="@{'/change-lang'(lang='fr')}">
+                        <img src="/images/france.png" alt="Français" width="32"> Français
+                    </a>
+                </li>
+                <li onclick="location.href='?language=en'">
+                    <a th:href="@{'/change-lang'(lang='en')}">
+                        <img src="/images/royaume-uni.png" alt="English" width="32"> English
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
+
     <nav>
+        <span>
+            <a th:href="@{/}" th:text="#{header.link.home}">Accueil</a>
+        </span>
 
-            <span>
-                <a th:href="@{/}">Accueil</a>
-            </span>
+        <span th:if="${#authorization.expression('isAuthenticated()')}">
+            <a th:href="@{/vendre}" th:text="#{header.link.sell}">Vendre</a>
+        </span>
 
-            <span data-th-if="${#authorization.expression('isAuthenticated()')}">
-                <a th:href="@{/vendre}" >Vendre</a>
-            </span>
+        <span th:if="${#authorization.expression('isAuthenticated()')}">
+            <a th:href="@{'/monProfil?pseudo=' + ${#authentication.name}}" th:text="#{header.link.profile}">Profil</a>
+        </span>
 
-            <span data-th-if="${#authorization.expression('isAuthenticated()')}">
-                <a th:href="@{'/monProfil?pseudo=' + ${#authentication.name}}" >Profil</a>
-            </span>
+        <span th:if="${#authorization.expression('!isAuthenticated()')}">
+            <a th:href="@{/login}" th:text="#{header.link.login}">S'inscrire / Se connecter</a>
+        </span>
 
-            <span data-th-if="${#authorization.expression('!isAuthenticated()')}">
-                <a th:href="@{/login}">S'inscrire-Se connecter</a>
-            </span>
-
-            <span data-th-if="${#authorization.expression('isAuthenticated()')}">
-                <a th:href="@{/logout-form}" >Déconnexion</a>
-            </span>
-
+        <span th:if="${#authorization.expression('isAuthenticated()')}">
+            <a th:href="@{/logout-form}" th:text="#{header.link.logout}">Déconnexion</a>
+        </span>
     </nav>
 </header>
-

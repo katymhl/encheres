@@ -1,36 +1,33 @@
 <!DOCTYPE html>
-<!-- Accueil comme titre de page -->
-<!-- la balise main définit par la classe de CSS 'center-main' comme paramètre contenuPage -->
 <html xmlns:th="http://www.thymeleaf.org"
       data-th-replace="~{layouts/layout :: layout-encheres(
-					titrePage=~{:: title},
-					contenuPage=~{:: main},
-					ressourcesSupp=~{})}">
+                    titrePage=~{:: title},
+                    contenuPage=~{:: main},
+                    ressourcesSupp=~{})}">
 
 <head>
-    <!-- Accueil comme titre de page -->
-    <title data-th-text="#{login.title}"></title>
+    <title th:text="#{login.title}">Connexion</title>
 </head>
 <body>
 <main class="center-main">
     <form class="profil-form" th:action="@{/login}" method="post">
-        <h1 data-th-text="#{login.h1}"></h1>
-        <div class="cards" th:if="${param.error}">Erreur de pseudo ou mot de passe</div>
-        <div th:if="${param.logout}">Se déconnecter</div>
+        <h1 th:text="#{login.h1}">Connexion</h1>
+
+        <div class="cards" th:if="${param.error}" th:text="#{login.error}">Erreur de pseudo ou mot de passe</div>
+        <div th:if="${param.logout}" th:text="#{login.logout}">Déconnexion réussie</div>
+
         <ul class="flex-outer">
             <li>
-                <label for="inputUsername">Pseudo : </label>
+                <label for="inputUsername" th:text="#{login.username.label}">Pseudo :</label>
                 <input id="inputUsername" type="text" name="username" />
             </li>
             <li>
-                <label for="inputPwd">Mot de passe : </label>
+                <label for="inputPwd" th:text="#{login.password.label}">Mot de passe :</label>
                 <input id="inputPwd" type="password" name="password" />
             </li>
-
-                <button type="submit">Se connecter</button>
-
-                <button type="button" onclick="window.location.href='/inscription';">S'inscrire</button>
-
+            <li>
+                <button type="submit" th:text="#{login.submit}">Se connecter</button>
+                <button type="button" onclick="window.location.href='/inscription';" th:text="#{login.signup}">S'inscrire</button>
             </li>
         </ul>
     </form>

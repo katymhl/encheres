@@ -1,33 +1,27 @@
 <!DOCTYPE html>
-<!-- Accueil comme titre de page -->
-<!-- la balise main définit par la classe de CSS 'center-main' comme paramètre contenuPage -->
 <html xmlns:th="http://www.thymeleaf.org"
       data-th-replace="~{layouts/layout :: layout-encheres(
-					titrePage=~{:: title},
-					contenuPage=~{:: main},
-					ressourcesSupp=~{:: link})}">
+
+                    titrePage=~{:: title},
+                    contenuPage=~{:: main},
+                    ressourcesSupp=~{:: link})}">
 
 <head>
-    <!-- Accueil comme titre de page -->
-    <title data-th-text="#{login.title}"></title>
-    <link rel="stylesheet" th:href="@{/css/logout.css}">
+    <title th:text="#{logout.title}">Déconnexion</title>
+  <link rel="stylesheet" th:href="@{/css/logout.css}">
 </head>
 <body>
 <main class="center-main">
-    <h1>Voulez vous vraiment vous déconnecter?</h1>
+    <h1 th:text="#{logout.confirmation}">Voulez-vous vraiment vous déconnecter ?</h1>
+ <div class="button-group">
+    <button>
+        <a th:href="@{/logout}" th:text="#{logout.button.yes}">OUI</a>
+    </button>
+    <button>
+        <a th:href="@{/}" th:text="#{logout.button.no}">NON</a>
+    </button>
+  </div>
 
-    <div class="button-group">
-        <button>
-            <a href="/logout">
-                OUI
-            </a>
-        </button>
-        <button>
-            <a th:href="@{/}">
-                NON
-            </a>
-        </button>
-    </div>
 </main>
 </body>
 </html>
