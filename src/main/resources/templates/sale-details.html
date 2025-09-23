@@ -51,11 +51,6 @@
     <!-- Section action -->
     <section class="detail-actions">
 
-        <!-- Si vendeur et enchère pas commencée -->
-        <div th:if="${enchereModifiable}">
-            <a th:href="@{'/article/modifier/' + ${enchere.no_article}}" class="btn-modifier">Modifier la vente</a>
-        </div>
-
 
         <!-- Si acquéreur et enchère active -->
         <div th:if="!${estVendeur} and !${enchereTerminee}">
@@ -75,13 +70,13 @@
 
     <!-- Bouton retour -->
     <div class="detail-footer">
-<!--        <a th:href="@{/accueil/connecter}" class="btn-return">Retour</a>-->
         <a href="javascript:history.back()" class="btn-return">Retour</a>
     </div>
     <div class="detail-footer">
-        <a th:href="@{'/vendre/update?no_article=' + ${enchere.no_article}}" class="btn-return">
-            Modifier la vente
-        </a>
+        <!-- Si vendeur et enchère pas commencée -->
+        <div th:if="${enchereModifiable}">
+            <a th:href="@{'/vendre/update?no_article=' + ${enchere.no_article}}" class="btn-modifier">Modifier la vente</a>
+        </div>
     </div>
 
 </main>
