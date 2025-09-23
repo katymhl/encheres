@@ -4,8 +4,11 @@ import fr.eni.encheres.bo.ArticleAVendre;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dal.ArticleAVendreDAO;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 @Service
 public class ArticleAVendreServiceImpl implements ArticleAVendreService {
@@ -31,6 +34,28 @@ public class ArticleAVendreServiceImpl implements ArticleAVendreService {
     public List<ArticleAVendre> filtrerArticles(String search, Integer categorie) {
         return articleAVendreDAO.filtrerArticles(search, categorie);
 
+    }
+
+    //Cron qui tourne toutes les minutes
+    @Scheduled(fixedRate = 60000) // toutes les 60s
+    public void updateEncheresStatus() {
+        articleAVendreDAO.cloturerEncheresExpirees();
+    }
+
+    //Vérification au moment d’un accès
+    public ArticleAVendre read(int id) {
+        ArticleAVendre article = articleAVendreDAO.read(id);
+
+        // Vérification si l'enchère est EN_COURS mais la date de fin est dépassée
+        if(article.getStatut_enchere() == 1 &&
+                article.getDate_fin_encheres().isBefore(LocalDate.now())) {
+
+            // Mise à jour de l'état en base
+            articleAVendreDAO.updateEtat(article.getNo_article(), 2); // 2 = CLOTUREE
+            article.setStatut_enchere(2);
+        }
+
+        return article;
     }
 
     @Override

@@ -84,6 +84,22 @@ public class ArticleAVendreDAOImpl implements ArticleAVendreDAO {
 
     }
 
+    public void cloturerEncheresExpirees() {
+        String sql = "UPDATE ARTICLES_A_VENDRE SET statut_enchere = 2 " +
+                "WHERE date_fin_encheres < GETDATE() AND statut_enchere = 1";
+        namedParameterJdbcTemplate.update(sql, new MapSqlParameterSource());
+    }
+
+    public void updateEtat(int no_article, int statut_enchere) {
+        String sql = "UPDATE ARTICLES_A_VENDRE SET statut_enchere = :statut_enchere WHERE no_article = :no_article";
+
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("statut_enchere", statut_enchere);
+        params.addValue("no_article", no_article);
+
+        namedParameterJdbcTemplate.update(sql, params);
+    }
+
 
     @Override
     public List<ArticleAVendre> findActiveEnchere() {

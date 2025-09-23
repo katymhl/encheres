@@ -10,7 +10,6 @@ public interface EnchereDAO {
 
     Enchere read(String id_utilisateur,int no_article,int montant_enchere);
     List<Enchere> findAll();
-
     void create(Enchere enchere) ;
     List<Enchere> findByNoArticle(int no_article);
     void update(Enchere enchere);
