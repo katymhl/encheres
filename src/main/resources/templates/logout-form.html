@@ -5,25 +5,29 @@
       data-th-replace="~{layouts/layout :: layout-encheres(
 					titrePage=~{:: title},
 					contenuPage=~{:: main},
-					ressourcesSupp=~{})}">
+					ressourcesSupp=~{:: link})}">
 
 <head>
     <!-- Accueil comme titre de page -->
     <title data-th-text="#{login.title}"></title>
+    <link rel="stylesheet" th:href="@{/css/logout.css}">
 </head>
 <body>
 <main class="center-main">
     <h1>Voulez vous vraiment vous déconnecter?</h1>
-    <button>
-        <a href="/logout">
-            OUI
-        </a>
-    </button>
-    <button>
-        <a th:href="@{/}">
-            NON
-        </a>
-    </button>
+
+    <div class="button-group">
+        <button>
+            <a href="/logout">
+                OUI
+            </a>
+        </button>
+        <button>
+            <a th:href="@{/}">
+                NON
+            </a>
+        </button>
+    </div>
 </main>
 </body>
 </html>
