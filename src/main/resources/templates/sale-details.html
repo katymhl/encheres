@@ -72,10 +72,16 @@
     <div class="detail-footer">
         <a href="javascript:history.back()" class="btn-return">Retour</a>
     </div>
+
     <div class="detail-footer">
         <!-- Si vendeur et enchère pas commencée -->
-        <div th:if="${enchereModifiable}">
+        <div th:if="${enchereModifiable}" class="action-buttons">
             <a th:href="@{'/vendre/update?no_article=' + ${enchere.no_article}}" class="btn-modifier">Modifier la vente</a>
+
+            <form th:action="@{/vendre/annuler}" method="post" style="display:inline;">
+                <input type="hidden" name="no_article" th:value="${enchere.no_article}" />
+                <button type="submit" class="btn-annuler" onclick="return confirm('Confirmer l\'annulation de la vente ?')">Annuler la vente</button>
+            </form>
         </div>
     </div>
 

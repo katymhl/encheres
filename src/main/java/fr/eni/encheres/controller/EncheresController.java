@@ -487,4 +487,14 @@ public class EncheresController {
     }
 
 
+    @PostMapping("/vendre/annuler")
+    public String annulerVente(@RequestParam("no_article") Integer noArticle) {
+        ArticleAVendre article = articleAVendreService.findById(noArticle);
+        article.setStatut_enchere(100);
+        articleAVendreService.update(article);
+        return "redirect:/";
+    }
+
+
+
 }
