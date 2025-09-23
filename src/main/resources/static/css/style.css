@@ -289,23 +289,6 @@ main {
     transition: background-color 0.3s ease;
 }
 
-.form-actions button[type="submit"] {
-    background-color: #0078d4;
-    color: white;
-}
-
-.form-actions button[type="submit"]:hover {
-    background-color: #005fa3;
-}
-
-.form-actions button[type="button"] {
-    background-color: #e0e0e0;
-    color: #333;
-}
-
-.form-actions button[type="button"]:hover {
-    background-color: #c6c6c6;
-}
 .text-danger {
     color: red;
     font-weight: bold;
@@ -370,14 +353,14 @@ main {
     min-height: 80px;
 }
 
-.form-actions {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-top: 20px;
+.creer{
+    background-color: #134a7f;
+    color: white;
+    font-family: Verdana, sans-serif;
+    transition: all 0.3s ease;
 }
 
-.creer{
+.form-actions .creer{
     background-color: #134a7f;
     color: white;
     font-family: Verdana, sans-serif;
@@ -388,6 +371,10 @@ main {
     background-color: #068bee;
 }
 
+.form-actions .creer:hover{
+    background-color: #068bee;
+}
+
 .annuler{
     background-color: #cdcdcd;
     color: black;
@@ -395,7 +382,19 @@ main {
     transition: all 0.3s ease;
 }
 
+.form-actions .annuler{
+    background-color: #cdcdcd;
+    color: black;
+    font-family: Verdana, sans-serif;
+    transition: all 0.3s ease;
+}
+
 .annuler:hover{
+    background-color: #dcdcdc;
+
+}
+
+.form-actions .annuler:hover{
     background-color: #dcdcdc;
 
 }
