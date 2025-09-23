@@ -168,3 +168,29 @@ body {
     font-weight: bold;
     margin-top: 15px;
 }
+.btn-annuler {
+    background-color: #e74c3c; /* rouge vif */
+    color: white;
+    border: none;
+    padding: 0.6em 1.2em;
+    font-size: 1em;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-left: 1em;
+}
+
+.btn-annuler:hover {
+    background-color: #c0392b; /* rouge foncé au survol */
+}
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px; /* espace entre les boutons */
+    margin-top: 15px;
+}
+
+.action-buttons form {
+    margin: 0; /* évite les marges par défaut */
+}
