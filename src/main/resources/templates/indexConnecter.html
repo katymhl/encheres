@@ -96,9 +96,21 @@
 
         <div class="index-cards">
             <div class="index-card" th:each="enchere : ${encheres}">
+
                 <div class="index-img-placeholder">
-                    <img th:src="@{/images/placeholder.jpg}" th:alt="#{index.auctions.image.alt}">
+                    <img class="article-img"
+                         th:if="${enchere.photo != null}"
+                         th:src="@{'/image/' + ${enchere.no_article}}"
+                         th:alt="#{index.auctions.image.alt}" />
+
+                    <img class="article-img"
+                         th:if="${enchere.photo == null}"
+                         th:src="@{/images/placeholder.jpg}"
+                         th:alt="#{index.auctions.image.alt}" />
                 </div>
+
+
+
 
                 <h3>
                     <a th:href="@{/details/{id}(id=${enchere.no_article})}"

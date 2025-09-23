@@ -38,6 +38,14 @@ import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.RequestParam;
+import java.io.IOException;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.GetMapping;
+
 
 @Controller
 @SessionAttributes({ "categoriesEnSession" })
@@ -79,6 +87,13 @@ public class EncheresController {
 
         return "index";
     }
+
+
+
+
+
+
+
 
 
     @GetMapping("/admin")
@@ -390,24 +405,31 @@ public class EncheresController {
 
     @PostMapping("/vendre")
     public String creerUneEnchere(@ModelAttribute("articleAVendre") ArticleAVendre articleAVendre,
+                                  @RequestParam("image") MultipartFile image,
                                   Principal principal,
-                                  Model model) {
+                                  Model model) throws IOException {
 
         // Récupération de l'utilisateur connecté
         String pseudo = principal.getName();
         Utilisateur utilisateur = utilisateurService.findById(pseudo);
+        articleAVendre.setId_utilisateur(utilisateur.getPseudo());
         model.addAttribute("utilisateur", utilisateur);
-        articleAVendre.setId_utilisateur(utilisateur.getPseudo()); // ou id selon ton modèle
 
-        articleAVendre.setStatut_enchere(calculerStatut(articleAVendre.getDate_debut_encheres(),
-                articleAVendre.getDate_fin_encheres()));
+        // Calcul du statut de l'enchère
+        articleAVendre.setStatut_enchere(calculerStatut(
+                articleAVendre.getDate_debut_encheres(),
+                articleAVendre.getDate_fin_encheres()
+        ));
 
+        // Traitement de la photo
+        if (image != null && !image.isEmpty()) {
+            articleAVendre.setPhoto(image.getBytes());
+        }
 
-        // Sauvegarde de l'article
+        // Sauvegarde
         articleAVendreService.save(articleAVendre);
 
-        // Redirection vers la page de liste des articles
-        return "redirect:/";
+        return "redirect:/"; // ou vers une page de confirmation
     }
 
     private int calculerStatut(LocalDate debut, LocalDate fin) {
@@ -526,6 +548,17 @@ public class EncheresController {
 
     }
 
+    @GetMapping("/image/{id}")
+    public ResponseEntity<byte[]> afficherImage(@PathVariable int id) {
+        ArticleAVendre article = articleAVendreService.findById(id);
+        if (article == null || article.getPhoto() == null) {
+            return ResponseEntity.notFound().build(); // ou renvoyer une image par défaut
+        }
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.IMAGE_JPEG) // adapte selon ton format
+                .body(article.getPhoto());
+    }
 
 
 

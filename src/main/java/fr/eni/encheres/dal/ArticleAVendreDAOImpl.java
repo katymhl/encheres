@@ -34,10 +34,10 @@ public class ArticleAVendreDAOImpl implements ArticleAVendreDAO {
     @Override
     public void create(ArticleAVendre articleAVendre) {
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
-        //namedParameters.addValue("no_article", articleAVendre.getNo_article());
+
         namedParameters.addValue("nom_article", articleAVendre.getNom_article());
         namedParameters.addValue("description", articleAVendre.getDescription());
-        namedParameters.addValue("photo", articleAVendre.getPhoto());
+        namedParameters.addValue("photo", articleAVendre.getPhoto()); // byte[] image
         namedParameters.addValue("date_debut_encheres", articleAVendre.getDate_debut_encheres());
         namedParameters.addValue("date_fin_encheres", articleAVendre.getDate_fin_encheres());
         namedParameters.addValue("statut_enchere", articleAVendre.getStatut_enchere());
@@ -46,8 +46,18 @@ public class ArticleAVendreDAOImpl implements ArticleAVendreDAO {
         namedParameters.addValue("id_utilisateur", articleAVendre.getId_utilisateur());
         namedParameters.addValue("no_categorie", articleAVendre.getNo_categorie());
         namedParameters.addValue("no_adresse_retrait", articleAVendre.getNo_adresse_retrait());
-        namedParameterJdbcTemplate.update("INSERT INTO ARTICLES_A_VENDRE (nom_article, description, date_debut_encheres, date_fin_encheres, statut_enchere, prix_initial, prix_vente,  id_utilisateur , no_categorie , no_adresse_retrait) VALUES (:nom_article, :description, :date_debut_encheres, :date_fin_encheres, :statut_enchere, :prix_initial, :prix_vente, :id_utilisateur, :no_categorie, :no_adresse_retrait)", namedParameters);
 
+        String sql = """
+    INSERT INTO ARTICLES_A_VENDRE (
+        nom_article, description, photo, date_debut_encheres, date_fin_encheres,
+        statut_enchere, prix_initial, prix_vente, id_utilisateur, no_categorie, no_adresse_retrait
+    ) VALUES (
+        :nom_article, :description, :photo, :date_debut_encheres, :date_fin_encheres,
+        :statut_enchere, :prix_initial, :prix_vente, :id_utilisateur, :no_categorie, :no_adresse_retrait
+    )
+""";
+
+        namedParameterJdbcTemplate.update(sql, namedParameters);
     }
 
     @Override
