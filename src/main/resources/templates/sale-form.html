@@ -36,7 +36,7 @@
                                 th:text="${cat.libelle}">
                         </option>
                     </select></td> <!--menu déroulant à option-->
-                    <td><label for="debut">Debut de l'enchère  :</label></td>
+                    <td><label for="debut">Debut de l'enchère :</label></td>
                     <td><input type="date" id="debut" name="debut" th:field="*{date_debut_encheres}"></td>
                 </tr>
                 <tr th:object="${articleAVendre}">
@@ -66,8 +66,8 @@
 
 
             <div class="form-actions">
-                <button type="submit">Créer</button>
-                <button type="button" onclick="window.location.href='/'">Annuler</button>
+                <button class="creer" type="submit">Créer</button>
+                <button class="annuler" type="button" onclick="window.location.href='/'">Annuler</button>
             </div>
         </form>
 
