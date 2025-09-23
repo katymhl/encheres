@@ -401,4 +401,32 @@ main {
 }
 
 
+/* FOOTER */
+footer {
+    background-color: #134a7f;
+    padding: 20px;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between; /* texte à gauche, logo à droite */
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+footer p {
+    color: white;
+    font-family: Verdana, sans-serif;
+    font-size: 14px;
+    line-height: 1.4;
+    margin: 0;
+}
+
+.footer-logo {
+    height: 50px; /* ajuste selon ton image */
+    width: auto;
+}
+
+
 

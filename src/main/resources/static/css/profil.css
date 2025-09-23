@@ -1,0 +1,102 @@
+/* Conteneur principal */
+.center-section {
+    max-width: 800px;
+    margin-left: 100px;
+    padding: 30px;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    font-family: Verdana, sans-serif;
+    color: #333;
+}
+
+/* Titre */
+.center-section h1 {
+    font-size: 26px;
+    text-align: center;
+    margin-bottom: 30px;
+    color: black;
+}
+
+/* Tableau d'infos */
+.center-section table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+}
+
+.center-section table td {
+    padding: 12px 15px;
+    font-size: 15px;
+}
+
+/* Colonne gauche (labels) */
+.center-section table td:first-child {
+    font-weight: 600;
+    width: 40%;
+    color: #444;
+}
+
+/* Colonne droite (valeurs) */
+.center-section table td:last-child {
+    color: #555;
+}
+
+/* Alternance de fond sur les lignes */
+.center-section table tr:nth-child(even) {
+    background: #f9f9f9;
+}
+
+/* Boutons */
+.center-section button {
+    margin: 8px;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    transition: background 0.2s, transform 0.1s;
+}
+
+/* Boutons */
+.button-row {
+    display: flex;       /* Tous les boutons sur la même ligne */
+    gap: 10px;           /* Espace entre chaque bouton */
+    align-items: center; /* Aligne verticalement si les boutons ont des hauteurs différentes */
+}
+
+.update button,
+.back button {
+    cursor: pointer;
+}
+
+.update button a{
+    color: white;
+    font-family: Verdana, sans-serif;
+    text-decoration: none;
+}
+
+.update button{
+    background-color: #134a7f;
+    transition: all 0.3s ease;
+}
+
+.update button:hover{
+    background-color: #068bee;
+}
+
+.back button a{
+    color: black;
+    font-family: Verdana, sans-serif;
+    text-decoration: none;
+}
+
+.back button{
+    background-color: #cdcdcd;
+    transition: all 0.3s ease;
+}
+
+.back button:hover{
+    background-color: #dcdcdc;
+
+}

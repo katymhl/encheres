@@ -5,11 +5,12 @@
       data-th-replace="~{layouts/layout :: layout-encheres(
 					titrePage=~{:: title},
 					contenuPage=~{:: main},
-					ressourcesSupp=~{})}">
+					ressourcesSupp=~{:: link})}">
 
 <head>
     <!-- Accueil comme titre de page -->
     <title data-th-text="#{profil.title}"></title>
+    <link rel="stylesheet" th:href="@{/css/profil.css}">
 </head>
 <body>
 <main class="center-main">
@@ -43,6 +44,11 @@
                     <td>Telephone :</td>
                     <td data-th-text="${user.telephone}"></td>
                 </tr>
+
+                <tr th:if="${isOwnProfile}">
+                    <td>Crédit :</td>
+                    <td data-th-text="${user.credit} + ' point(s)'"></td>
+                </tr>
                 </tbody>
             </table>
 
@@ -53,18 +59,22 @@
         </div>
 
 
-        <div th:if="${isOwnProfile}">
-            <button>
-                <a th:href="@{'/monProfil/update?pseudo=' + ${#authentication.name}}">Modifier profil</a>
-            </button>
-            <button>
-                <a th:href="@{'/monProfil/update-pwd?pseudo=' + ${#authentication.name}}">Modifier mot de passe</a>
-            </button>
-        </div>
+        <div class="button-row">
+            <div th:if="${isOwnProfile}" class="update">
+                <button>
+                    <a th:href="@{'/monProfil/update?pseudo=' + ${#authentication.name}}">Modifier profil</a>
+                </button>
+                <button>
+                    <a th:href="@{'/monProfil/update-pwd?pseudo=' + ${#authentication.name}}">Modifier mot de passe</a>
+                </button>
+            </div>
 
-        <button>
-            <a th:href="@{/accueil/connecter}">Retour</a>
-        </button>
+            <div class="back">
+                <button>
+                    <a th:href="@{/accueil/connecter}">Retour</a>
+                </button>
+            </div>
+        </div>
 
 
 
