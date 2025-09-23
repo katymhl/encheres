@@ -63,6 +63,7 @@ main {
     display: grid;
     grid-template-columns: 1fr 250px; /* contenu + colonne droite */
     gap: 2rem;
+    font-family: Verdana, sans-serif;
     padding: 2rem;
     flex-grow: 1;
 }
@@ -147,12 +148,25 @@ main {
 
 /* Colonne droite (date du jour + utilisateur) */
 .sidebar {
+    position: sticky;
+    top: 0;
     background: #fff;
-    border: 1px solid #ddd;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     padding: 1rem;
     border-radius: 8px;
+    font-family: Verdana, sans-serif;
     text-align: center;
-    font-weight: bold;
+}
+
+.sidebar div {
+    margin-top: 10px;
+}
+
+.sidebar div a{
+    padding: 5px;
+    text-decoration: none;
+    font-style: italic;
+    color: #134a7f;
 }
 /* Conteneur principal */
 .profil-form {
@@ -275,26 +289,68 @@ main {
     transition: background-color 0.3s ease;
 }
 
-.form-actions button[type="submit"] {
-    background-color: #0078d4;
-    color: white;
-}
-
-.form-actions button[type="submit"]:hover {
-    background-color: #005fa3;
-}
-
-.form-actions button[type="button"] {
-    background-color: #e0e0e0;
-    color: #333;
-}
-
-.form-actions button[type="button"]:hover {
-    background-color: #c6c6c6;
-}
 .text-danger {
     color: red;
     font-weight: bold;
+}
+
+
+/*Formulaire de vente*/
+.center-section{
+    width: 100%;
+}
+
+.center-section h1{
+    font-family: Verdana, sans-serif;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.table-form{
+    margin-top: 20px;
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.table-form tr td {
+    padding: 12px;
+    vertical-align: top;
+}
+
+.table-form tr td label{
+    font-family: Verdana, sans-serif;
+    font-weight: 600;
+    color: #333;
+    font-size: 14px;
+}
+
+.table-form tr td input,
+.table-form tr td select,
+.table-form tr td textarea{
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: Verdana, sans-serif;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.table-form tr td input:focus,
+.table-form tr td select:focus,
+.table-form tr td textarea:focus {
+    outline: none;
+    border-color: #007BFF;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.4);
+}
+
+.table-form tr td textarea {
+    resize: vertical;
+    min-height: 80px;
 }
 
 
@@ -322,6 +378,83 @@ main {
     padding: 0;
     margin: 0;
     z-index: 10;
+}
+.creer{
+    background-color: #134a7f;
+    color: white;
+    font-family: Verdana, sans-serif;
+    transition: all 0.3s ease;
+}
+
+.form-actions .creer{
+    background-color: #134a7f;
+    color: white;
+    font-family: Verdana, sans-serif;
+    transition: all 0.3s ease;
+}
+
+.creer:hover{
+    background-color: #068bee;
+}
+
+.form-actions .creer:hover{
+    background-color: #068bee;
+}
+
+.annuler{
+    background-color: #cdcdcd;
+    color: black;
+    font-family: Verdana, sans-serif;
+    transition: all 0.3s ease;
+}
+
+.form-actions .annuler{
+    background-color: #cdcdcd;
+    color: black;
+    font-family: Verdana, sans-serif;
+    transition: all 0.3s ease;
+}
+
+.annuler:hover{
+    background-color: #dcdcdc;
+
+}
+
+.form-actions .annuler:hover{
+    background-color: #dcdcdc;
+
+}
+
+/*Formulaire de vente*/
+
+
+
+/* FOOTER */
+footer {
+    background-color: #134a7f;
+    padding: 20px;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between; /* texte à gauche, logo à droite */
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+footer p {
+    color: white;
+    font-family: Verdana, sans-serif;
+    font-size: 14px;
+    line-height: 1.4;
+    margin: 0;
+}
+
+.footer-logo {
+    height: 50px; /* ajuste selon ton image */
+    width: auto;
+
 }
 
 .language-combobox:hover .lang-options {

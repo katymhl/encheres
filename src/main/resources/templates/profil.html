@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       data-th-replace="~{layouts/layout :: layout-encheres(
+
                     titrePage=~{:: title},
                     contenuPage=~{:: main},
-                    ressourcesSupp=~{})}">
+                   ressourcesSupp=~{:: link})}">
 
 <head>
     <title th:text="#{profil.title}">Profil</title>
+   <link rel="stylesheet" th:href="@{/css/profil.css}">
+
 </head>
 <body>
 <main class="center-main">
@@ -36,6 +39,11 @@
                     <td th:text="#{profil.label.telephone}">Téléphone :</td>
                     <td th:text="${user.telephone}">0601020304</td>
                 </tr>
+
+                <tr th:if="${isOwnProfile}">
+                    <td>Crédit :</td>
+                    <td data-th-text="${user.credit} + ' point(s)'"></td>
+                </tr>
                 </tbody>
             </table>
         </div>
@@ -44,7 +52,9 @@
             <h2 th:text="#{profil.notfound}">Utilisateur non trouvé</h2>
         </div>
 
-        <div th:if="${isOwnProfile}">
+
+                  <div class="button-row">
+        <div th:if="${isOwnProfile}"  class="update">
             <button>
                 <a th:href="@{'/monProfil/update?pseudo=' + ${#authentication.name}}" th:text="#{profil.button.edit}">Modifier profil</a>
             </button>
@@ -52,10 +62,13 @@
                 <a th:href="@{'/monProfil/update-pwd?pseudo=' + ${#authentication.name}}" th:text="#{profil.button.password}">Modifier mot de passe</a>
             </button>
         </div>
-
+  <div class="back">
         <button>
             <a th:href="@{/accueil/connecter}" th:text="#{profil.button.back}">Retour</a>
         </button>
+      </div>
+      </div>
+
     </section>
 </main>
 </body>

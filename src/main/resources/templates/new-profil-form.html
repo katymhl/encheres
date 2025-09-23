@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       data-th-replace="~{layouts/layout :: layout-encheres(
+
                     titrePage=~{:: title},
                     contenuPage=~{:: main},
-                    ressourcesSupp=~{})}">
+                    	ressourcesSupp=~{:: link})}">
 
 <head>
     <title th:text="#{new-profil.title}">Inscription</title>
+  <link rel="stylesheet" th:href="@{/css/profil.css}">
+
 </head>
 <body>
 <main class="center-main">
@@ -87,8 +90,12 @@
             </div>
 
             <div class="form-actions">
-                <button type="submit" th:text="#{new-profil.button.submit}">Créer</button>
-                <button type="button" onclick="window.location.href='/'" th:text="#{new-profil.button.cancel}">Annuler</button>
+
+                <button class="creer" type="submit" th:text="#{new-profil.button.submit}">Créer</button>
+                <button  class="annuler" type="button" onclick="window.location.href='/'" th:text="#{new-profil.button.cancel}">Annuler</button>
+
+                
+
             </div>
         </form>
         <!-- Messages d'erreur internationalisés -->

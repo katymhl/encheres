@@ -20,15 +20,17 @@
 <main class="index-container">
 
     <!-- Filtres -->
+
     <section class="index-filters">
-        <h3 th:text="#{index.filters.title}">Filtres :</h3>
+        <label th:text="#{index.filters.title}"></label>
         <form th:action="@{/accueil/connecter}" method="get">
 
             <!-- Champ texte -->
             <input type="text" name="search" th:placeholder="#{index.search.placeholder}" th:value="${search}">
 
+
             <!-- Catégorie -->
-            <label for="categorie" th:text="#{index.category.label}">Catégorie :</label>
+            <label for="categorie" th:text="#{index.category.label}"></label>
             <select id="categorie" name="categorie">
                 <option value="" th:selected="${categorie} == null" th:text="#{index.category.all}">Toutes</option>
                 <option value="1" th:selected="${categorie} == 1" th:text="#{index.category.1}">Ameublement</option>
@@ -40,42 +42,57 @@
             <!-- Radios + selects -->
             <div class="index-radio-filters-horizontal">
                 <div class="radio-group">
-                    <label>
-                        <input type="radio" name="mode" value="achats" id="radioAchats" data-target="filtreAchats"
-                               th:checked="${mode == null or mode == 'achats'}">
-                        <span th:text="#{index.radio.achats}">Achats</span>
-                    </label>
-                    <select name="filtreAchats" id="filtreAchats">
-                        <option value="ouvertes" th:selected="${filtreAchats} == 'ouvertes'" th:text="#{index.radio.achats.open}">Enchères ouvertes</option>
+
+
+               
+                    <p th:text="#{index.radio.achats}">Achats</p>
+                    <div class="radio-line">
+                        <label>
+                            <input type="radio" name="mode" value="achats" id="radioAchats" data-target="filtreAchats"
+                                   th:checked="${mode == null or mode == 'achats'}">
+                        </label>
+                        <select name="filtreAchats" id="filtreAchats">
+                             <option value="ouvertes" th:selected="${filtreAchats} == 'ouvertes'" th:text="#{index.radio.achats.open}">Enchères ouvertes</option>
                         <option value="encours" th:selected="${filtreAchats} == 'encours'" th:text="#{index.radio.achats.ongoing}">Mes enchères en cours</option>
                         <option value="remportees" th:selected="${filtreAchats} == 'remportees'" th:text="#{index.radio.achats.won}">Mes enchères remportées</option>
-                    </select>
+                        </select>
+                    </div>
                 </div>
 
                 <div class="radio-group">
-                    <label>
-                        <input type="radio" name="mode" value="ventes" id="radioVentes" data-target="filtreVentes"
-                               th:checked="${mode == 'ventes'}">
-                        <span th:text="#{index.radio.ventes}">Mes ventes</span>
-                    </label>
-                    <select name="filtreVentes" id="filtreVentes">
-                        <option value="encours" th:selected="${filtreVentes} == 'encours'" th:text="#{index.radio.ventes.ongoing}">Mes ventes en cours</option>
+                    <p th:text="#{index.radio.ventes}">Mes ventes</p>
+                    <div class="radio-line">
+                        <label>
+                            <input type="radio" name="mode" value="ventes" id="radioVentes" data-target="filtreVentes"
+                                   th:checked="${mode == 'ventes'}">
+                        </label>
+                        <select name="filtreVentes" id="filtreVentes">
+                            <option value="encours" th:selected="${filtreVentes} == 'encours'" th:text="#{index.radio.ventes.ongoing}">Mes ventes en cours</option>
                         <option value="nonDebutees" th:selected="${filtreVentes} == 'nonDebutees'" th:text="#{index.radio.ventes.notStarted}">Mes ventes non débutées</option>
                         <option value="terminees" th:selected="${filtreVentes} == 'terminees'" th:text="#{index.radio.ventes.ended}">Mes ventes terminées</option>
-                    </select>
+                        </select>
+                    </div>
+
                 </div>
             </div>
 
             <div class="index-filter-buttons">
+
                 <button type="submit" class="index-btn primary" th:text="#{index.button.search}">Rechercher</button>
-                <a th:href="@{/encheres}" class="index-btn secondary" th:text="#{index.button.cancel}">Annuler</a>
+                <a th:href="@{/}" class="index-btn secondary" th:text="#{index.button.cancel}">Annuler</a>
+
+              
             </div>
         </form>
     </section>
 
     <!-- Liste des enchères -->
     <section class="index-auctions">
+
         <h2 th:text="#{index.auctions.title}">Liste des enchères</h2>
+
+       
+
 
         <div class="index-cards">
             <div class="index-card" th:each="enchere : ${encheres}">
@@ -102,7 +119,11 @@
                 <p>
                     <span th:text="#{index.auctions.seller.label}">Vendeur :</span>
                     <a th:href="@{/profil(id_utilisateur=${enchere.id_utilisateur})}">
-                        <span th:text="${enchere.id_utilisateur}" th:placeholder="#{index.auctions.seller.placeholder}">coach_toto</span>
+
+                        <strong><span th:text="${enchere.id_utilisateur}" th:placeholder="#{index.auctions.seller.placeholder}"></span></strong>
+
+                      
+
                     </a>
                 </p>
             </div>

@@ -1,17 +1,24 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       data-th-replace="~{layouts/layout :: layout-encheres(
+
                     titrePage=~{:: title},
                     contenuPage=~{:: main},
-                    ressourcesSupp=~{})}">
+                    	ressourcesSupp=~{:: link})}">
 
 <head>
     <title th:text="#{update-sale.title}">Modifier une vente</title>
+   <link rel="stylesheet" th:href="@{/css/updateArticle.css}">
+
 </head>
 <body>
 <main class="center-main">
     <section class="center-section">
+
         <h1 style="text-align: center;" th:text="#{update-sale.h1}">Modifier une vente</h1>
+
+    
+
 
         <form th:action="@{/vendre/update}" th:object="${articleAVendre}" method="post" novalidate>
             <table>
@@ -71,10 +78,12 @@
 
             <div class="form-actions">
                 <div class="detail-footer">
-                    <button type="submit" th:text="#{update-sale.button.submit}">Modifier</button>
+
+                    <button  class="creer" type="submit" th:text="#{update-sale.button.submit}">Modifier</button>
                 </div>
                 <div class="detail-footer">
-                    <a href="javascript:history.back()" class="btn-return" th:text="#{update-sale.button.cancel}">Annuler</a>
+                    <a  class="annuler" href="javascript:history.back()" class="btn-return" th:text="#{update-sale.button.cancel}">Annuler</a>
+
                 </div>
             </div>
         </form>

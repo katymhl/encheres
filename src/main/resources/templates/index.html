@@ -15,13 +15,17 @@
 
     <section class="index-filters">
         <form class="index-filters" th:action="@{/encheres}" method="get">
-            <h3 th:text="#{index.filters.title}">Filtres :</h3>
+
+            <label th:text="#{index.filters.title}"></label>
 
             <input type="text" name="search"
                    th:placeholder="#{index.search.placeholder}"
                    th:value="${param.search}">
 
-            <label for="categorie" th:text="#{index.category.label}">Catégorie :</label>
+           
+
+
+            <label for="categorie" th:text="#{index.category.label}"></label>
             <select id="categorie" name="categorie">
                 <option value="" th:text="#{index.category.all}" th:selected="${param.categorie == null}">Toutes</option>
                 <option value="1" th:text="#{index.category.1}" th:selected="${param.categorie == 1}">Ameublement</option>
@@ -31,8 +35,12 @@
             </select>
 
             <div class="index-filter-buttons">
-                <button type="submit" class="index-btn primary" th:text="#{index.button.search}">Rechercher</button>
-                <a th:href="@{/encheres}" class="index-btn secondary" th:text="#{index.button.cancel}">Annuler</a>
+
+                <button type="submit"  th:text="#{index.button.search}">Rechercher</button>
+                <a th:href="@{/}"  th:text="#{index.button.cancel}">Annuler</a>
+
+              
+
             </div>
         </form>
     </section>
@@ -66,4 +74,6 @@
 
 </main>
 </body>
+
 </html>
+

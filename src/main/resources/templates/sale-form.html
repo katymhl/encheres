@@ -14,7 +14,10 @@
         <h1 style="text-align: center;" th:text="#{sale-form.h1}">Créer une vente</h1>
 
         <form th:action="@{/vendre}" method="post" novalidate>
-            <table>
+
+            <table class="table-form">
+
+
                 <tr th:object="${articleAVendre}">
                     <td><label for="article" th:text="#{sale-form.label.article}">Article (*) :</label></td>
                     <td><input type="text" id="article" name="article" th:field="*{nom_article}" required></td>
@@ -24,6 +27,7 @@
                 </tr>
 
                 <tr th:object="${articleAVendre}">
+
                     <td><label for="categorie" th:text="#{sale-form.label.category}">Catégorie (*) :</label></td>
                     <td>
                         <select id="categorie" name="categorie" th:field="*{no_categorie}">
@@ -36,6 +40,7 @@
                     </td>
 
                     <td><label for="debut" th:text="#{sale-form.label.start}">Début de l'enchère :</label></td>
+
                     <td><input type="date" id="debut" name="debut" th:field="*{date_debut_encheres}"></td>
                 </tr>
 
@@ -66,8 +71,10 @@
             </table>
 
             <div class="form-actions">
-                <button type="submit" th:text="#{sale-form.button.submit}">Créer</button>
-                <button type="button" onclick="window.location.href='/'" th:text="#{sale-form.button.cancel}">Annuler</button>
+
+                <button class="creer" type="submit" th:text="#{sale-form.button.submit}">Créer</button>
+                <button class="annuler" type="button" onclick="window.location.href='/'" th:text="#{sale-form.button.cancel}">Annuler</button>
+
             </div>
         </form>
     </section>

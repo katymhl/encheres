@@ -1,16 +1,18 @@
-<header xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
+<div xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
         data-th-fragment="frag-user">
-    <aside class="sidebar">
+
+    <div class="sidebar">
         <p>
-            <span th:text="#{user.date.label}">Date du jour :</span>
-            <span th:text="${#dates.format(#dates.createNow(), 'dd/MM/yyyy')}">23/09/2025</span>
+          <strong><span th:text="#{user.date.label}"></span></strong>
+            <span th:text="${#dates.format(#dates.createNow(), 'dd/MM/yyyy')}"></span>
         </p>
         <p>
-            <span th:text="#{user.participant.label}">Participant :</span>
+             <strong><span th:text="#{user.participant.label}"></span></strong>
             <span th:if="${#authorization.expression('isAuthenticated()')}" th:text="${#authentication.name}">Nom</span>
         </p>
         <li th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
-            <a th:href="@{/admin}" th:text="#{user.admin.link}">Dashboard Admin</a>
+            <a th:href="@{/admin}" th:text="#{user.admin.link}"></a>
         </li>
-    </aside>
-</header>
+    </div>
+
+
