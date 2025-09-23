@@ -18,10 +18,7 @@
         <h1 style="text-align: center;" data-th-text="#{sale-form.h1}"></h1>
 
         <form th:action="@{/vendre}" method="post" novalidate>
-            <table>
-<!--                <tr th:object="${utilisateur}">-->
-<!--                    <td><input type="text" id="pseudo" name="pseudo" th:field="*{pseudo}" readonly hidden></td>-->
-<!--                </tr>-->
+            <table class="table-form">
 
                 <tr th:object="${articleAVendre}">
                     <td><label for="article">Article (*) :</label></td>
