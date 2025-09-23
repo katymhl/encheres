@@ -1,73 +1,61 @@
 <!DOCTYPE html>
-<!-- Accueil comme titre de page -->
-<!-- la balise main définit par la classe de CSS 'center-main' comme paramètre contenuPage -->
 <html xmlns:th="http://www.thymeleaf.org"
       data-th-replace="~{layouts/layout :: layout-encheres(
-					titrePage=~{:: title},
-					contenuPage=~{:: main},
-					ressourcesSupp=~{})}">
+                    titrePage=~{:: title},
+                    contenuPage=~{:: main},
+                    ressourcesSupp=~{})}">
 
 <head>
-    <!-- Accueil comme titre de page -->
-    <title data-th-text="#{profil.title}"></title>
+    <title th:text="#{profil.title}">Profil</title>
 </head>
 <body>
 <main class="center-main">
-    <!-- Partie gauche du contenu -->
-    <section class="center-section" >
-        <div  th:if="${user != null}">
-            <h1 style="text-align: center;" data-th-text="#{profil.h1} + ' @' + ${user.pseudo}"></h1>
+    <section class="center-section">
+        <div th:if="${user != null}">
+            <h1 style="text-align: center;">
+                <span th:text="#{profil.h1} + ' @' + ${user.pseudo}">Profil de @pseudo</span>
+            </h1>
 
             <br><br><br><br>
 
             <table>
-                <!-- build html table based on users -->
                 <tbody>
-
                 <tr>
-                    <td>Prenom :</td>
-                    <td data-th-text="${user.prenom}"></td>
+                    <td th:text="#{profil.label.prenom}">Prénom :</td>
+                    <td th:text="${user.prenom}">Jean</td>
                 </tr>
-
                 <tr>
-                    <td>Nom :</td>
-                    <td data-th-text="${user.nom}"></td>
+                    <td th:text="#{profil.label.nom}">Nom :</td>
+                    <td th:text="${user.nom}">Dupont</td>
                 </tr>
-
                 <tr>
-                    <td>Email :</td>
-                    <td data-th-text="${user.email}"></td>
+                    <td th:text="#{profil.label.email}">Email :</td>
+                    <td th:text="${user.email}">jean@example.com</td>
                 </tr>
-
                 <tr>
-                    <td>Telephone :</td>
-                    <td data-th-text="${user.telephone}"></td>
+                    <td th:text="#{profil.label.telephone}">Téléphone :</td>
+                    <td th:text="${user.telephone}">0601020304</td>
                 </tr>
                 </tbody>
             </table>
-
         </div>
 
         <div th:if="${user == null}">
-            <h2>Utilisateur non trouvé</h2>
+            <h2 th:text="#{profil.notfound}">Utilisateur non trouvé</h2>
         </div>
-
 
         <div th:if="${isOwnProfile}">
             <button>
-                <a th:href="@{'/monProfil/update?pseudo=' + ${#authentication.name}}">Modifier profil</a>
+                <a th:href="@{'/monProfil/update?pseudo=' + ${#authentication.name}}" th:text="#{profil.button.edit}">Modifier profil</a>
             </button>
             <button>
-                <a th:href="@{'/monProfil/update-pwd?pseudo=' + ${#authentication.name}}">Modifier mot de passe</a>
+                <a th:href="@{'/monProfil/update-pwd?pseudo=' + ${#authentication.name}}" th:text="#{profil.button.password}">Modifier mot de passe</a>
             </button>
         </div>
 
         <button>
-            <a th:href="@{/accueil/connecter}">Retour</a>
+            <a th:href="@{/accueil/connecter}" th:text="#{profil.button.back}">Retour</a>
         </button>
-
-
-
     </section>
 </main>
 </body>

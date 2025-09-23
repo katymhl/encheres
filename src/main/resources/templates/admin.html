@@ -1,21 +1,18 @@
 <!DOCTYPE html>
-<!-- Accueil comme titre de page -->
-<!-- la balise main définit par la classe de CSS 'center-main' comme paramètre contenuPage -->
 <html xmlns:th="http://www.thymeleaf.org"
       data-th-replace="~{layouts/layout :: layout-encheres(
-					titrePage=~{:: title},
-					contenuPage=~{:: main},
-					ressourcesSupp=~{})}">
+                    titrePage=~{:: title},
+                    contenuPage=~{:: main},
+                    ressourcesSupp=~{})}">
 
 <head>
-    <!-- Accueil comme titre de page -->
-    <title>ADMIN</title>
+    <title th:text="#{admin.title}">ADMIN</title>
 </head>
+
 <body>
 <main class="center-main">
-    <!-- Partie gauche du contenu -->
     <section class="center-section">
-        <h1 style="text-align: center;">PAGE ADMIN</h1>
+        <h1 style="text-align: center;" th:text="#{admin.heading}">PAGE ADMIN</h1>
     </section>
 </main>
 </body>

@@ -298,6 +298,42 @@ main {
 }
 
 
+.language-combobox {
+    margin-top: 10px;
+    position: relative;
+    width: fit-content;
+}
 
+.selected-lang {
+    padding: 5px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    cursor: pointer;
+}
 
+.lang-options {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    z-index: 10;
+}
 
+.language-combobox:hover .lang-options {
+    display: block;
+}
+
+.lang-options li {
+    padding: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.lang-options img {
+    margin-right: 8px;
+}

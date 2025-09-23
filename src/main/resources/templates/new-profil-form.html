@@ -1,116 +1,106 @@
 <!DOCTYPE html>
-<!-- Accueil comme titre de page -->
-<!-- la balise main définit par la classe de CSS 'center-main' comme paramètre contenuPage -->
 <html xmlns:th="http://www.thymeleaf.org"
       data-th-replace="~{layouts/layout :: layout-encheres(
-					titrePage=~{:: title},
-					contenuPage=~{:: main},
-					ressourcesSupp=~{})}">
+                    titrePage=~{:: title},
+                    contenuPage=~{:: main},
+                    ressourcesSupp=~{})}">
 
 <head>
-    <!-- Accueil comme titre de page -->
-    <title data-th-text="#{new-profil.title}"></title>
+    <title th:text="#{new-profil.title}">Inscription</title>
 </head>
 <body>
 <main class="center-main">
-    <!-- Partie gauche du contenu -->
     <section class="center-section">
-        <h1 style="text-align: center;" data-th-text="#{new-profil.h1}"></h1>
-
+        <h1 style="text-align: center;" th:text="#{new-profil.h1}">Créer un profil</h1>
 
         <form class="profil-form" th:action="@{/inscription}" method="post" novalidate>
-
-            <!-- Champs Utilisateur -->
             <div th:object="${utilisateur}">
-            <div>
-                <label>Pseudo (*) :</label>
-                <input type="text" name="pseudo" th:value="${pseudo}" required minlength="3" maxlength="30"
-                       pattern="^[A-Za-z0-9_]+$" title="Lettres, chiffres et underscore uniquement">
-                <div th:if="${#fields.hasErrors('pseudo')}" th:errors="*{pseudo}" class="text-danger"></div>
-            </div>
+                <div>
+                    <label th:text="#{new-profil.label.pseudo}">Pseudo (*) :</label>
+                    <input type="text" name="pseudo" th:value="${pseudo}" required minlength="3" maxlength="30"
+                           pattern="^[A-Za-z0-9_]+$" th:title="#{new-profil.title.pseudo}">
+                    <div th:if="${#fields.hasErrors('pseudo')}" th:errors="*{pseudo}" class="text-danger"></div>
+                </div>
 
-            <div>
-                <label>Nom (*) :</label>
-                <input type="text" name="nom" th:value="${nom}" required>
-                <div th:if="${#fields.hasErrors('nom')}" th:errors="*{nom}" class="text-danger"></div>
-            </div>
+                <div>
+                    <label th:text="#{new-profil.label.nom}">Nom (*) :</label>
+                    <input type="text" name="nom" th:value="${nom}" required>
+                    <div th:if="${#fields.hasErrors('nom')}" th:errors="*{nom}" class="text-danger"></div>
+                </div>
 
-            <div>
-                <label>Prénom (*) :</label>
-                <input type="text" name="prenom" th:value="${prenom}" required>
-                <div th:if="${#fields.hasErrors('prenom')}" th:errors="*{prenom}" class="text-danger"></div>
-            </div>
+                <div>
+                    <label th:text="#{new-profil.label.prenom}">Prénom (*) :</label>
+                    <input type="text" name="prenom" th:value="${prenom}" required>
+                    <div th:if="${#fields.hasErrors('prenom')}" th:errors="*{prenom}" class="text-danger"></div>
+                </div>
 
-            <div>
-                <label>Email (*) :</label>
-                <input type="email" name="email" th:value="${email}" required>
-                <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger"></div>
-            </div>
+                <div>
+                    <label th:text="#{new-profil.label.email}">Email (*) :</label>
+                    <input type="email" name="email" th:value="${email}" required>
+                    <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger"></div>
+                </div>
 
-            <div>
-                <label>Mot de passe (*) :</label>
-                <input type="password" id="motdepasse" name="mot_de_passe"
-                       required minlength="8" maxlength="20"
-                       pattern="^(?=.*[A-Z])(?=.*\\d)(?=.*[^A-Za-z0-9]).{8,20}$"
-                       title="8-20 caractères, 1 majuscule, 1 chiffre et 1 caractère spécial">
-                <div th:if="${#fields.hasErrors('mot_de_passe')}" th:errors="*{mot_de_passe}" class="text-danger"></div>
-            </div>
+                <div>
+                    <label th:text="#{new-profil.label.password}">Mot de passe (*) :</label>
+                    <input type="password" id="motdepasse" name="mot_de_passe"
+                           required minlength="8" maxlength="20"
+                           pattern="^(?=.*[A-Z])(?=.*\\d)(?=.*[^A-Za-z0-9]).{8,20}$"
+                           th:title="#{new-profil.title.password}">
+                    <div th:if="${#fields.hasErrors('mot_de_passe')}" th:errors="*{mot_de_passe}" class="text-danger"></div>
+                </div>
 
-            <div>
-                <label>Confirmation (*) :</label>
-                <input type="password" id="confirmation" name="confirmPassword" required>
-                <div id="confirm-error" style="color:darkred;">
-                    <span th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}" class="text-danger"></span>
+                <div>
+                    <label th:text="#{new-profil.label.confirm}">Confirmation (*) :</label>
+                    <input type="password" id="confirmation" name="confirmPassword" required>
+                    <div id="confirm-error" style="color:darkred;">
+                        <span th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div>
+                    <label th:text="#{new-profil.label.telephone}">Téléphone :</label>
+                    <input type="tel" name="telephone" th:value="${telephone}" pattern="^\\d{10}$"
+                           th:title="#{new-profil.title.telephone}" maxlength="10">
+                    <div th:if="${#fields.hasErrors('telephone')}" th:errors="*{telephone}" class="text-danger"></div>
                 </div>
             </div>
 
-            <div>
-                <label>Téléphone :</label>
-                <input type="tel" name="telephone" th:value="${telephone}" pattern="^\\d{10}$"
-                       title="Le numéro doit contenir exactement 10 chiffres"
-                       maxlength="10">
-                <div th:if="${#fields.hasErrors('telephone')}" th:errors="*{telephone}" style="color:darkred;" class="text-danger"></div>
-            </div>
-            </div>
-
-            <!-- Champs Adresse -->
             <div th:object="${adresse}">
-                <label>Adresse (*) :</label>
+                <label th:text="#{new-profil.label.adresse}">Adresse (*) :</label>
                 <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                    <!-- Rue -->
                     <div>
-                        <input type="text" name="rue" th:value="*{rue}" placeholder="Rue" required>
+                        <input type="text" name="rue" th:value="*{rue}" th:placeholder="#{new-profil.label.rue}" required>
                         <div th:if="${#fields.hasErrors('rue')}" th:errors="*{rue}" class="text-danger"></div>
                     </div>
 
-                    <!-- Code postal -->
                     <div>
-                        <input type="text" name="code_postal" th:value="*{code_postal}" placeholder="Code postal" required pattern="^\\d{5}$"
-                               title="Code postal à 5 chiffres">
+                        <input type="text" name="code_postal" th:value="*{code_postal}" th:placeholder="#{new-profil.label.codepostal}" required pattern="^\\d{5}$"
+                               th:title="#{new-profil.title.codepostal}">
                         <div th:if="${#fields.hasErrors('code_postal')}" th:errors="*{code_postal}" class="text-danger"></div>
                     </div>
 
-                    <!-- Ville -->
                     <div>
-                        <input type="text" name="ville" th:value="*{ville}" placeholder="Ville" required>
+                        <input type="text" name="ville" th:value="*{ville}" th:placeholder="#{new-profil.label.ville}" required>
                         <div th:if="${#fields.hasErrors('ville')}" th:errors="*{ville}" class="text-danger"></div>
                     </div>
                 </div>
             </div>
 
-
-
             <div class="form-actions">
-                <button type="submit">Créer</button>
-                <button type="button" onclick="window.location.href='/'">Annuler</button>
+                <button type="submit" th:text="#{new-profil.button.submit}">Créer</button>
+                <button type="button" onclick="window.location.href='/'" th:text="#{new-profil.button.cancel}">Annuler</button>
             </div>
         </form>
-
-
+        <!-- Messages d'erreur internationalisés -->
+        <span id="msg-format" th:text="#{new-profil.error.format}" style="display:none;"></span>
+        <span id="msg-match" th:text="#{new-profil.error.match}" style="display:none;"></span>
 
         <script>
             (function(){
                 const form = document.querySelector('.profil-form');
+                const formatMessage = document.getElementById('msg-format').textContent;
+                const matchMessage = document.getElementById('msg-match').textContent;
+
                 form.addEventListener('submit', function(e){
                     const pwd = document.getElementById('motdepasse').value;
                     const conf = document.getElementById('confirmation').value;
@@ -121,22 +111,22 @@
 
                     if (!formatRegex.test(pwd)) {
                         e.preventDefault();
-                        errorDiv.textContent = "Le mot de passe ne respecte pas le format requis : 8-20 caractères, 1 majuscule, 1 chiffre et 1 caractère spécial.";
+                        errorDiv.textContent = formatMessage;
                         return;
                     }
 
                     if (pwd !== conf) {
                         e.preventDefault();
-                        errorDiv.textContent = "Les mots de passe ne correspondent pas.";
+                        errorDiv.textContent = matchMessage;
                         return;
                     }
                 });
             })();
         </script>
 
-
-
     </section>
+
+
 </main>
 </body>
 </html>

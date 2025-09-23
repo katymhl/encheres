@@ -1,35 +1,37 @@
 <!DOCTYPE html>
-<!-- Déclaration du fragment principal – le layout layout-encheres -->
 <html xmlns:th="http://www.thymeleaf.org"
       data-th-fragment="layout-encheres(titrePage, contenuPage, ressourcesSupp)">
 <head>
-    <!-- Paramétrer le layout pour des valeurs dynamiques -->
     <meta charset="UTF-8">
-    <title data-th-replace="${titrePage}" data-th-text="#{nom-application}"></title>
 
-    <!-- Déclaration des CSS par défaut : -->
-    <link rel="stylesheet" data-th-href="@{/css/style.css}">
+    <!-- Titre dynamique avec clé i18n -->
+    <title data-th-replace="${titrePage}" th:text="#{nom-application}">Application d'enchères ENI</title>
 
-    <!-- Permettre d’ajouter ou non des ressources CSS -->
-    <th:block data-th-replace="${ressourcesSupp} ?: ~{}"></th:block>
+    <!-- Feuille de style principale -->
+    <link rel="stylesheet" th:href="@{/css/style.css}" th:title="#{layout.stylesheet.default}">
 
-    <link rel="icon" data-th-href="@{/images/logo_ENI.png}" sizes="32x32">
+    <!-- Ressources CSS supplémentaires -->
+    <th:block th:replace="${ressourcesSupp} ?: ~{}"></th:block>
+
+    <!-- Favicon -->
+    <link rel="icon" th:href="@{/images/logo_ENI.png}" sizes="32x32" th:alt="#{layout.icon.alt}">
 </head>
-    <body>
-        <!-- Intégration du fragment d'entête -->
-        <div data-th-replace="~{fragments/fragment-entete :: frag-entete}"></div>
 
-        <!-- Rendre variable le contenu de la page -->
-        <main>
-            <!-- Partie gauche : Contenu de la page -->
-            <div data-th-replace="${contenuPage} ?: ~{}">
-                Contenu de la page
-            </div>
-            <!-- Colonne droite : date du jour et utilisateur -->
-            <div data-th-replace="~{fragments/fragment-utilisateur :: frag-user}"></div>
-        </main>
+<body>
+<!-- Fragment d'entête -->
+<div th:replace="~{fragments/fragment-entete :: frag-entete}"></div>
 
-        <!-- Intégration du fragment de pied de page -->
-        <div data-th-replace="~{fragments/fragment-piedpage :: frag-piedpage}"></div>
-    </body>
+<main>
+    <!-- Contenu principal -->
+    <div th:replace="${contenuPage} ?: ~{}" th:title="#{layout.content.placeholder}">
+        Contenu de la page
+    </div>
+
+    <!-- Fragment utilisateur -->
+    <div th:replace="~{fragments/fragment-utilisateur :: frag-user}" th:title="#{layout.user.fragment}"></div>
+</main>
+
+<!-- Fragment pied de page -->
+<div th:replace="~{fragments/fragment-piedpage :: frag-piedpage}" th:title="#{layout.footer.fragment}"></div>
+</body>
 </html>

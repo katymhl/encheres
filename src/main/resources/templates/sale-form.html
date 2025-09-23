@@ -1,87 +1,75 @@
 <!DOCTYPE html>
-<!-- Accueil comme titre de page -->
-<!-- la balise main définit par la classe de CSS 'center-main' comme paramètre contenuPage -->
 <html xmlns:th="http://www.thymeleaf.org"
       data-th-replace="~{layouts/layout :: layout-encheres(
-					titrePage=~{:: title},
-					contenuPage=~{:: main},
-					ressourcesSupp=~{})}">
+                    titrePage=~{:: title},
+                    contenuPage=~{:: main},
+                    ressourcesSupp=~{})}">
 
 <head>
-    <!-- Accueil comme titre de page -->
-    <title data-th-text="#{sale-form.title}"></title>
+    <title th:text="#{sale-form.title}">Créer une vente</title>
 </head>
 <body>
 <main class="center-main">
-    <!-- Partie gauche du contenu -->
     <section class="center-section">
-        <h1 style="text-align: center;" data-th-text="#{sale-form.h1}"></h1>
+        <h1 style="text-align: center;" th:text="#{sale-form.h1}">Créer une vente</h1>
 
         <form th:action="@{/vendre}" method="post" novalidate>
             <table>
-<!--                <tr th:object="${utilisateur}">-->
-<!--                    <td><input type="text" id="pseudo" name="pseudo" th:field="*{pseudo}" readonly hidden></td>-->
-<!--                </tr>-->
-
                 <tr th:object="${articleAVendre}">
-                    <td><label for="article">Article (*) :</label></td>
+                    <td><label for="article" th:text="#{sale-form.label.article}">Article (*) :</label></td>
                     <td><input type="text" id="article" name="article" th:field="*{nom_article}" required></td>
-                    <td><label for="prix">Mise à prix (*) :</label></td>
+
+                    <td><label for="prix" th:text="#{sale-form.label.price}">Mise à prix (*) :</label></td>
                     <td><input type="number" id="prix" name="prix" th:field="*{prix_initial}" required></td>
                 </tr>
 
                 <tr th:object="${articleAVendre}">
-                    <td><label for="categorie">Catégorie (*) :</label></td>
-                    <td><select id="categorie" name="categorie" th:field="*{no_categorie}">
-                        <option value="">-- Sélectionnez une catégorie --</option>
-                        <option th:each="cat : ${categories}"
-                                th:value="${cat.no_categorie}"
-                                th:text="${cat.libelle}">
-                        </option>
-                    </select></td> <!--menu déroulant à option-->
-                    <td><label for="debut">Debut de l'enchère  :</label></td>
+                    <td><label for="categorie" th:text="#{sale-form.label.category}">Catégorie (*) :</label></td>
+                    <td>
+                        <select id="categorie" name="categorie" th:field="*{no_categorie}">
+                            <option value="" th:text="#{sale-form.option.category}">-- Sélectionnez une catégorie --</option>
+                            <option th:each="cat : ${categories}"
+                                    th:value="${cat.no_categorie}"
+                                    th:text="${cat.libelle}">
+                            </option>
+                        </select>
+                    </td>
+
+                    <td><label for="debut" th:text="#{sale-form.label.start}">Début de l'enchère :</label></td>
                     <td><input type="date" id="debut" name="debut" th:field="*{date_debut_encheres}"></td>
                 </tr>
-                <tr th:object="${articleAVendre}">
-                    <td><label for="description">Description (*) :</label></td>
-                    <td><textarea id="description" name="description" th:field="*{description}" rows="5" cols="40"></textarea></td>
-                    <td><label for="fin">Fin de l'enchère  :</label></td>
-                    <td><input type="date" id="fin" name="fin" th:field="*{date_fin_encheres}"></td><!--choix date dans calendrier + icon calendrier-->
-                </tr>
-                <tr th:object="${articleAVendre}">
-                    <td><label for="adresse">Retrait (*) :</label></td>
-                    <td><select id="adresse" th:field="*{no_adresse_retrait}">
-                        <!-- Adresse par défaut -->
-                        <option th:value="${adresse.no_adresse}"
-                                th:text="${adresse.rue + ' ' + adresse.code_postal + ' ' + adresse.ville}"
-                                selected="selected">
-                        </option>
 
-                        <!-- Autres adresses -->
-                        <option th:each="adr : ${adresses}"
-                                th:if="${adr.no_adresse != adresse.no_adresse}"
-                                th:value="${adr.no_adresse}"
-                                th:text="${adr.rue + ' ' + adr.code_postal + ' ' + adr.ville}">
-                        </option>
-                    </select></td><!--liste d'option, menu déroulant avec les adresses de l'eni + adresse perso-->
+                <tr th:object="${articleAVendre}">
+                    <td><label for="description" th:text="#{sale-form.label.description}">Description (*) :</label></td>
+                    <td><textarea id="description" name="description" th:field="*{description}" rows="5" cols="40"></textarea></td>
+
+                    <td><label for="fin" th:text="#{sale-form.label.end}">Fin de l'enchère :</label></td>
+                    <td><input type="date" id="fin" name="fin" th:field="*{date_fin_encheres}"></td>
+                </tr>
+
+                <tr th:object="${articleAVendre}">
+                    <td><label for="adresse" th:text="#{sale-form.label.retrait}">Retrait (*) :</label></td>
+                    <td>
+                        <select id="adresse" th:field="*{no_adresse_retrait}">
+                            <option th:value="${adresse.no_adresse}"
+                                    th:text="${adresse.rue + ' ' + adresse.code_postal + ' ' + adresse.ville}"
+                                    selected="selected">
+                            </option>
+                            <option th:each="adr : ${adresses}"
+                                    th:if="${adr.no_adresse != adresse.no_adresse}"
+                                    th:value="${adr.no_adresse}"
+                                    th:text="${adr.rue + ' ' + adr.code_postal + ' ' + adr.ville}">
+                            </option>
+                        </select>
+                    </td>
                 </tr>
             </table>
 
-
             <div class="form-actions">
-                <button type="submit">Créer</button>
-                <button type="button" onclick="window.location.href='/'">Annuler</button>
+                <button type="submit" th:text="#{sale-form.button.submit}">Créer</button>
+                <button type="button" onclick="window.location.href='/'" th:text="#{sale-form.button.cancel}">Annuler</button>
             </div>
         </form>
-
-
-
-        <script>
-
-        </script>
-
-
-
     </section>
 </main>
 </body>
