@@ -7,16 +7,20 @@ import java.awt.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
 
+
 public class ArticleAVendre implements Serializable {
 
+
+    private byte[] photo;
     private static final long serialVersionUID = 1L;
 private int no_article;
 private String nom_article;
 private String description;
-private Integer photo;
+
 private LocalDate date_debut_encheres;
 private LocalDate  date_fin_encheres;
 private int statut_enchere;
@@ -29,7 +33,7 @@ private Integer no_adresse_retrait;
 public ArticleAVendre() {
 
 }
-public ArticleAVendre(int no_article,String nom_article,String description,Integer photo,LocalDate date_debut_encheres, LocalDate date_fin_encheres,int statut_enchere,
+public ArticleAVendre(int no_article,String nom_article,String description,byte[] photo,LocalDate date_debut_encheres, LocalDate date_fin_encheres,int statut_enchere,
                       int prix_initial, Integer prix_vente,String id_utilisateur,Long no_categorie,Integer no_adresse_retrait) {
     this.no_article=no_article;
     this.nom_article=nom_article;
@@ -70,11 +74,12 @@ public ArticleAVendre(int no_article,String nom_article,String description,Integ
         this.description = description;
     }
 
-    public Integer getPhoto() {
+
+    public byte[] getPhoto() {
         return photo;
     }
 
-    public void setPhoto(Integer photo) {
+    public void setPhoto(byte[] photo) {
         this.photo = photo;
     }
 
@@ -150,14 +155,13 @@ public ArticleAVendre(int no_article,String nom_article,String description,Integ
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         ArticleAVendre that = (ArticleAVendre) o;
-        return no_article == that.no_article && photo == that.photo && statut_enchere == that.statut_enchere && prix_initial == that.prix_initial && prix_vente == that.prix_vente && no_categorie == that.no_categorie && no_adresse_retrait == that.no_adresse_retrait && Objects.equals(nom_article, that.nom_article) && Objects.equals(description, that.description) && Objects.equals(date_debut_encheres, that.date_debut_encheres) && Objects.equals(date_fin_encheres, that.date_fin_encheres) && Objects.equals(id_utilisateur, that.id_utilisateur);
+        return no_article == that.no_article && statut_enchere == that.statut_enchere && prix_initial == that.prix_initial && Objects.equals(nom_article, that.nom_article) && Objects.equals(description, that.description) && Objects.equals(date_debut_encheres, that.date_debut_encheres) && Objects.equals(date_fin_encheres, that.date_fin_encheres) && Objects.equals(prix_vente, that.prix_vente) && Objects.equals(id_utilisateur, that.id_utilisateur) && Objects.equals(no_categorie, that.no_categorie) && Objects.equals(no_adresse_retrait, that.no_adresse_retrait) && Objects.deepEquals(photo, that.photo);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(no_article, nom_article, description, photo, date_debut_encheres, date_fin_encheres, statut_enchere, prix_initial, prix_vente, id_utilisateur, no_categorie, no_adresse_retrait);
+        return Objects.hash(no_article, nom_article, description, date_debut_encheres, date_fin_encheres, statut_enchere, prix_initial, prix_vente, id_utilisateur, no_categorie, no_adresse_retrait, Arrays.hashCode(photo));
     }
-
 
     @Override
     public String toString() {
@@ -165,7 +169,6 @@ public ArticleAVendre(int no_article,String nom_article,String description,Integ
                 "no_article=" + no_article +
                 ", nom_article='" + nom_article + '\'' +
                 ", description='" + description + '\'' +
-                ", photo=" + photo +
                 ", date_debut_encheres=" + date_debut_encheres +
                 ", date_fin_encheres=" + date_fin_encheres +
                 ", statut_enchere=" + statut_enchere +
@@ -174,6 +177,8 @@ public ArticleAVendre(int no_article,String nom_article,String description,Integ
                 ", id_utilisateur='" + id_utilisateur + '\'' +
                 ", no_categorie=" + no_categorie +
                 ", no_adresse_retrait=" + no_adresse_retrait +
+                ", photo=" + (photo != null ? photo.length + " bytes" : "null") +
                 '}';
     }
+
 }
