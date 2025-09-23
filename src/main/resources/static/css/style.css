@@ -147,8 +147,10 @@ main {
 
 /* Colonne droite (date du jour + utilisateur) */
 .sidebar {
+    position: sticky;
+    top: 0;
     background: #fff;
-    border: 1px solid #ddd;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     padding: 1rem;
     border-radius: 8px;
     text-align: center;
