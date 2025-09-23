@@ -3,10 +3,12 @@
       data-th-replace="~{layouts/layout :: layout-encheres(
                     titrePage=~{:: title},
                     contenuPage=~{:: main},
-                    ressourcesSupp=~{})}">
+                    ressourcesSupp=~{:: link})}">
 
 <head>
     <title th:text="#{login.title}">Connexion</title>
+    <link rel="stylesheet" th:href="@{/css/logout.css}">
+
 </head>
 <body>
 <main class="center-main">
@@ -26,8 +28,8 @@
                 <input id="inputPwd" type="password" name="password" />
             </li>
             <li>
-                <button type="submit" th:text="#{login.submit}">Se connecter</button>
-                <button type="button" onclick="window.location.href='/inscription';" th:text="#{login.signup}">S'inscrire</button>
+                <button class="creer" type="submit" th:text="#{login.submit}">Se connecter</button>
+                <button class="annuler" type="button" onclick="window.location.href='/inscription';" th:text="#{login.signup}">S'inscrire</button>
             </li>
         </ul>
     </form>
