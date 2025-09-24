@@ -1,0 +1,121 @@
+/* Container principal centré */
+.center-main {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+}
+
+/* Section centrale avec ombre et bord arrondi */
+.center-section {
+    background-color: #fff;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    max-width: 1000px;
+    width: 100%;
+}
+
+/* Titre du formulaire */
+.center-section h1 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+/* Table pour organiser les champs */
+.center-section table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 10px 15px;
+}
+
+/* Labels */
+.center-section label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+/* Inputs, textarea et select */
+.center-section input[type="text"],
+.center-section input[type="number"],
+.center-section input[type="date"],
+.center-section select,
+.center-section textarea {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+}
+
+.center-section input:focus,
+.center-section select:focus,
+.center-section textarea:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+/* Textarea */
+.center-section textarea {
+    resize: vertical;
+}
+
+/* Actions du formulaire */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+/* Bouton Modifier */
+button.creer {
+    background-color: #134a7f;
+    color: #fff;
+    border: none;
+    padding: 10px 22px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+button.creer:hover {
+    background-color: #068bee;
+    transform: translateY(-2px);
+}
+
+/* Lien Annuler */
+a.annuler {
+    display: inline-block;
+    text-decoration: none;
+    padding: 10px 22px;
+    color: #bdbdbd;
+    border-radius: 6px;
+    transition: all 0.3s;
+}
+
+a.annuler:hover {
+    background-color: #cccccc;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .form-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .form-actions > div {
+        width: 100%;
+    }
+}

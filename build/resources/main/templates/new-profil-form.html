@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      data-th-replace="~{layouts/layout :: layout-encheres(
+
+                    titrePage=~{:: title},
+                    contenuPage=~{:: main},
+                    	ressourcesSupp=~{:: link})}">
+
+<head>
+    <title th:text="#{new-profil.title}">Inscription</title>
+  <link rel="stylesheet" th:href="@{/css/profil.css}">
+
+</head>
+<body>
+<main class="center-main">
+    <section class="center-section">
+        <h1 style="text-align: center;" th:text="#{new-profil.h1}">Créer un profil</h1>
+
+        <form class="profil-form" th:action="@{/inscription}" method="post" novalidate>
+            <div th:object="${utilisateur}">
+                <div>
+                    <label th:text="#{new-profil.label.pseudo}">Pseudo (*) :</label>
+                    <input type="text" name="pseudo" th:value="${pseudo}" required minlength="3" maxlength="30"
+                           pattern="^[A-Za-z0-9_]+$" th:title="#{new-profil.title.pseudo}">
+                    <div th:if="${#fields.hasErrors('pseudo')}" th:errors="*{pseudo}" class="text-danger"></div>
+                </div>
+
+                <div>
+                    <label th:text="#{new-profil.label.nom}">Nom (*) :</label>
+                    <input type="text" name="nom" th:value="${nom}" required>
+                    <div th:if="${#fields.hasErrors('nom')}" th:errors="*{nom}" class="text-danger"></div>
+                </div>
+
+                <div>
+                    <label th:text="#{new-profil.label.prenom}">Prénom (*) :</label>
+                    <input type="text" name="prenom" th:value="${prenom}" required>
+                    <div th:if="${#fields.hasErrors('prenom')}" th:errors="*{prenom}" class="text-danger"></div>
+                </div>
+
+                <div>
+                    <label th:text="#{new-profil.label.email}">Email (*) :</label>
+                    <input type="email" name="email" th:value="${email}" required>
+                    <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger"></div>
+                </div>
+
+                <div>
+                    <label th:text="#{new-profil.label.password}">Mot de passe (*) :</label>
+                    <input type="password" id="motdepasse" name="mot_de_passe"
+                           required minlength="8" maxlength="20"
+                           pattern="^(?=.*[A-Z])(?=.*\\d)(?=.*[^A-Za-z0-9]).{8,20}$"
+                           th:title="#{new-profil.title.password}">
+                    <div th:if="${#fields.hasErrors('mot_de_passe')}" th:errors="*{mot_de_passe}" class="text-danger"></div>
+                </div>
+
+                <div>
+                    <label th:text="#{new-profil.label.confirm}">Confirmation (*) :</label>
+                    <input type="password" id="confirmation" name="confirmPassword" required>
+                    <div id="confirm-error" style="color:darkred;">
+                        <span th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div>
+                    <label th:text="#{new-profil.label.telephone}">Téléphone :</label>
+                    <input type="tel" name="telephone" th:value="${telephone}" pattern="^\\d{10}$"
+                           th:title="#{new-profil.title.telephone}" maxlength="10">
+                    <div th:if="${#fields.hasErrors('telephone')}" th:errors="*{telephone}" class="text-danger"></div>
+                </div>
+            </div>
+
+            <div th:object="${adresse}">
+                <label th:text="#{new-profil.label.adresse}">Adresse (*) :</label>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <div>
+                        <input type="text" name="rue" th:value="*{rue}" th:placeholder="#{new-profil.label.rue}" required>
+                        <div th:if="${#fields.hasErrors('rue')}" th:errors="*{rue}" class="text-danger"></div>
+                    </div>
+
+                    <div>
+                        <input type="text" name="code_postal" th:value="*{code_postal}" th:placeholder="#{new-profil.label.codepostal}" required pattern="^\\d{5}$"
+                               th:title="#{new-profil.title.codepostal}">
+                        <div th:if="${#fields.hasErrors('code_postal')}" th:errors="*{code_postal}" class="text-danger"></div>
+                    </div>
+
+                    <div>
+                        <input type="text" name="ville" th:value="*{ville}" th:placeholder="#{new-profil.label.ville}" required>
+                        <div th:if="${#fields.hasErrors('ville')}" th:errors="*{ville}" class="text-danger"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+
+                <button class="creer" type="submit" th:text="#{new-profil.button.submit}">Créer</button>
+                <button  class="annuler" type="button" onclick="window.location.href='/'" th:text="#{new-profil.button.cancel}">Annuler</button>
+
+            </div>
+        </form>
+        <!-- Messages d'erreur internationalisés -->
+        <span id="msg-format" th:text="#{new-profil.error.format}" style="display:none;"></span>
+        <span id="msg-match" th:text="#{new-profil.error.match}" style="display:none;"></span>
+
+        <script>
+            (function(){
+                const form = document.querySelector('.profil-form');
+                const formatMessage = document.getElementById('msg-format').textContent;
+                const matchMessage = document.getElementById('msg-match').textContent;
+
+                form.addEventListener('submit', function(e){
+                    const pwd = document.getElementById('motdepasse').value;
+                    const conf = document.getElementById('confirmation').value;
+                    const errorDiv = document.getElementById('confirm-error');
+                    const formatRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,20}$/;
+
+                    errorDiv.textContent = '';
+
+                    if (!formatRegex.test(pwd)) {
+                        e.preventDefault();
+                        errorDiv.textContent = formatMessage;
+                        return;
+                    }
+
+                    if (pwd !== conf) {
+                        e.preventDefault();
+                        errorDiv.textContent = matchMessage;
+                        return;
+                    }
+                });
+            })();
+        </script>
+
+    </section>
+
+</main>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      data-th-replace="~{layouts/layout :: layout-encheres(
+                    titrePage=~{:: title},
+                    contenuPage=~{:: main},
+                    ressourcesSupp=~{:: link})}">
+
+<head>
+    <title th:text="#{login.title}">Connexion</title>
+    <link rel="stylesheet" th:href="@{/css/logout.css}">
+
+</head>
+<body>
+<main class="center-main">
+    <div th:if="${param.expired}" class="alert alert-warning">
+        <p>⏳ Votre session a expiré après 5 minutes d'inactivité. Veuillez vous reconnecter.</p>
+    </div>
+
+    <div th:if="${param.logout}" class="alert alert-success">
+        <p>✅ Vous avez été déconnecté avec succès.</p>
+    </div>
+
+    <div th:if="${param.error}" class="alert alert-danger">
+        <p>❌ Identifiants incorrects. Veuillez réessayer.</p>
+    </div>
+
+    <form class="profil-form" th:action="@{/login}" method="post">
+        <h1 th:text="#{login.h1}">Connexion</h1>
+
+        <div class="cards" th:if="${param.error}" th:text="#{login.error}">Erreur de pseudo ou mot de passe</div>
+        <div th:if="${param.logout}" th:text="#{login.logout}">Déconnexion réussie</div>
+
+        <ul class="flex-outer">
+            <li>
+                <label for="inputUsername" th:text="#{login.username.label}">Pseudo :</label>
+                <input id="inputUsername" type="text" name="username" />
+            </li>
+            <li>
+                <label for="inputPwd" th:text="#{login.password.label}">Mot de passe :</label>
+                <input id="inputPwd" type="password" name="password" />
+            </li>
+            <li>
+                <button class="creer" type="submit" th:text="#{login.submit}">Se connecter</button>
+                <button class="annuler" type="button" onclick="window.location.href='/inscription';" th:text="#{login.signup}">S'inscrire</button>
+            </li>
+        </ul>
+    </form>
+</main>
+</body>
+</html>

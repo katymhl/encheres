@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      data-th-fragment="layout-encheres(titrePage, contenuPage, ressourcesSupp)">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- Titre dynamique avec clé i18n -->
+    <title data-th-replace="${titrePage}" th:text="#{nom-application}">Application d'enchères ENI</title>
+
+    <!-- Feuille de style principale -->
+    <link rel="stylesheet" th:href="@{/css/style.css}" th:title="#{layout.stylesheet.default}">
+
+    <!-- Ressources CSS supplémentaires -->
+    <th:block th:replace="${ressourcesSupp} ?: ~{}"></th:block>
+
+    <!-- Favicon -->
+    <link rel="icon" th:href="@{/images/logo_ENI.png}" sizes="32x32" th:alt="#{layout.icon.alt}">
+</head>
+
+<body>
+<!-- Fragment d'entête -->
+<div th:replace="~{fragments/fragment-entete :: frag-entete}"></div>
+
+<main>
+    <!-- Contenu principal -->
+    <div th:replace="${contenuPage} ?: ~{}" th:title="#{layout.content.placeholder}">
+        Contenu de la page
+    </div>
+
+    <!-- Fragment utilisateur -->
+    <div th:replace="~{fragments/fragment-utilisateur :: frag-user}" th:title="#{layout.user.fragment}"></div>
+</main>
+
+<!-- Fragment pied de page -->
+<div th:replace="~{fragments/fragment-piedpage :: frag-piedpage}" th:title="#{layout.footer.fragment}"></div>
+</body>
+</html>

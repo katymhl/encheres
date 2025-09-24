@@ -1,0 +1,240 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: #f9f9f9;
+}
+
+.detail-container {
+    padding: 20px;
+    max-width: 900px;
+    margin: auto;
+    background: white;
+    border: 1px solid #ddd;
+}
+
+.detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.detail-header nav a {
+    text-decoration: none;
+    color: #007BFF;
+    margin: 0 5px;
+}
+
+.detail-header nav a:hover {
+    text-decoration: underline;
+}
+
+.user-box {
+    border: 1px solid #000;
+    padding: 10px;
+    font-size: 14px;
+}
+
+.alert-info {
+    background: #fffae6;
+    border-left: 5px solid #ffc107;
+    padding: 10px;
+    margin: 10px 0 20px 0;
+    font-weight: bold;
+}
+
+.detail-content h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.detail-grid {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+.detail-left,
+.detail-right {
+    flex: 1;
+}
+
+.detail-left p,
+.detail-right p {
+    margin: 10px 0;
+}
+
+.detail-footer {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.btn-return {
+    display: inline-block;
+    padding: 10px 20px;
+    background: white;
+    border: 1px solid black;
+    text-decoration: none;
+    font-weight: bold;
+    color: black;
+}
+
+.btn-return:hover {
+    background: #f0f0f0;
+}
+.alert-danger {
+    color: #b30000;
+    background-color: #ffe6e6;
+    border: 1px solid #b30000;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+.alert-success {
+    color: #006600;
+    background-color: #e6ffe6;
+    border: 1px solid #006600;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+.detail-actions {
+    margin-top: 30px;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+/* Bouton modifier */
+.btn-modifier {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #0077cc;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.btn-modifier:hover {
+    background-color: #005fa3;
+}
+
+/* Formulaire d'enchère */
+.form-enchere {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.form-enchere label {
+    font-weight: bold;
+    color: #333;
+}
+
+.form-enchere input[type="number"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 150px;
+}
+
+/* Bouton d'enchère */
+.btn-return {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-return:hover {
+    background-color: #218838;
+}
+
+/* Message enchère terminée */
+.info-terminee {
+    color: #b30000;
+    background-color: #ffe6e6;
+    border: 1px solid #b30000;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    margin-top: 15px;
+}
+.btn-annuler {
+    background-color: #e74c3c; /* rouge vif */
+    color: white;
+    border: none;
+    padding: 0.6em 1.2em;
+    font-size: 1em;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-left: 1em;
+}
+
+.btn-annuler:hover {
+    background-color: #c0392b; /* rouge foncé au survol */
+}
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px; /* espace entre les boutons */
+    margin-top: 15px;
+}
+
+.action-buttons form {
+    margin: 0; /* évite les marges par défaut */
+}
+
+
+.detail-footer form .livrer{
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.detail-footer form .livrer:hover{
+    background-color: #218838;
+}
+
+.detail-footer form .livrer:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    color: white;
+    display: inline-block;
+    padding: 10px 20px;
+    text-decoration: none;
+    background-color: #28a745;
+    border-radius: 8px;
+}
+
+.article-img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    object-fit: contain;
+}
+
+/* Si tu veux limiter la taille maximale */
+.detail-content .article-img {
+    max-height: 200px;
+    width: auto;
+
+}

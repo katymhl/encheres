@@ -1,0 +1,468 @@
+/* Layout global */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: #f9f9f9;
+    color: #333;
+}
+
+/* Header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background: #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.logo a img{
+    height: 30px;
+    width: 30px;
+}
+
+.logo a{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: black;
+}
+
+.logo a p{
+    margin: 0;
+    font-size: 1.75em;
+    font-weight: bold;
+    font-style: italic;
+    font-family: Garamond, sans-serif;
+}
+
+header nav a {
+    margin-left: 1.5em;
+    text-decoration: none;
+    color: #134a7f;
+    font-weight: bold;
+    font-family: Verdana, sans-serif;
+    transition: all 0.3s ease;
+}
+
+header nav a:hover {
+    color: #068bee;
+}
+
+/* Contenu principal */
+main {
+    display: grid;
+    grid-template-columns: 1fr 250px;
+    gap: 2rem;
+    font-family: Verdana, sans-serif;
+    padding: 2rem;
+    flex-grow: 1;
+}
+
+/* Bloc filtres */
+.filters {
+    display: flex;
+    align-items: flex-end;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.filters input,
+.filters select {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.filters button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    background: #134a7f;
+    color: #fff;
+}
+
+.filters button:hover {
+    background: #068bee;
+    color: #fff;
+}
+
+.filters .search {
+    background: #134a7f;
+    color: #fff;
+}
+
+.filters .search:hover {
+    background: #068bee;
+    color: #fff;
+}
+
+.filters .reset {
+    background: #ddd;
+}
+
+/* Liste des enchères */
+.auctions {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.5rem;
+}
+
+.card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.card img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    margin-bottom: 0.5rem;
+}
+
+.card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.card p {
+    font-size: 0.9rem;
+    margin-bottom: 0.3rem;
+}
+
+/* Colonne droite (date du jour + utilisateur) */
+.sidebar {
+    position: sticky;
+    top: 0;
+    background: #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    border-radius: 8px;
+    font-family: Verdana, sans-serif;
+    text-align: center;
+}
+
+.sidebar div {
+    margin-top: 10px;
+}
+
+.sidebar div a{
+    padding: 5px;
+    text-decoration: none;
+    font-style: italic;
+    color: #134a7f;
+}
+/* Conteneur principal */
+.profil-form {
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Titres */
+.profil-form h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Champs du formulaire */
+.profil-form label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #555;
+}
+
+.profil-form input[type="text"],
+.profil-form input[type="email"],
+.profil-form input[type="password"],
+.profil-form input[type="tel"] {
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+.profil-form input:focus {
+    border-color: #0078d4;
+    outline: none;
+}
+
+/* Messages d'erreur */
+
+.profil-form .error-message {
+    color: darkred;
+    font-size: 13px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
+.profil-form2 {
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Titres */
+.profil-form2 h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Champs du formulaire */
+.profil-form2 label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #555;
+}
+
+.profil-form2 input[type="text"],
+.profil-form2 input[type="email"],
+.profil-form2 input[type="password"],
+.profil-form2 input[type="tel"] {
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+.profil-form2 input:focus {
+    border-color: #0078d4;
+    outline: none;
+}
+
+/* Messages d'erreur */
+
+.profil-form2 .error-message {
+    color: darkred;
+    font-size: 13px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
+/* Boutons */
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.form-actions button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.text-danger {
+    color: red;
+    font-weight: bold;
+}
+
+
+/*Formulaire de vente*/
+.center-section{
+    width: 100%;
+}
+
+.center-section h1{
+    font-family: Verdana, sans-serif;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.table-form{
+    margin-top: 20px;
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.table-form tr td {
+    padding: 12px;
+    vertical-align: top;
+}
+
+.table-form tr td label{
+    font-family: Verdana, sans-serif;
+    font-weight: 600;
+    color: #333;
+    font-size: 14px;
+}
+
+.table-form tr td input,
+.table-form tr td select,
+.table-form tr td textarea{
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: Verdana, sans-serif;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.table-form tr td input:focus,
+.table-form tr td select:focus,
+.table-form tr td textarea:focus {
+    outline: none;
+    border-color: #007BFF;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.4);
+}
+
+.table-form tr td textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+
+.language-combobox {
+    margin-top: 10px;
+    position: relative;
+    width: fit-content;
+}
+
+.selected-lang {
+    padding: 5px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.lang-options {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    z-index: 10;
+}
+.creer{
+    background-color: #134a7f;
+    color: white;
+    font-family: Verdana, sans-serif;
+    transition: all 0.3s ease;
+}
+
+.form-actions .creer{
+    background-color: #134a7f;
+    color: white;
+    font-family: Verdana, sans-serif;
+    transition: all 0.3s ease;
+}
+
+.creer:hover{
+    background-color: #068bee;
+}
+
+.form-actions .creer:hover{
+    background-color: #068bee;
+}
+
+.annuler{
+    background-color: #cdcdcd;
+    color: black;
+    font-family: Verdana, sans-serif;
+    transition: all 0.3s ease;
+}
+
+.form-actions .annuler{
+    background-color: #cdcdcd;
+    color: black;
+    font-family: Verdana, sans-serif;
+    transition: all 0.3s ease;
+}
+
+.annuler:hover{
+    background-color: #dcdcdc;
+
+}
+
+.form-actions .annuler:hover{
+    background-color: #dcdcdc;
+
+}
+
+/* FOOTER */
+footer {
+    background-color: #134a7f;
+    padding: 20px;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+footer p {
+    color: white;
+    font-family: Verdana, sans-serif;
+    font-size: 14px;
+    line-height: 1.4;
+    margin: 0;
+}
+
+.footer-logo {
+    height: 50px;
+    width: auto;
+
+}
+
+.language-combobox:hover .lang-options {
+    display: block;
+}
+
+.lang-options li {
+    padding: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.lang-options img {
+    margin-right: 8px;
+}

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      data-th-replace="~{layouts/layout :: layout-encheres(
+
+                    titrePage=~{:: title},
+                    contenuPage=~{:: main},
+                    	ressourcesSupp=~{:: link})}">
+
+<head>
+    <title th:text="#{update-sale.title}">Modifier une vente</title>
+   <link rel="stylesheet" th:href="@{/css/updateArticle.css}">
+
+</head>
+<body>
+<main class="center-main-login">
+    <section class="center-section">
+
+        <h1 style="text-align: center;" th:text="#{update-sale.h1}">Modifier une vente</h1>
+
+        <form th:action="@{/vendre/update}" th:object="${articleAVendre}" method="post" enctype="multipart/form-data" novalidate>
+            <table>
+                <tr>
+                    <td><input type="hidden" th:field="*{no_article}" readonly/></td>
+                </tr>
+
+                <tr>
+                    <td><label for="article" th:text="#{update-sale.label.article}">Article (*) :</label></td>
+                    <td><input type="text" id="article" th:field="*{nom_article}" required></td>
+
+                    <td><label for="prix" th:text="#{update-sale.label.price}">Mise à prix (*) :</label></td>
+                    <td><input type="number" id="prix" th:field="*{prix_initial}" required></td>
+                </tr>
+
+                <tr>
+                    <td><label for="categorie" th:text="#{update-sale.label.category}">Catégorie (*) :</label></td>
+                    <td>
+                        <select id="categorie" th:field="*{no_categorie}">
+                            <option value="" th:text="#{update-sale.option.category}">-- Sélectionnez une catégorie --</option>
+                            <option th:each="cat : ${categories}"
+                                    th:value="${cat.no_categorie}"
+                                    th:text="${cat.libelle}">
+                            </option>
+                        </select>
+                    </td>
+
+                    <td><label for="debut" th:text="#{update-sale.label.start}">Début de l'enchère :</label></td>
+                    <td><input type="date" id="debut" name="date_debut_encheres"
+                               th:value="${#temporals.format(articleAVendre.date_debut_encheres, 'yyyy-MM-dd')}" readonly>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td><label for="description" th:text="#{update-sale.label.description}">Description (*) :</label></td>
+                    <td><textarea id="description" th:field="*{description}" rows="5" cols="40"></textarea></td>
+
+                    <td><label for="fin" th:text="#{update-sale.label.end}">Fin de l'enchère :</label></td>
+                    <td> <input type="date" id="fin" name="date_fin_encheres"
+                                th:value="${#temporals.format(articleAVendre.date_fin_encheres, 'yyyy-MM-dd')}" readonly>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td><label for="adresse" th:text="#{update-sale.label.retrait}">Retrait (*) :</label></td>
+                    <td>
+                        <select id="adresse" th:field="*{no_adresse_retrait}">
+                            <option th:value="${adresse.no_adresse}"
+                                    th:text="${adresse.rue + ' ' + adresse.code_postal + ' ' + adresse.ville}"
+                                    selected="selected">
+                            </option>
+                            <option th:each="adr : ${adresses}"
+                                    th:if="${adr.no_adresse != adresse.no_adresse}"
+                                    th:value="${adr.no_adresse}"
+                                    th:text="${adr.rue + ' ' + adr.code_postal + ' ' + adr.ville}">
+                            </option>
+                        </select>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td><label for="image" th:text="#{sale-form.label.photo}">Photo de l'article :</label></td>
+                    <td colspan="3">
+                        <input type="file" id="image" name="image" accept="image/*" />
+                    </td>
+                </tr>
+            </table>
+
+            <div class="form-actions">
+                <div class="detail-footer">
+
+                    <button  class="creer" type="submit" th:text="#{update-sale.button.submit}">Modifier</button>
+                </div>
+                <div class="detail-footer">
+                    <a class="annuler" href="javascript:history.back()" th:text="#{update-sale.button.cancel}">Annuler</a>
+
+                </div>
+            </div>
+        </form>
+    </section>
+</main>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      data-th-replace="~{layouts/layout :: layout-encheres(
+                    titrePage=~{:: title},
+                    contenuPage=~{:: main},
+                    ressourcesSupp=~{})}">
+
+<head>
+    <title th:text="#{update-profil.title}">Modifier mon profil</title>
+</head>
+<body>
+<main class="center-main">
+    <section class="center-section">
+        <h1 style="text-align: center;" th:text="#{update-profil.h1}">Modifier mon profil</h1>
+
+        <form class="profil-form" th:action="@{/monProfil/update}" method="post" novalidate>
+            <div th:object="${utilisateur}">
+                <div>
+                    <label th:text="#{update-profil.label.pseudo}">Pseudo :</label>
+                    <input type="text" id="pseudo" name="pseudo" th:field="*{pseudo}" readonly>
+                </div>
+
+                <div>
+                    <label th:text="#{update-profil.label.nom}">Nom (*) :</label>
+                    <input type="text" id="nom" name="nom" th:field="*{nom}" required>
+                    <div th:if="${#fields.hasErrors('nom')}" th:errors="*{nom}" class="text-danger"></div>
+                </div>
+
+                <div>
+                    <label th:text="#{update-profil.label.prenom}">Prénom (*) :</label>
+                    <input type="text" id="prenom" name="prenom" th:field="*{prenom}" required>
+                    <div th:if="${#fields.hasErrors('prenom')}" th:errors="*{prenom}" class="text-danger"></div>
+                </div>
+
+                <div>
+                    <label th:text="#{update-profil.label.email}">Email (*) :</label>
+                    <input type="email" id="email" name="email" th:field="*{email}" required>
+                    <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger"></div>
+                </div>
+
+                <div>
+                    <label th:text="#{update-profil.label.telephone}">Téléphone :</label>
+                    <input type="tel" id="telephone" name="telephone" th:field="*{telephone}" pattern="^\\d{10}$"
+                           th:title="#{update-profil.title.telephone}" maxlength="10">
+                    <div th:if="${#fields.hasErrors('telephone')}" th:errors="*{telephone}" class="text-danger"></div>
+                </div>
+            </div>
+
+            <div th:object="${adresse}">
+                <label th:text="#{update-profil.label.adresse}">Adresse (*) :</label>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <div>
+                        <input type="text" id="rue" name="rue" th:field="*{rue}" th:placeholder="#{update-profil.placeholder.rue}" required>
+                        <div th:if="${#fields.hasErrors('rue')}" th:errors="*{rue}" class="text-danger"></div>
+                    </div>
+
+                    <div>
+                        <input type="text" id="code_postal" name="code_postal" th:field="*{code_postal}" th:placeholder="#{update-profil.placeholder.codepostal}" required pattern="^\\d{5}$"
+                               th:title="#{update-profil.title.codepostal}">
+                        <div th:if="${#fields.hasErrors('code_postal')}" th:errors="*{code_postal}" class="text-danger"></div>
+                    </div>
+
+                    <div>
+                        <input type="text" id="ville" name="ville" th:field="*{ville}" th:placeholder="#{update-profil.placeholder.ville}" required>
+                        <div th:if="${#fields.hasErrors('ville')}" th:errors="*{ville}" class="text-danger"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+
+                <button class="creer" type="submit" th:text="#{update-profil.button.submit}">Enregistrer modification</button>
+                <button  class="annuler" type="button" onclick="history.go(-1)" th:text="#{update-profil.button.cancel}">Annuler</button>
+
+            </div>
+        </form>
+    </section>
+</main>
+</body>
+</html>

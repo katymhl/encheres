@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="fr.eni.encheres.EncheresApplicationTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-09-24T11:02:00.107Z" hostname="26SE34-CN5HHZ3" time="0.383">
+  <properties/>
+  <testcase name="contextLoads()" classname="fr.eni.encheres.EncheresApplicationTests" time="0.383"/>
+  <system-out><![CDATA[13:01:58.707 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [fr.eni.encheres.EncheresApplicationTests]: EncheresApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+13:01:58.768 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration fr.eni.encheres.EncheresApplication for test class fr.eni.encheres.EncheresApplicationTests
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.5)
+
+2025-09-24T13:01:59.008+02:00  INFO 7180 --- [encheres] [    Test worker] f.eni.encheres.EncheresApplicationTests  : Starting EncheresApplicationTests using Java 17.0.12 with PID 7180 (started by kmouhli2024 in D:\WsJava\encheres)
+2025-09-24T13:01:59.008+02:00  INFO 7180 --- [encheres] [    Test worker] f.eni.encheres.EncheresApplicationTests  : No active profile set, falling back to 1 default profile: "default"
+localeResolver
+2025-09-24T13:01:59.676+02:00  INFO 7180 --- [encheres] [    Test worker] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2025-09-24T13:01:59.783+02:00  INFO 7180 --- [encheres] [    Test worker] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name enchereUserDetailsService
+2025-09-24T13:02:00.094+02:00  INFO 7180 --- [encheres] [    Test worker] f.eni.encheres.EncheresApplicationTests  : Started EncheresApplicationTests in 1.236 seconds (process running for 2.019)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

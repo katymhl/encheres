@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      data-th-replace="~{layouts/layout :: layout-encheres(
+                    titrePage=~{:: title},
+                    contenuPage=~{:: main},
+                    ressourcesSupp=~{})}">
+
+<head>
+    <title th:text="#{admin.title}">ADMIN</title>
+</head>
+
+<body>
+<main class="center-main">
+    <section class="center-section">
+        <h1 style="text-align: center;" th:text="#{admin.heading}">PAGE ADMIN</h1>
+    </section>
+</main>
+</body>
+</html>
