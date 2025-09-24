@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: encheres-app
+    env: java
+    buildCommand: "./gradlew build"
+    startCommand: "java -jar build/libs/encheres-0.0.1-SNAPSHOT.jar"
+    plan: free
