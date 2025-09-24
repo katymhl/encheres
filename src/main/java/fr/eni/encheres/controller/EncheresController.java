@@ -48,8 +48,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 
 @Controller
-@SessionAttributes({ "categoriesEnSession" })
 public class EncheresController {
+
     @Autowired
     private MessageSource messageSource;
 
@@ -72,6 +72,8 @@ public class EncheresController {
         this.enchereService = enchereService;
     }
 
+
+    //Vue de la page d'accueil
     @GetMapping("/")
     public String getDetail(Model model, Principal principal) {
         List<ArticleAVendre> listActiveEnchere = articleAVendreService.findActiveEnchere();
@@ -89,20 +91,65 @@ public class EncheresController {
         return "index";
     }
 
+    @GetMapping("/accueil/connecter")
+    public String filtrerEncheres(
+            @RequestParam(required = false) String search,
+            @RequestParam(required = false) Integer categorie,
+            @RequestParam(required = false) String mode,
+            @RequestParam(required = false) String filtreAchats,
+            @RequestParam(required = false) String filtreVentes,
+            Principal principal,
+            Model model) {
 
+        String pseudo = principal.getName();
+        List<ArticleAVendre> resultats = new ArrayList<>();
 
+        if ("achats".equals(mode)) {
+            if (filtreAchats != null) {
+                switch (filtreAchats) {
+                    case "ouvertes" -> resultats = enchereService.getEncheresOuvertesSansParticipation(pseudo, search, categorie);
+                    case "encours" -> resultats = enchereService.getEncheresEnCoursParUtilisateur(pseudo, search, categorie);
+                    case "remportees" -> resultats = enchereService.getEncheresTermineesParUtilisateur(pseudo, search, categorie);
+                    default -> System.out.println("Filtre achats inconnu : " + filtreAchats);
+                }
+            } else {
+                System.out.println("Aucun filtreAchats fourni.");
+            }
+        } else if ("ventes".equals(mode)) {
+            if (filtreVentes != null) {
+                switch (filtreVentes) {
+                    case "encours" -> resultats = articleAVendreService.getMesVentesEnCours(pseudo, search, categorie);
+                    case "nonDebutees" -> resultats = articleAVendreService.getMesVentesNonDebutees(pseudo, search, categorie);
+                    case "terminees" -> resultats = articleAVendreService.getMesVentesTerminees(pseudo, search, categorie);
+                    default -> System.out.println("Filtre ventes inconnu : " + filtreVentes);
+                }
+            } else {
+                System.out.println("Aucun filtreVentes fourni.");
+            }
+        } else {
+            System.out.println("Mode inconnu ou non fourni : " + mode);
+        }
 
+        resultats.sort(Comparator.comparing(ArticleAVendre::getDate_fin_encheres));
 
+        model.addAttribute("encheres", resultats);
+        model.addAttribute("search", search);
+        model.addAttribute("categorie", categorie);
+        model.addAttribute("mode", mode);
+        model.addAttribute("filtreAchats", filtreAchats);
+        model.addAttribute("filtreVentes", filtreVentes);
 
+        return "indexConnecter";
+    }
 
-
-
+    //Vue de la page admin (suelement visible pour les personnes au rôle admin)
     @GetMapping("/admin")
     public String getAdmin() {
         System.out.println(utilisateurService.findById("coach_admin"));
         return "admin.html";
     }
 
+    //Vue de la page de création d'un nouvel utilisateur
     @GetMapping("/inscription")
     public String afficherFormulaire(Model model) {
         model.addAttribute("utilisateur", new Utilisateur());
@@ -156,20 +203,7 @@ public class EncheresController {
         return "redirect:/login";
     }
 
-
-
-    @GetMapping("/encheres")
-    public String filtrerEncheres(
-            @RequestParam(required = false) String search,
-            @RequestParam(required = false) Integer categorie,
-            Model model
-    ) {
-        List<ArticleAVendre> resultats = articleAVendreService.filtrerArticles(search, categorie);
-        resultats.sort(Comparator.comparing(ArticleAVendre::getDate_fin_encheres));
-        model.addAttribute("encheres", resultats);
-        return "index";
-    }
-
+    //Vue du détail d'une vente
     @GetMapping("/details/{id}")
     public String afficherDetailsArticle(@PathVariable("id") int id, Model model, Principal principal) {
         ArticleAVendre article = articleAVendreService.findById(id);
@@ -179,8 +213,6 @@ public class EncheresController {
 
         boolean estVendeur = article.getId_utilisateur().equals(pseudo);
         boolean enchereCommencee = (article.getPrix_vente() != null) && (article.getPrix_vente() > article.getPrix_initial());
-      //  boolean enchereCommencee = article.getPrix_vente() > article.getPrix_initial();
-//        boolean enchereTerminee = article.getDate_fin_encheres().isBefore(LocalDateTime.now());
 
         LocalDate dateFin = article.getDate_fin_encheres();
         LocalDateTime dateFinLocal = dateFin.atStartOfDay();
@@ -203,68 +235,7 @@ public class EncheresController {
     }
 
 
-
-
-    @GetMapping("/profil/{pseudo}")
-    public String afficherProfil(@PathVariable String pseudo, Model model) {
-        Utilisateur user = utilisateurService.findById(pseudo);
-        model.addAttribute("utilisateur", user);
-        return "profil";
-    }
-
-
-    @GetMapping("/accueil/connecter")
-    public String filtrerEncheres(
-            @RequestParam(required = false) String search,
-            @RequestParam(required = false) Integer categorie,
-            @RequestParam(required = false) String mode,
-            @RequestParam(required = false) String filtreAchats,
-            @RequestParam(required = false) String filtreVentes,
-           Principal principal,
-            Model model) {
-
-        String pseudo = principal.getName();
-        List<ArticleAVendre> resultats = new ArrayList<>();
-
-        if ("achats".equals(mode)) {
-            if (filtreAchats != null) {
-                switch (filtreAchats) {
-                    case "ouvertes" -> resultats = enchereService.getEncheresOuvertesSansParticipation(pseudo, search, categorie);
-                    case "encours" -> resultats = enchereService.getEncheresEnCoursParUtilisateur(pseudo, search, categorie);
-                    case "remportees" -> resultats = enchereService.getEncheresTermineesParUtilisateur(pseudo, search, categorie);
-                    default -> System.out.println("Filtre achats inconnu : " + filtreAchats);
-                }
-            } else {
-                System.out.println("Aucun filtreAchats fourni.");
-            }
-        } else if ("ventes".equals(mode)) {
-            if (filtreVentes != null) {
-                switch (filtreVentes) {
-                    case "encours" -> resultats = articleAVendreService.getMesVentesEnCours(pseudo, search, categorie);
-                    case "nonDebutees" -> resultats = articleAVendreService.getMesVentesNonDebutees(pseudo, search, categorie);
-                    case "terminees" -> resultats = articleAVendreService.getMesVentesTerminees(pseudo, search, categorie);
-                    default -> System.out.println("Filtre ventes inconnu : " + filtreVentes);
-                }
-            } else {
-                System.out.println("Aucun filtreVentes fourni.");
-            }
-        } else {
-            System.out.println("Mode inconnu ou non fourni : " + mode);
-        }
-
-        resultats.sort(Comparator.comparing(ArticleAVendre::getDate_fin_encheres));
-
-        model.addAttribute("encheres", resultats);
-        model.addAttribute("search", search);
-        model.addAttribute("categorie", categorie);
-        model.addAttribute("mode", mode);
-        model.addAttribute("filtreAchats", filtreAchats);
-        model.addAttribute("filtreVentes", filtreVentes);
-
-        return "indexConnecter";
-    }
-
-
+    //Formulaire pour enchérir sur la page de détail
     @Transactional
     @PostMapping("/encherir/{id}")
     public String faireUneOffre(@PathVariable("id") int id,
@@ -344,6 +315,7 @@ public class EncheresController {
         return "redirect:/details/" + id;
     }
 
+    //Formulaire pour valider la remise d'une vente
     @PostMapping("/details/{id}/terminer")
     public String terminerVente(@PathVariable("id") int no_article, Principal principal, Model model) {
         ArticleAVendre article = articleAVendreService.findById(no_article);
@@ -360,7 +332,15 @@ public class EncheresController {
 
 
 
+    //Vue de la page de profil d'un utilisateur
+    @GetMapping("/profil/{pseudo}")
+    public String afficherProfil(@PathVariable String pseudo, Model model) {
+        Utilisateur user = utilisateurService.findById(pseudo);
+        model.addAttribute("utilisateur", user);
+        return "profil";
+    }
 
+    //Vue de la page pour créer un nouvel article à vendre
     @GetMapping("/vendre")
     public String afficherCreerUneEnchere(Model model, Principal principal) {
 
@@ -435,19 +415,20 @@ public class EncheresController {
         }
     }
 
+    //Vue du formulaire pour choisir l'image de l'article à vendre
+    @GetMapping("/image/{id}")
+    public ResponseEntity<byte[]> afficherImage(@PathVariable int id) {
+        ArticleAVendre article = articleAVendreService.findById(id);
+        if (article == null || article.getPhoto() == null) {
+            return ResponseEntity.notFound().build(); // ou renvoyer une image par défaut
+        }
 
-//    private int calculerStatut(LocalDate dateDebut, LocalDate dateFin) {
-//        LocalDate today = LocalDate.now();
-//
-//        if (today.isBefore(dateDebut)) {
-//            return 0; // NON_COMMENCEE
-//        } else if (!today.isAfter(dateFin)) {
-//            return 1; // EN_COURS
-//        } else {
-//            return 2; // CLOTUREE
-//        }
-//    }
+        return ResponseEntity.ok()
+                .contentType(MediaType.IMAGE_JPEG) // adapte selon ton format
+                .body(article.getPhoto());
+    }
 
+    //Vue pour la modification d'un article déjà en vente mais dont l'enchère n'a pas débuté
     @GetMapping("/vendre/update")
     public String afficherModifierUneEnchere(@RequestParam("no_article") int no_article,
                                              Model model,
@@ -514,6 +495,7 @@ public class EncheresController {
     }
 
 
+    //Formulaire d'annulation de la vente d'un article tant que son enchère n'a pas débuté
     @PostMapping("/vendre/annuler")
     public String annulerVente(@RequestParam("no_article") Integer noArticle) {
         ArticleAVendre article = articleAVendreService.findById(noArticle);
@@ -522,34 +504,19 @@ public class EncheresController {
         return "redirect:/";
     }
 
+    //Fonctionnalité de choix de la langue
+    @GetMapping("/change-lang")
+    public String changerLangue(@RequestParam("lang") String lang, HttpServletRequest request, HttpServletResponse response) {
+        Locale locale = new Locale(lang);
+        LocaleContextHolder.setLocale(locale);
 
+        // Stocker la langue dans la session
+        request.getSession().setAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME, locale);
 
-        @GetMapping("/change-lang")
-        public String changerLangue(@RequestParam("lang") String lang, HttpServletRequest request, HttpServletResponse response) {
-            Locale locale = new Locale(lang);
-            LocaleContextHolder.setLocale(locale);
-
-            // Stocker la langue dans la session
-            request.getSession().setAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME, locale);
-
-            // Rediriger vers la page précédente
-            String referer = request.getHeader("Referer");
-            return "redirect:" + (referer != null ? referer : "/");
+        // Rediriger vers la page précédente
+        String referer = request.getHeader("Referer");
+        return "redirect:" + (referer != null ? referer : "/");
 
     }
-
-    @GetMapping("/image/{id}")
-    public ResponseEntity<byte[]> afficherImage(@PathVariable int id) {
-        ArticleAVendre article = articleAVendreService.findById(id);
-        if (article == null || article.getPhoto() == null) {
-            return ResponseEntity.notFound().build(); // ou renvoyer une image par défaut
-        }
-
-        return ResponseEntity.ok()
-                .contentType(MediaType.IMAGE_JPEG) // adapte selon ton format
-                .body(article.getPhoto());
-    }
-
-
 
 }

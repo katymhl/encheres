@@ -15,7 +15,6 @@ public class EnchereServiceImpl implements EnchereService {
         this.enchereDAO = enchereDAO;
     }
 
-
     @Override
     public void create(Enchere enchere) {
         enchereDAO.create(enchere);
@@ -31,7 +30,6 @@ public class EnchereServiceImpl implements EnchereService {
         return enchereDAO.findEncheresOuvertesSansParticipation(pseudo, search, categorie);
     }
 
-
     @Override
     public List<ArticleAVendre> getEncheresEnCoursParUtilisateur(String pseudo, String search, Integer categorie) {
         return enchereDAO.findEncheresEnCoursByUtilisateur(pseudo, search, categorie);
@@ -41,7 +39,5 @@ public class EnchereServiceImpl implements EnchereService {
     public List<ArticleAVendre> getEncheresTermineesParUtilisateur(String pseudo, String search, Integer categorie) {
         return enchereDAO.findEncheresTermineesByUtilisateur(pseudo, search, categorie);
     }
-
-
 
 }

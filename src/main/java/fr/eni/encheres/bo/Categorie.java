@@ -6,17 +6,18 @@ import java.util.Objects;
 public class Categorie implements Serializable {
 
     private static final long serialVersionUID = 1L;
-private Long no_categorie;
-private String libelle;
+    private Long no_categorie;
+    private String libelle;
 
-public Categorie() {
 
-}
+    public Categorie() {
 
-public Categorie(Long no_categorie, String libelle) {
-    this.no_categorie = no_categorie;
-    this.libelle = libelle;
-}
+    }
+
+    public Categorie(Long no_categorie, String libelle) {
+        this.no_categorie = no_categorie;
+        this.libelle = libelle;
+    }
 
 
     public Long getNo_categorie() {
@@ -43,10 +44,12 @@ public Categorie(Long no_categorie, String libelle) {
         return no_categorie == categorie.no_categorie && Objects.equals(libelle, categorie.libelle);
     }
 
+
     @Override
     public int hashCode() {
         return Objects.hash(no_categorie, libelle);
     }
+
 
     @Override
     public String toString() {

@@ -11,9 +11,10 @@ public interface EnchereService {
 
     List<Enchere> findListByNoArticle(int no_article);
 
-     List<ArticleAVendre> getEncheresOuvertesSansParticipation(String pseudo, String search, Integer categorie);
-      List<ArticleAVendre> getEncheresEnCoursParUtilisateur(String pseudo, String search, Integer categorie);
-     List<ArticleAVendre> getEncheresTermineesParUtilisateur(String pseudo, String search, Integer categorie);
+    List<ArticleAVendre> getEncheresOuvertesSansParticipation(String pseudo, String search, Integer categorie);
 
+    List<ArticleAVendre> getEncheresEnCoursParUtilisateur(String pseudo, String search, Integer categorie);
+
+    List<ArticleAVendre> getEncheresTermineesParUtilisateur(String pseudo, String search, Integer categorie);
 
 }

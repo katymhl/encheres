@@ -31,6 +31,7 @@ public class UtilisateurController {
         this.passwordEncoder = passwordEncoder;
     }
 
+    //Vue du profil de l'utilisateur connecté
     @GetMapping("/monProfil")
     public String afficherMonProfil(@RequestParam(name= "pseudo", required = true)String pseudo, Model model) {
         Utilisateur utilisateur = utilisateurService.findById(pseudo);
@@ -46,6 +47,7 @@ public class UtilisateurController {
         return "profil";
     }
 
+    //Vue du profil d'un utilisateur qui n'est pas l'utilisateur connecté
     @GetMapping("/profil")
     public String afficherUnProfil(@RequestParam(name= "id_utilisateur", required = true)String id_utilisateur, Model model) {
         Utilisateur utilisateur = utilisateurService.findById(id_utilisateur);
@@ -61,11 +63,11 @@ public class UtilisateurController {
         // Ajouter à l'attribut modèle isOwnProfile pour le contrôle dans Thymeleaf
         model.addAttribute("isOwnProfile", isOwnProfile);
 
-
         return "profil";
     }
 
 
+    //Vue du formulaire de modification de l'utilisateur connecté
     @GetMapping("/monProfil/update")
     public String afficherFormulaire(@RequestParam(name= "pseudo", required = true)String pseudo, Model model) {
         Utilisateur utilisateur = utilisateurService.findById(pseudo);
@@ -91,11 +93,11 @@ public class UtilisateurController {
         );
 
         utilisateur.setNo_adresse(numeroadresse);
-        System.out.println("Utilisateur : " + utilisateur);
         utilisateurService.update(utilisateur);
         return "redirect:/monProfil?pseudo=" + utilisateur.getPseudo();
     }
 
+    //Vue du formulaire de modification du mot d epasse de l'utilisateur connecté
     @GetMapping("/monProfil/update-pwd")
     public String afficherFormulaireMotDePasse(@RequestParam(name= "pseudo", required = true)String pseudo, Model model) {
         Utilisateur utilisateur = utilisateurService.findById(pseudo);
@@ -129,7 +131,6 @@ public class UtilisateurController {
             return "update-password-form";
         }
 
-        //monProfil/update-pwd?pseudo=" + pseudo
         // Vérification confirmation
         if (!nouveau.equals(confirm)) {
             model.addAttribute("erreurConfirm", "Les mots de passe ne correspondent pas.");

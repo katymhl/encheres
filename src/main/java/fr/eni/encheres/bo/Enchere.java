@@ -15,17 +15,18 @@ public class Enchere implements Serializable {
     private Date date_enchere;
     private int montant_enchere;
 
+
     public Enchere() {
 
     }
 
-public Enchere(String id_utilisateur ,int no_article, Date date_enchere, int montant_enchere) {
-        this.id_utilisateur = id_utilisateur;
-        this.no_article = no_article;
-        this.date_enchere = date_enchere;
-        this.montant_enchere = montant_enchere;
+    public Enchere(String id_utilisateur ,int no_article, Date date_enchere, int montant_enchere) {
+            this.id_utilisateur = id_utilisateur;
+            this.no_article = no_article;
+            this.date_enchere = date_enchere;
+            this.montant_enchere = montant_enchere;
 
-}
+    }
 
     public String getId_utilisateur() {
         return id_utilisateur;
@@ -59,6 +60,7 @@ public Enchere(String id_utilisateur ,int no_article, Date date_enchere, int mon
         this.montant_enchere = montant_enchere;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
@@ -66,10 +68,12 @@ public Enchere(String id_utilisateur ,int no_article, Date date_enchere, int mon
         return no_article == enchere.no_article && montant_enchere == enchere.montant_enchere && Objects.equals(id_utilisateur, enchere.id_utilisateur) && Objects.equals(date_enchere, enchere.date_enchere);
     }
 
+
     @Override
     public int hashCode() {
         return Objects.hash(id_utilisateur, no_article, date_enchere, montant_enchere);
     }
+
 
     @Override
     public String toString() {

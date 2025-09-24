@@ -6,8 +6,12 @@ import fr.eni.encheres.bo.Utilisateur;
 import java.util.List;
 
 public interface AdresseService {
+
      int getOrCreateAdresse(String rue, String codePostal, String ville);
+
      List<Adresse> findByall();
+
      Adresse findById(int id_adresse);
+
      Adresse getAdresseByPseudo(String pseudo);
 }

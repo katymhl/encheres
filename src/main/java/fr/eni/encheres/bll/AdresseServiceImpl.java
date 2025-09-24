@@ -12,20 +12,16 @@ import java.util.List;
 @Service
 public class AdresseServiceImpl implements AdresseService {
 
-
-
-
     private AdresseDAO adresseDAO;
     private UtilisateurDAO utilisateurDAO;
 
-    public AdresseServiceImpl(AdresseDAO adresseDAO) {
+    public AdresseServiceImpl(AdresseDAO adresseDAO, UtilisateurDAO utilisateurDAO) {
         this.adresseDAO = adresseDAO;
+        this.utilisateurDAO = utilisateurDAO;
     }
 
     @Override
     public List<Adresse> findByall() {
-
-        //System.out.println(adresseDAO.findAll());
         return adresseDAO.findAll();
     }
 
@@ -33,7 +29,6 @@ public class AdresseServiceImpl implements AdresseService {
     public Adresse findById(int id_adresse) {
         return adresseDAO.read(id_adresse);
     }
-
 
     @Override
     public Adresse getAdresseByPseudo(String pseudo) {
@@ -66,15 +61,14 @@ public class AdresseServiceImpl implements AdresseService {
 
         adresseDAO.create(nouvelle);
 
-    List<Adresse> toutapresajout = adresseDAO.findAll();
-    for (Adresse a : toutapresajout) {
-        if (a.getRue().trim().toLowerCase().equals(rueNorm) &&
-                a.getCode_postal().trim().equals(codePostalNorm) &&
-                a.getVille().trim().toLowerCase().equals(villeNorm)) {
-            no_adress= a.getNo_adresse();
+        List<Adresse> toutapresajout = adresseDAO.findAll();
+        for (Adresse a : toutapresajout) {
+            if (a.getRue().trim().toLowerCase().equals(rueNorm) &&
+                    a.getCode_postal().trim().equals(codePostalNorm) &&
+                    a.getVille().trim().toLowerCase().equals(villeNorm)) {
+                no_adress= a.getNo_adresse();
+            }
         }
-    }
         return no_adress; // ID généré après insertion
     }
-
 }

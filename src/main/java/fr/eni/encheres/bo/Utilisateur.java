@@ -45,9 +45,11 @@ public class Utilisateur implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+
     public Utilisateur() {
         this.credit = 10;
     }
+
 
     public Utilisateur(String pseudo,String nom,String prenom,String email,int no_adresse,String telephone,String mot_de_passe,int credit,boolean administrateur) {
         this.pseudo = pseudo;
@@ -149,6 +151,7 @@ public class Utilisateur implements Serializable {
         Utilisateur that = (Utilisateur) o;
         return no_adresse == that.no_adresse && credit == that.credit && administrateur == that.administrateur && Objects.equals(pseudo, that.pseudo) && Objects.equals(nom, that.nom) && Objects.equals(prenom, that.prenom) && Objects.equals(email, that.email) && Objects.equals(telephone, that.telephone) && Objects.equals(mot_de_passe, that.mot_de_passe) && Objects.equals(confirmPassword, that.confirmPassword);
     }
+
 
     @Override
     public int hashCode() {

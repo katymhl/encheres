@@ -16,7 +16,6 @@ public class CategorieServiceImpl implements CategorieService {
         this.categorieDAO = categorieDAO;
     }
 
-
     @Override
     public Categorie read(Long no_categorie) {
         return categorieDAO.read(no_categorie);

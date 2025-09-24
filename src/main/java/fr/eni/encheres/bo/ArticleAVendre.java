@@ -14,41 +14,41 @@ import java.util.Objects;
 
 public class ArticleAVendre implements Serializable {
 
-
     private byte[] photo;
     private static final long serialVersionUID = 1L;
-private int no_article;
-private String nom_article;
-private String description;
+    private int no_article;
+    private String nom_article;
+    private String description;
 
-private LocalDate date_debut_encheres;
-private LocalDate  date_fin_encheres;
-private int statut_enchere;
-private int prix_initial;
-private Integer prix_vente;
-private String id_utilisateur;
-private Long  no_categorie;
-private Integer no_adresse_retrait;
+    private LocalDate date_debut_encheres;
+    private LocalDate  date_fin_encheres;
+    private int statut_enchere;
+    private int prix_initial;
+    private Integer prix_vente;
+    private String id_utilisateur;
+    private Long  no_categorie;
+    private Integer no_adresse_retrait;
 
-public ArticleAVendre() {
 
-}
-public ArticleAVendre(int no_article,String nom_article,String description,byte[] photo,LocalDate date_debut_encheres, LocalDate date_fin_encheres,int statut_enchere,
-                      int prix_initial, Integer prix_vente,String id_utilisateur,Long no_categorie,Integer no_adresse_retrait) {
-    this.no_article=no_article;
-    this.nom_article=nom_article;
-    this.description=description;
-    this.photo=photo;
-    this.date_debut_encheres = date_debut_encheres;
-    this.date_fin_encheres = date_fin_encheres;
-    this.statut_enchere = statut_enchere;
-    this.prix_initial = prix_initial;
-    this.prix_vente = prix_vente;
-    this.id_utilisateur=id_utilisateur;
-    this.no_categorie=no_categorie;
-    this.no_adresse_retrait=no_adresse_retrait;
+    public ArticleAVendre() {
 
-}
+    }
+
+    public ArticleAVendre(int no_article,String nom_article,String description,byte[] photo,LocalDate date_debut_encheres, LocalDate date_fin_encheres,int statut_enchere,
+                          int prix_initial, Integer prix_vente,String id_utilisateur,Long no_categorie,Integer no_adresse_retrait) {
+        this.no_article=no_article;
+        this.nom_article=nom_article;
+        this.description=description;
+        this.photo=photo;
+        this.date_debut_encheres = date_debut_encheres;
+        this.date_fin_encheres = date_fin_encheres;
+        this.statut_enchere = statut_enchere;
+        this.prix_initial = prix_initial;
+        this.prix_vente = prix_vente;
+        this.id_utilisateur=id_utilisateur;
+        this.no_categorie=no_categorie;
+        this.no_adresse_retrait=no_adresse_retrait;
+    }
 
     public int getNo_article() {
         return no_article;
@@ -73,7 +73,6 @@ public ArticleAVendre(int no_article,String nom_article,String description,byte[
     public void setDescription(String description) {
         this.description = description;
     }
-
 
     public byte[] getPhoto() {
         return photo;
@@ -119,7 +118,7 @@ public ArticleAVendre(int no_article,String nom_article,String description,byte[
         return prix_vente;
     }
 
-        public void setPrix_vente(Integer prix_vente) {
+    public void setPrix_vente(Integer prix_vente) {
         this.prix_vente = prix_vente;
     }
 
@@ -151,6 +150,7 @@ public ArticleAVendre(int no_article,String nom_article,String description,byte[
         return StatutEnchere.fromInt(this.statut_enchere);
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
@@ -158,10 +158,12 @@ public ArticleAVendre(int no_article,String nom_article,String description,byte[
         return no_article == that.no_article && statut_enchere == that.statut_enchere && prix_initial == that.prix_initial && Objects.equals(nom_article, that.nom_article) && Objects.equals(description, that.description) && Objects.equals(date_debut_encheres, that.date_debut_encheres) && Objects.equals(date_fin_encheres, that.date_fin_encheres) && Objects.equals(prix_vente, that.prix_vente) && Objects.equals(id_utilisateur, that.id_utilisateur) && Objects.equals(no_categorie, that.no_categorie) && Objects.equals(no_adresse_retrait, that.no_adresse_retrait) && Objects.deepEquals(photo, that.photo);
     }
 
+
     @Override
     public int hashCode() {
         return Objects.hash(no_article, nom_article, description, date_debut_encheres, date_fin_encheres, statut_enchere, prix_initial, prix_vente, id_utilisateur, no_categorie, no_adresse_retrait, Arrays.hashCode(photo));
     }
+
 
     @Override
     public String toString() {

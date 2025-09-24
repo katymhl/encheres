@@ -18,22 +18,18 @@ import java.util.Optional;
 
 @Service
 public class UtilisateurServiceImpl implements UtilisateurService {
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-
+    @Autowired
     private UtilisateurDAO utilisateurDAO;
+
     @Autowired
     private AdresseService adresseService;
 
-    public UtilisateurServiceImpl(UtilisateurDAO utilisateurDAO) {
-
-                this.utilisateurDAO =  utilisateurDAO;
-            };
-
     @Override
     public Utilisateur findById(String pseudo) {
-//        System.out.println(utilisateurDAO.read("coach_admin"));
         return utilisateurDAO.read(pseudo);
     }
 
@@ -61,7 +57,5 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
         return utilisateurDAO.findByemail(email);
     }
-
-
 
 }

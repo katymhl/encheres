@@ -19,8 +19,6 @@ public class ArticleAVendreServiceImpl implements ArticleAVendreService {
         this.articleAVendreDAO = articleAVendreDAO;
     }
 
-
-
     @Override
     public List<ArticleAVendre> findAll() {
         return articleAVendreDAO.findAll();
@@ -36,13 +34,13 @@ public class ArticleAVendreServiceImpl implements ArticleAVendreService {
 
     }
 
-    //Cron qui tourne toutes les minutes
-    @Scheduled(fixedRate = 3600000) // toutes les heures
+    //Cron qui tourne toutes les heures
+    @Scheduled(fixedRate = 3600000)
     public void updateEncheresStatusFin() {
         articleAVendreDAO.cloturerEncheresExpirees();
     }
 
-    @Scheduled(fixedRate = 3600000) // toutes les heures
+    @Scheduled(fixedRate = 3600000)
     public void updateEncheresStatusDebut() {
         articleAVendreDAO.debuterEncheres();
     }
@@ -77,7 +75,8 @@ public class ArticleAVendreServiceImpl implements ArticleAVendreService {
     public void update(ArticleAVendre article) {
         articleAVendreDAO.update(article);
     }
-@Override
+
+    @Override
     public List<ArticleAVendre> getMesVentesEnCours(String pseudo, String search, Integer categorie) {
         return articleAVendreDAO.findMesVentesEnCours(pseudo, search, categorie);
     }
@@ -91,8 +90,4 @@ public class ArticleAVendreServiceImpl implements ArticleAVendreService {
     public List<ArticleAVendre> getMesVentesTerminees(String pseudo, String search, Integer categorie) {
         return articleAVendreDAO.findMesVentesTerminees(pseudo, search, categorie);
     }
-
-
-
-
 }

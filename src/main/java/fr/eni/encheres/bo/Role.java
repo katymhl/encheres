@@ -7,12 +7,15 @@ public class Role {
     private String ROLE;
     private int IS_ADMIN;
 
+
     public Role() {};
+
 
     public Role(String ROLE, int IS_ADMIN) {
         this.ROLE = ROLE;
         this.IS_ADMIN = IS_ADMIN;
     }
+
 
     public String getROLE() {
         return ROLE;
@@ -30,12 +33,14 @@ public class Role {
         this.IS_ADMIN = IS_ADMIN;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Role role = (Role) o;
         return IS_ADMIN == role.IS_ADMIN && Objects.equals(ROLE, role.ROLE);
     }
+
 
     @Override
     public int hashCode() {

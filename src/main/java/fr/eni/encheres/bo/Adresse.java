@@ -22,9 +22,10 @@ public class Adresse implements Serializable {
     @NotBlank(message = "{NotBlank.adresse.ville}")
     private String ville;
 
-private Byte adresse_eni;
+    private Byte adresse_eni;
 
     private static final long serialVersionUID = 1L;
+
 
     public Adresse() {
         this.adresse_eni =0;
@@ -36,9 +37,6 @@ private Byte adresse_eni;
         this.ville = ville;
         this.adresse_eni = adresse_eni;
     }
-
-
-
 
 
     public String getRue() {
@@ -56,7 +54,6 @@ private Byte adresse_eni;
     public void setVille(String ville) {
         this.ville = ville;
     }
-
 
     public Integer getNo_adresse() {
         return no_adresse;
@@ -82,6 +79,7 @@ private Byte adresse_eni;
         this.adresse_eni = adresse_eni;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
@@ -89,10 +87,12 @@ private Byte adresse_eni;
         return no_adresse == adresse.no_adresse && Objects.equals(rue, adresse.rue) && Objects.equals(code_postal, adresse.code_postal) && Objects.equals(ville, adresse.ville) && Objects.equals(adresse_eni, adresse.adresse_eni);
     }
 
+
     @Override
     public int hashCode() {
         return Objects.hash(no_adresse, rue, code_postal, ville, adresse_eni);
     }
+
 
     @Override
     public String toString() {
