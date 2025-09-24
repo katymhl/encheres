@@ -12,6 +12,18 @@
 </head>
 <body>
 <main class="center-main">
+    <div th:if="${param.expired}" class="alert alert-warning">
+        <p>⏳ Votre session a expiré après 5 minutes d'inactivité. Veuillez vous reconnecter.</p>
+    </div>
+
+    <div th:if="${param.logout}" class="alert alert-success">
+        <p>✅ Vous avez été déconnecté avec succès.</p>
+    </div>
+
+    <div th:if="${param.error}" class="alert alert-danger">
+        <p>❌ Identifiants incorrects. Veuillez réessayer.</p>
+    </div>
+
     <form class="profil-form" th:action="@{/login}" method="post">
         <h1 th:text="#{login.h1}">Connexion</h1>
 
