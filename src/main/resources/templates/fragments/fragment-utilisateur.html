@@ -10,11 +10,9 @@
             <strong><span th:text="#{user.participant.label}"></span></strong>
             <span th:if="${#authorization.expression('isAuthenticated()')}" th:text="${#authentication.name}">Nom</span>
         </p>
-        <ul>
-            <li th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+            <span th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
                 <a th:href="@{/admin}" th:text="#{user.admin.link}"></a>
-            </li>
-        </ul>
+            </span>
     </div>
 
 </div>
