@@ -9,6 +9,7 @@ WORKDIR /app
 # Copier tout le projet dans le conteneur
 COPY . /app
 
+RUN chmod +x gradlew
 # Lancer la compilation avec le Gradle Wrapper
 RUN ./gradlew clean build --no-daemon
 
