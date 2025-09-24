@@ -469,14 +469,14 @@ public class EncheresController {
         ArticleAVendre articleAVendre = articleAVendreService.findById(no_article);
         model.addAttribute("articleAVendre", articleAVendre);
 
-        // 2️⃣ Charge toutes les catégories pour le menu déroulant
+        //  Charge toutes les catégories pour le menu déroulant
         model.addAttribute("categories", categorieService.getAllCategories());
 
-        // 3️⃣ Charge toutes les adresses depuis la base
+        // Charge toutes les adresses depuis la base
         List<Adresse> adresses = adresseService.findByall(); // Assure-toi que findAll() renvoie List<Adresse>
         model.addAttribute("adresses", adresses);
 
-        // 4️⃣ Si un utilisateur est connecté, récupère ses informations
+        //  Si un utilisateur est connecté, récupère ses informations
         if (principal != null) {
             String pseudo = principal.getName();
             Utilisateur utilisateur = utilisateurService.findById(pseudo);
@@ -494,8 +494,8 @@ public class EncheresController {
 
     @PostMapping("/vendre/update")
     public String modifierUneEnchere(@ModelAttribute("articleAVendre") ArticleAVendre articleAVendre,
-                                     Principal principal,
-                                     Model model) {
+                                     @RequestParam("image") MultipartFile image,Principal principal,
+                                     Model model) throws IOException  {
 
         // Récupération de l'utilisateur connecté
         String pseudo = principal.getName();
@@ -516,7 +516,10 @@ public class EncheresController {
         articleAVendre.setStatut_enchere(calculerStatut(articleAVendre.getDate_debut_encheres(),
                 articleAVendre.getDate_fin_encheres()));
 
-
+        // Traitement de la photo
+        if (image != null && !image.isEmpty()) {
+            articleAVendre.setPhoto(image.getBytes());
+        }
         // Sauvegarde de l'article
         articleAVendreService.update(articleAVendre);
 
