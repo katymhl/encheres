@@ -61,7 +61,7 @@ header nav a:hover {
 /* Contenu principal */
 main {
     display: grid;
-    grid-template-columns: 1fr 250px; /* contenu + colonne droite */
+    grid-template-columns: 1fr 250px;
     gap: 2rem;
     font-family: Verdana, sans-serif;
     padding: 2rem;
@@ -425,10 +425,6 @@ main {
 
 }
 
-/*Formulaire de vente*/
-
-
-
 /* FOOTER */
 footer {
     background-color: #134a7f;
@@ -437,7 +433,7 @@ footer {
 
 .footer-content {
     display: flex;
-    justify-content: space-between; /* texte à gauche, logo à droite */
+    justify-content: space-between;
     align-items: center;
     max-width: 1200px;
     margin: 0 auto;
@@ -452,7 +448,7 @@ footer p {
 }
 
 .footer-logo {
-    height: 50px; /* ajuste selon ton image */
+    height: 50px;
     width: auto;
 
 }

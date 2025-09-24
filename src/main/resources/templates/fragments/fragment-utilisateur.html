@@ -1,18 +1,20 @@
 <div xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
-        data-th-fragment="frag-user">
+     data-th-fragment="frag-user">
 
     <div class="sidebar">
         <p>
-          <strong><span th:text="#{user.date.label}"></span></strong>
+            <strong><span th:text="#{user.date.label}"></span></strong>
             <span th:text="${#dates.format(#dates.createNow(), 'dd/MM/yyyy')}"></span>
         </p>
         <p>
-             <strong><span th:text="#{user.participant.label}"></span></strong>
+            <strong><span th:text="#{user.participant.label}"></span></strong>
             <span th:if="${#authorization.expression('isAuthenticated()')}" th:text="${#authentication.name}">Nom</span>
         </p>
-        <li th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
-            <a th:href="@{/admin}" th:text="#{user.admin.link}"></a>
-        </li>
+        <ul>
+            <li th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                <a th:href="@{/admin}" th:text="#{user.admin.link}"></a>
+            </li>
+        </ul>
     </div>
 
-
+</div>

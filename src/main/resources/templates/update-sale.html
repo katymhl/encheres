@@ -17,9 +17,6 @@
 
         <h1 style="text-align: center;" th:text="#{update-sale.h1}">Modifier une vente</h1>
 
-    
-
-
         <form th:action="@{/vendre/update}" th:object="${articleAVendre}" method="post" enctype="multipart/form-data" novalidate>
             <table>
                 <tr>
@@ -48,9 +45,8 @@
 
                     <td><label for="debut" th:text="#{update-sale.label.start}">Début de l'enchère :</label></td>
                     <td><input type="date" id="debut" name="date_debut_encheres"
-                               th:value="${#temporals.format(articleAVendre.date_debut_encheres, 'yyyy-MM-dd')}" readonly></td>
-
-
+                               th:value="${#temporals.format(articleAVendre.date_debut_encheres, 'yyyy-MM-dd')}" readonly>
+                    </td>
                 </tr>
 
                 <tr>
@@ -59,8 +55,8 @@
 
                     <td><label for="fin" th:text="#{update-sale.label.end}">Fin de l'enchère :</label></td>
                     <td> <input type="date" id="fin" name="date_fin_encheres"
-                                th:value="${#temporals.format(articleAVendre.date_fin_encheres, 'yyyy-MM-dd')}" readonly></td>
-<!--                    <input type="date" id="fin" th:field="*{date_fin_encheres}" readonly>-->
+                                th:value="${#temporals.format(articleAVendre.date_fin_encheres, 'yyyy-MM-dd')}" readonly>
+                    </td>
                 </tr>
 
                 <tr>

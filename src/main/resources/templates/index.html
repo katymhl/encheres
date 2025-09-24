@@ -22,9 +22,6 @@
                    th:placeholder="#{index.search.placeholder}"
                    th:value="${param.search}">
 
-           
-
-
             <label for="categorie" th:text="#{index.category.label}"></label>
             <select id="categorie" name="categorie">
                 <option value="" th:text="#{index.category.all}" th:selected="${param.categorie == null}">Toutes</option>
@@ -38,9 +35,6 @@
 
                 <button type="submit"  th:text="#{index.button.search}">Rechercher</button>
                 <a th:href="@{/}"  th:text="#{index.button.cancel}">Annuler</a>
-
-              
-
             </div>
         </form>
     </section>

@@ -80,8 +80,6 @@
 
                 <button type="submit" class="index-btn primary" th:text="#{index.button.search}">Rechercher</button>
                 <a th:href="@{/}" class="index-btn secondary" th:text="#{index.button.cancel}">Annuler</a>
-
-              
             </div>
         </form>
     </section>
@@ -90,9 +88,6 @@
     <section class="index-auctions">
 
         <h2 th:text="#{index.auctions.title}">Liste des enchères</h2>
-
-       
-
 
         <div class="index-cards">
             <div class="index-card" th:each="enchere : ${encheres}">
@@ -108,10 +103,6 @@
                          th:src="@{/images/placeholder.jpg}"
                          th:alt="#{index.auctions.image.alt}" />
                 </div>
-
-
-
-
                 <h3>
                     <a th:href="@{/details/{id}(id=${enchere.no_article})}"
                        th:text="${enchere.nom_article}" th:placeholder="#{index.auctions.name.placeholder}">Nom article</a>
@@ -133,9 +124,6 @@
                     <a th:href="@{/profil(id_utilisateur=${enchere.id_utilisateur})}">
 
                         <strong><span th:text="${enchere.id_utilisateur}" th:placeholder="#{index.auctions.seller.placeholder}"></span></strong>
-
-                      
-
                     </a>
                 </p>
             </div>
