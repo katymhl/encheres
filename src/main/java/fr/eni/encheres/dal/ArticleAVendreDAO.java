@@ -12,6 +12,7 @@ public interface ArticleAVendreDAO {
 
     void create(ArticleAVendre articleAVendre) ;
     public void cloturerEncheresExpirees();
+    public void debuterEncheres();
     public void updateEtat(int no_article, int statut_enchere);
     void update(ArticleAVendre articleAVendre);
     void delete(int no_article);

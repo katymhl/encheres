@@ -90,6 +90,12 @@ public class ArticleAVendreDAOImpl implements ArticleAVendreDAO {
         namedParameterJdbcTemplate.update(sql, new MapSqlParameterSource());
     }
 
+    public void debuterEncheres() {
+        String sql = "UPDATE ARTICLES_A_VENDRE SET statut_enchere = 1 " +
+                "WHERE date_fin_encheres > GETDATE() AND date_debut_encheres < GETDATE() AND statut_enchere = 0";
+        namedParameterJdbcTemplate.update(sql, new MapSqlParameterSource());
+    }
+
     public void updateEtat(int no_article, int statut_enchere) {
         String sql = "UPDATE ARTICLES_A_VENDRE SET statut_enchere = :statut_enchere WHERE no_article = :no_article";
 

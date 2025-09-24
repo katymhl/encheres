@@ -38,8 +38,13 @@ public class ArticleAVendreServiceImpl implements ArticleAVendreService {
 
     //Cron qui tourne toutes les minutes
     @Scheduled(fixedRate = 3600000) // toutes les heures
-    public void updateEncheresStatus() {
+    public void updateEncheresStatusFin() {
         articleAVendreDAO.cloturerEncheresExpirees();
+    }
+
+    @Scheduled(fixedRate = 3600000) // toutes les heures
+    public void updateEncheresStatusDebut() {
+        articleAVendreDAO.debuterEncheres();
     }
 
     //Vérification au moment d’un accès
