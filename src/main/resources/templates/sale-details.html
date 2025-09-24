@@ -17,6 +17,17 @@
     <section class="detail-content">
         <h2 th:text="#{detail.heading}">Détail d'une vente</h2>
 
+        <div >
+            <img class="article-img"
+                 th:if="${enchere.photo != null}"
+                 th:src="@{'/image/' + ${enchere.no_article}}"
+                 th:alt="#{index.auctions.image.alt}" />
+
+            <img class="article-img"
+                 th:if="${enchere.photo == null}"
+                 th:src="@{/images/placeholder.jpg}"
+                 th:alt="#{index.auctions.image.alt}" />
+        </div>
         <div class="detail-grid">
             <div class="detail-left">
                 <p><strong th:text="#{detail.label.article}">Article :</strong> <span th:text="${enchere.nom_article}">Disque Dur</span></p>
@@ -34,7 +45,7 @@
                 <p><strong th:text="#{detail.label.startPrice}">Mise à prix :</strong> <span th:text="${enchere.prix_initial}">1</span> <span th:text="#{detail.unit}">point(s)</span></p>
                 <p><strong th:text="#{detail.label.bestOffer}">Meilleure offre :</strong> <span th:text="${enchere.prix_vente}">1</span> <span th:text="#{detail.unit}">point(s)</span></p>
                 <p><strong th:text="#{detail.label.endDate}">Fin de l'enchère :</strong>
-                    <span th:text="${#temporals.format(enchere.date_fin_encheres, 'dd/MM/yyyy')}">01/06/202X</span>
+                    <span th:text="${#temporals.format(enchere.getDate_fin_encheres(), 'dd/MM/yyyy')}">01/06/202X</span>
                 </p>
             </div>
         </div>
