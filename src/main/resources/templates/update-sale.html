@@ -20,7 +20,7 @@
     
 
 
-        <form th:action="@{/vendre/update}" th:object="${articleAVendre}" method="post" novalidate>
+        <form th:action="@{/vendre/update}" th:object="${articleAVendre}" method="post" enctype="multipart/form-data" novalidate>
             <table>
                 <tr>
                     <td><input type="hidden" th:field="*{no_article}" readonly/></td>
@@ -47,7 +47,10 @@
                     </td>
 
                     <td><label for="debut" th:text="#{update-sale.label.start}">Début de l'enchère :</label></td>
-                    <td><input type="date" id="debut" th:field="*{date_debut_encheres}" readonly></td>
+                    <td><input type="date" id="debut" name="date_debut_encheres"
+                               th:value="${#temporals.format(articleAVendre.date_debut_encheres, 'yyyy-MM-dd')}" readonly></td>
+
+
                 </tr>
 
                 <tr>
@@ -55,7 +58,9 @@
                     <td><textarea id="description" th:field="*{description}" rows="5" cols="40"></textarea></td>
 
                     <td><label for="fin" th:text="#{update-sale.label.end}">Fin de l'enchère :</label></td>
-                    <td><input type="date" id="fin" th:field="*{date_fin_encheres}" readonly></td>
+                    <td> <input type="date" id="fin" name="date_fin_encheres"
+                                th:value="${#temporals.format(articleAVendre.date_fin_encheres, 'yyyy-MM-dd')}" readonly></td>
+<!--                    <input type="date" id="fin" th:field="*{date_fin_encheres}" readonly>-->
                 </tr>
 
                 <tr>
@@ -72,6 +77,14 @@
                                     th:text="${adr.rue + ' ' + adr.code_postal + ' ' + adr.ville}">
                             </option>
                         </select>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td><label for="image" th:text="#{sale-form.label.photo}">Photo de l'article :</label></td>
+                    <td colspan="3">
+                        <input type="file" id="image" name="image" accept="image/*" />
                     </td>
                 </tr>
             </table>
