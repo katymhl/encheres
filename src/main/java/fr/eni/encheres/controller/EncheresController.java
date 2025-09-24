@@ -67,6 +67,7 @@ public class EncheresController {
     @GetMapping("/")
     public String getDetail(Model model, Principal principal) {
         List<ArticleAVendre> listActiveEnchere = articleAVendreService.findActiveEnchere();
+        listActiveEnchere.sort(Comparator.comparing(ArticleAVendre::getDate_fin_encheres));
         model.addAttribute("encheres", listActiveEnchere);
 
         // Vérifie si un utilisateur est connecté
@@ -149,6 +150,7 @@ public class EncheresController {
             Model model
     ) {
         List<ArticleAVendre> resultats = articleAVendreService.filtrerArticles(search, categorie);
+        resultats.sort(Comparator.comparing(ArticleAVendre::getDate_fin_encheres));
         model.addAttribute("encheres", resultats);
         return "index";
     }
@@ -196,20 +198,6 @@ public class EncheresController {
     }
 
 
-
-
-
-//    @GetMapping("/accueil/connecter")
-//    public String getDetailConnecter(Model model) {
-//        List<ArticleAVendre> listActiveEnchere = articleAVendreService.findActiveEnchere();
-//        System.out.println("listActiveEnchere: " + listActiveEnchere.size());
-//        model.addAttribute("encheres", listActiveEnchere);
-//
-//        System.out.println(utilisateurService.findById("coach_admin"));
-//        return "indexConnecter";
-//    }
-
-
     @GetMapping("/accueil/connecter")
     public String filtrerEncheres(
             @RequestParam(required = false) String search,
@@ -221,7 +209,6 @@ public class EncheresController {
             Model model) {
 
         String pseudo = principal.getName();
-//        String pseudo = (String) session.getAttribute("pseudo");
         List<ArticleAVendre> resultats = new ArrayList<>();
 
         if ("achats".equals(mode)) {
@@ -250,6 +237,8 @@ public class EncheresController {
             System.out.println("Mode inconnu ou non fourni : " + mode);
         }
 
+        resultats.sort(Comparator.comparing(ArticleAVendre::getDate_fin_encheres));
+
         model.addAttribute("encheres", resultats);
         model.addAttribute("search", search);
         model.addAttribute("categorie", categorie);
@@ -259,22 +248,6 @@ public class EncheresController {
 
         return "indexConnecter";
     }
-
-
-
-
-
-//    private int calculerStatut(LocalDate dateDebut, LocalDate dateFin) {
-//        LocalDate today = LocalDate.now();
-//
-//        if (today.isBefore(dateDebut)) {
-//            return 0; // NON_COMMENCEE
-//        } else if (!today.isAfter(dateFin)) {
-//            return 1; // EN_COURS
-//        } else {
-//            return 2; // CLOTUREE
-//        }
-//    }
 
 
     @Transactional
