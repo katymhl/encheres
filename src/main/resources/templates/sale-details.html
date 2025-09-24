@@ -75,6 +75,18 @@
         <a href="javascript:history.back()" class="btn-return" th:text="#{detail.button.back}">Retour</a>
     </div>
 
+    <div class="detail-footer">
+        <form th:action="@{/details/{id}/terminer(id=${enchere.no_article})}"
+              method="post">
+            <button type="submit" class="livrer"
+                    th:disabled="${enchere.statut_enchere != 2}"
+                    th:text="${enchere.statut_enchere == 2 ? 'Livrer' : 'Livré ✅'}">
+                Livrer
+            </button>
+        </form>
+    </div>
+
+
     <!-- Si vendeur et enchère modifiable -->
     <div class="detail-footer">
         <div th:if="${enchereModifiable}" class="action-buttons">
@@ -90,5 +102,6 @@
     </div>
 
 </main>
+
 </body>
 </html>
