@@ -17,7 +17,6 @@ public class EnchereDAOImpl implements EnchereDAO {
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-
     @Override
     public Enchere read(String id_utilisateur, int no_article, int montant_enchere) {
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
@@ -50,8 +49,6 @@ public class EnchereDAOImpl implements EnchereDAO {
                 namedParameters
         );
     }
-
-
 
     @Override
     public List<Enchere> findByNoArticle(int no_article) {
@@ -88,7 +85,6 @@ public class EnchereDAOImpl implements EnchereDAO {
         namedParameterJdbcTemplate.update(
                 "DELETE FROM ENCHERES WHERE id_utilisateur = :id_utilisateur AND no_article=:no_article AND montant_enchere=:montant_enchere", namedParameters);
     }
-
 
 
     @Override

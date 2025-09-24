@@ -9,16 +9,18 @@ import java.util.Optional;
 public interface UtilisateurDAO {
 
     Utilisateur read(String pseudo);
+
     Optional<Utilisateur> readPseudo(String pseudoUtilisateur);
 
-    //List<Utilisateur> findAll();
-
     Optional<Utilisateur> findByEmail(String emailUtilisateur);
+
     Utilisateur findByemail(String emailUtilisateur);
 
-     void create(Utilisateur utilisateur) ;
+    void create(Utilisateur utilisateur) ;
 
-     void update(Utilisateur utilisateur);
+    void update(Utilisateur utilisateur);
+
     void updatePWD(String mot_de_passe, String pseudo);
-     void delete(String pseudo);
+
+    void delete(String pseudo);
 }

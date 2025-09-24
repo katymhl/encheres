@@ -8,7 +8,6 @@ import java.util.List;
 public interface RoleDAO
 {
 
-
     Role read(String ROLE);
     List<Role> findAll();
 

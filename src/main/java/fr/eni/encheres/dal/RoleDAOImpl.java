@@ -16,7 +16,6 @@ public class RoleDAOImpl  implements RoleDAO {
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-
     @Override
     public Role read(String ROLE) {
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();

@@ -16,7 +16,6 @@ public class ArticleAVendreDAOImpl implements ArticleAVendreDAO {
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-
     @Override
     public ArticleAVendre read(int no_article) {
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
@@ -130,6 +129,7 @@ public class ArticleAVendreDAOImpl implements ArticleAVendreDAO {
                 new BeanPropertyRowMapper<>(ArticleAVendre.class)
         );
     }
+
     @Override
     public List<ArticleAVendre> filtrerArticles(String search, Integer categorie) {
         StringBuilder sql = new StringBuilder("SELECT * FROM ARTICLES_A_VENDRE WHERE statut_enchere = 1");
@@ -151,7 +151,6 @@ public class ArticleAVendreDAOImpl implements ArticleAVendreDAO {
                 new BeanPropertyRowMapper<>(ArticleAVendre.class)
         );
     }
-
 
     @Override
     public List<ArticleAVendre> findMesVentesEnCours(String pseudo, String search, Integer categorie) {
@@ -181,7 +180,6 @@ public class ArticleAVendreDAOImpl implements ArticleAVendreDAO {
                 new BeanPropertyRowMapper<>(ArticleAVendre.class)
         );
     }
-
 
     @Override
     public List<ArticleAVendre> findMesVentesNonDebutees(String pseudo, String search, Integer categorie) {
@@ -240,6 +238,5 @@ public class ArticleAVendreDAOImpl implements ArticleAVendreDAO {
                 new BeanPropertyRowMapper<>(ArticleAVendre.class)
         );
     }
-
 
 }

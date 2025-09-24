@@ -17,7 +17,6 @@ public class CategorieDAOImpl implements CategorieDAO {
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-
     @Override
     public Categorie read(Long no_categorie) {
 
@@ -62,7 +61,5 @@ public class CategorieDAOImpl implements CategorieDAO {
 
         namedParameterJdbcTemplate.update(
                 "DELETE FROM CATEGORIES WHERE no_categorie = :no_categorie", namedParameters);
-
-
     }
 }

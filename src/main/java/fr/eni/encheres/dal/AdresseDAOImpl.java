@@ -16,13 +16,8 @@ public class AdresseDAOImpl implements AdresseDAO {
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-
-
-
-
     @Override
     public Adresse read(int no_adresse) {
-
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
         namedParameters.addValue("no_adresse", no_adresse);
 
@@ -55,6 +50,7 @@ public class AdresseDAOImpl implements AdresseDAO {
 
     }
 
+    @Override
     public int getOrCreateAdresse(String rue, String code_postal, String ville) {
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("rue", rue);

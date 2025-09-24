@@ -19,10 +19,6 @@ public  class UtilisateurDAOImpl implements UtilisateurDAO {
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-//    @Autowired
-//    private PasswordEncoder passwordEncoder;
-
-
     @Override
     public Utilisateur read(String pseudo) {
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
@@ -56,9 +52,6 @@ public  class UtilisateurDAOImpl implements UtilisateurDAO {
     @Override
     public void create(Utilisateur utilisateur) {
 
-//        String motDePasseEncode = passwordEncoder.encode(utilisateur.getMot_de_passe());
-//        utilisateur.setMot_de_passe(motDePasseEncode);
-
         MapSqlParameterSource namedParameters = new MapSqlParameterSource();
 
         namedParameters.addValue("pseudo", utilisateur.getPseudo());
@@ -76,14 +69,6 @@ public  class UtilisateurDAOImpl implements UtilisateurDAO {
         );
     }
 
-
-
-//    @Override
-//    public List<Utilisateur> findAll() {
-//        return namedParameterJdbcTemplate.query("SELECT *  FROM UTILISATEURS", new BeanPropertyRowMapper<>(Utilisateur.class));
-//
-//    }
-
     @Override
     public Optional<Utilisateur> findByEmail(String emailUtilisateur) {
 
@@ -99,7 +84,6 @@ public  class UtilisateurDAOImpl implements UtilisateurDAO {
         }
         return Optional.ofNullable(utilisateur);
     }
-
 
 
     @Override
