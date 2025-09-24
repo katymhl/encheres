@@ -142,6 +142,17 @@ public class EncheresController {
         return "indexConnecter";
     }
 
+    @GetMapping("/encheres")
+    public String filtrerEncheres(
+            @RequestParam(required = false) String search,
+            @RequestParam(required = false) Integer categorie,
+            Model model
+    ) {
+        List<ArticleAVendre> resultats = articleAVendreService.filtrerArticles(search, categorie);
+        model.addAttribute("encheres", resultats);
+        return "index";
+    }
+
     //Vue de la page admin (suelement visible pour les personnes au rôle admin)
     @GetMapping("/admin")
     public String getAdmin() {
