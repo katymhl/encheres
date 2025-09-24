@@ -80,6 +80,7 @@
               method="post">
             <button type="submit" class="livrer"
                     th:disabled="${enchere.statut_enchere != 2}"
+                    th:if="${enchere.statut_enchere == 2 and estVendeur}"
                     th:text="${enchere.statut_enchere == 2 ? 'Livrer' : 'Livré ✅'}">
                 Livrer
             </button>
