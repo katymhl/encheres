@@ -1,24 +1,27 @@
+# ----------------------------
 # Étape 1 : Builder le projet avec Gradle
+# ----------------------------
 FROM gradle:8.3-jdk17 AS builder
 
-# Définir le répertoire de travail
+# Définir le répertoire de travail dans le conteneur
 WORKDIR /app
 
-# Copier tout le code source
+# Copier tout le projet dans le conteneur
 COPY . /app
 
-# Lancer la compilation avec Gradle Wrapper
+# Lancer la compilation avec le Gradle Wrapper
 RUN ./gradlew clean build --no-daemon
 
-# Étape 2 : image runtime légère
+# ----------------------------
+# Étape 2 : Image runtime légère
+# ----------------------------
 FROM openjdk:17-jdk-slim
 
-# Copier le jar généré depuis l'image builder
-# Remplacer par le nom exact si nécessaire
-COPY --from=builder /app/build/libs/encheres-0.0.1-SNAPSHOT.jar app.jar
+# Copier le jar Spring Boot (non plain) depuis l'image builder
+COPY --from=builder /app/build/libs/encheres-0.0.1-SNAPSHOT.jar encheres.jar
 
-# Exposer le port utilisé par Spring Boot
+# Exposer le port par défaut de Spring Boot
 EXPOSE 8080
 
-# Lancer l'application
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+# Démarrer l'application
+ENTRYPOINT ["java", "-jar", "/encheres.jar"]
