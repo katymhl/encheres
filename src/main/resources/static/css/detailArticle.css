@@ -69,6 +69,20 @@ body {
     margin-top: 30px;
 }
 
+/*.livrer{*/
+/*    background-color: #d1b736;*/
+/*    color: white;*/
+/*    font-family: Verdana, sans-serif;*/
+/*    display: inline-block;*/
+/*    padding: 10px 20px;*/
+/*    text-decoration: none;*/
+/*    border-radius: 8px;*/
+/*}*/
+
+/*.livrer{*/
+/*    background-color: #f3d040;*/
+/*}*/
+
 .btn-return {
     display: inline-block;
     padding: 10px 20px;
@@ -193,4 +207,30 @@ body {
 
 .action-buttons form {
     margin: 0; /* évite les marges par défaut */
+}
+
+.detail-footer form .livrer{
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.detail-footer form .livrer:hover{
+    background-color: #218838;
+}
+
+.detail-footer form .livrer:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    color: white;
+    display: inline-block;
+    padding: 10px 20px;
+    text-decoration: none;
+    background-color: #28a745;
+    border-radius: 8px;
 }

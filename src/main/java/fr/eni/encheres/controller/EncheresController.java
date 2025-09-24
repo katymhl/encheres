@@ -329,6 +329,20 @@ public class EncheresController {
         return "redirect:/details/" + id;
     }
 
+    @PostMapping("/details/{id}/terminer")
+    public String terminerVente(@PathVariable("id") int no_article, Principal principal, Model model) {
+        ArticleAVendre article = articleAVendreService.findById(no_article);
+
+        if (article != null && article.getStatut_enchere() == 2) {
+            article.setStatut_enchere(3);
+            articleAVendreService.update(article);
+        }
+
+        model.addAttribute("username", principal.getName());
+
+        return "redirect:/";
+    }
+
 
 
 
