@@ -5,3 +5,10 @@ services:
     buildCommand: "./gradlew build"
     startCommand: "java -jar build/libs/encheres-0.0.1-SNAPSHOT.jar"
     plan: free
+    envVars:
+      - key: SPRING_DATASOURCE_URL
+        value: jdbc:sqlserver://localhost;databaseName=ENCHERES_DB
+      - key: SPRING_DATASOURCE_USERNAME
+        value: sa
+      - key: SPRING_DATASOURCE_PASSWORD
+        value: Pa$$w0rd
