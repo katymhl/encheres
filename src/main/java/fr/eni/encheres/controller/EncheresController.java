@@ -2,6 +2,7 @@ package fr.eni.encheres.controller;
 
 import fr.eni.encheres.bll.*;
 import fr.eni.encheres.bo.*;
+import fr.eni.encheres.bo.DTO.GagnantDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -228,19 +229,26 @@ public class EncheresController {
         LocalDate dateFin = article.getDate_fin_encheres();
         LocalDateTime dateFinLocal = dateFin.atStartOfDay();
 
-        boolean enchereTerminee = dateFinLocal.isBefore(LocalDateTime.now());
+        boolean enchereTerminee = dateFinLocal.isBefore(LocalDateTime.now())
+                || article.getStatut_enchere() == 2
+                || article.getStatut_enchere() == 3;
+
         boolean enchereModifiable = estVendeur
                 && !enchereCommencee
                 && article.getStatut_enchere() == 0;
 
         model.addAttribute("enchereModifiable", enchereModifiable);
-
         model.addAttribute("enchere", article);
         model.addAttribute("categorie", categorie);
         model.addAttribute("adresse", adresse);
         model.addAttribute("estVendeur", estVendeur);
         model.addAttribute("enchereCommencee", enchereCommencee);
         model.addAttribute("enchereTerminee", enchereTerminee);
+
+        if (enchereTerminee) {
+            Optional<GagnantDTO> gagnant = enchereService.getWinner(article.getNo_article(), article.getStatut_enchere());
+            gagnant.ifPresent(g -> model.addAttribute("gagnant", g));
+        }
 
         return "sale-details";
     }
@@ -327,18 +335,33 @@ public class EncheresController {
     }
 
     //Formulaire pour valider la remise d'une vente
+    @Transactional
     @PostMapping("/details/{id}/terminer")
-    public String terminerVente(@PathVariable("id") int no_article, Principal principal, Model model) {
+    public String terminerVente(@PathVariable("id") int no_article, Principal principal) {
+        // 1. Récupérer l'article
         ArticleAVendre article = articleAVendreService.findById(no_article);
 
         if (article != null && article.getStatut_enchere() == 2) {
+            // 2. Passer le statut à "terminée/livrée"
             article.setStatut_enchere(3);
             articleAVendreService.update(article);
+
+            // 3. Récupérer le gagnant de l'enchère
+            Optional<GagnantDTO> gagnantOpt = enchereService.getWinner(article.getNo_article(), article.getStatut_enchere());
+            if (gagnantOpt.isPresent()) {
+                GagnantDTO gagnant = gagnantOpt.get();
+
+                // 4. Récupérer le vendeur
+                Utilisateur vendeur = utilisateurService.findById(article.getId_utilisateur());
+
+                // 5. Ajouter le montant de la meilleure enchère au crédit du vendeur
+                vendeur.setCredit(vendeur.getCredit() + gagnant.montant_enchere());
+                utilisateurService.update(vendeur);
+            }
         }
 
-        model.addAttribute("username", principal.getName());
-
-        return "redirect:/";
+        // Rediriger vers la page de détail
+        return "redirect:/details/" + no_article;
     }
 
 

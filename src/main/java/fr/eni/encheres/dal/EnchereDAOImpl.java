@@ -2,15 +2,19 @@ package fr.eni.encheres.dal;
 
 import fr.eni.encheres.bo.Adresse;
 import fr.eni.encheres.bo.ArticleAVendre;
+import fr.eni.encheres.bo.DTO.GagnantDTO;
 import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.bo.Utilisateur;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
+
 @Repository
 public class EnchereDAOImpl implements EnchereDAO {
 
@@ -180,5 +184,32 @@ public class EnchereDAOImpl implements EnchereDAO {
                 new BeanPropertyRowMapper<>(ArticleAVendre.class)
         );
     }
+
+    public Optional<GagnantDTO> findWinnerByNoArticle(int no_article) {
+        String sql = """
+        SELECT TOP 1 u.pseudo, o.montant_enchere
+        FROM ENCHERES o
+        JOIN UTILISATEURS u ON o.id_utilisateur = u.pseudo
+        WHERE o.no_article = :no_article
+        ORDER BY o.montant_enchere DESC, o.date_enchere ASC
+    """;
+
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("no_article", no_article);
+
+        try {
+            return Optional.ofNullable(
+                    namedParameterJdbcTemplate.queryForObject(sql, params,
+                            (rs, rowNum) -> new GagnantDTO(
+                                    rs.getString("pseudo"),
+                                    rs.getInt("montant_enchere")
+                            )
+                    )
+            );
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
+    }
+
 
 }

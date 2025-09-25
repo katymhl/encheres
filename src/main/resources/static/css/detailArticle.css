@@ -168,6 +168,11 @@ body {
     font-weight: bold;
     margin-top: 15px;
 }
+
+.gagnant{
+    margin-top: 15px;
+}
+
 .btn-annuler {
     background-color: #e74c3c; /* rouge vif */
     color: white;

@@ -2,9 +2,11 @@ package fr.eni.encheres.dal;
 
 import fr.eni.encheres.bo.Adresse;
 import fr.eni.encheres.bo.ArticleAVendre;
+import fr.eni.encheres.bo.DTO.GagnantDTO;
 import fr.eni.encheres.bo.Enchere;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface EnchereDAO {
 
@@ -25,4 +27,6 @@ public interface EnchereDAO {
      List<ArticleAVendre> findEncheresEnCoursByUtilisateur(String pseudo, String search, Integer categorie);
 
      List<ArticleAVendre> findEncheresTermineesByUtilisateur(String pseudo, String search, Integer categorie);
+
+    Optional<GagnantDTO> findWinnerByNoArticle(int no_article);
 }

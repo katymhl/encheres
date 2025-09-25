@@ -68,6 +68,19 @@
         <div th:if="${enchereTerminee}">
             <p class="info-terminee" th:text="#{detail.message.ended}">Cette enchère est terminée.</p>
         </div>
+
+        <!-- Résultat de l'enchère -->
+        <div th:if="${enchereTerminee}" class="gagnant">
+            <div th:if="${gagnant != null}">
+                <h3>Résultat :</h3>
+                <p><strong>Gagnant :</strong> <span th:text="${gagnant.pseudo}">Pseudo gagnant</span></p>
+                <p><strong>Montant final :</strong> <span th:text="${gagnant.montant_enchere}">0</span> <span th:text="#{detail.unit}">point(s)</span></p>
+            </div>
+            <div th:if="${gagnant == null}">
+                <p>Aucune offre n'a été placée pour cette enchère.</p>
+            </div>
+        </div>
+
     </section>
 
     <!-- Bouton retour -->
@@ -76,13 +89,11 @@
     </div>
 
     <div class="detail-footer">
-        <form th:action="@{/details/{id}/terminer(id=${enchere.no_article})}"
-              method="post">
+        <form th:action="@{/details/{id}/terminer(id=${enchere.no_article})}" method="post">
             <button type="submit" class="livrer"
+                    th:if="(${enchere.statut_enchere == 2 or enchere.statut_enchere == 3}) and ${estVendeur}"
                     th:disabled="${enchere.statut_enchere != 2}"
-                    th:if="${enchere.statut_enchere == 2 and estVendeur}"
                     th:text="${enchere.statut_enchere == 2 ? 'Livrer' : 'Livré ✅'}">
-                Livrer
             </button>
         </form>
     </div>
