@@ -171,17 +171,11 @@ public class EncheresController {
 
     @PostMapping("/inscription")
     public String creerUtilisateur(
-            @Valid @ModelAttribute("utilisateur") Utilisateur utilisateur,
+            @ModelAttribute("utilisateur") Utilisateur utilisateur,
             BindingResult resultUtilisateur,
-            @Valid @ModelAttribute("adresse") Adresse adresse,
+            @ModelAttribute("adresse") Adresse adresse,
             BindingResult resultAdresse,
             Model model) {
-
-        if (resultUtilisateur.hasErrors() || resultAdresse.hasErrors()) {
-            model.addAttribute("adresse", adresse);
-            model.addAttribute("utilisateur", utilisateur);
-            return "new-profil-form";
-        }
 
         int numeroadresse = adresseService.getOrCreateAdresse(
                 adresse.getRue(),
